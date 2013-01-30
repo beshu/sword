@@ -3,11 +3,24 @@ Bundler.require :default
 
 task default: [:run]
 
+task :gem do
+  `gem build sword.gemspec`
+  `for gem in sword-*.gem; do
+    gem push $gem
+    rm $gem
+  done`
+end
+
+task :update do
+  print `gem install sword && gem cleanup sword`
+end
+
 task :run do
   ruby 'app.rb'
 end
 
 task :build do
+  require 'rack/test'
   task :run
   builder = SinatraStatic.new(Pony)
   builder.build!('build')

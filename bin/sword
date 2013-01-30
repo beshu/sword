@@ -1,4 +1,5 @@
-class Pony < Sinatra::Base  
+#!/usr/bin/env ruby
+class Sword < Sinatra::Base  
   settings.scripts = 'scripts'
   settings.styles = 'styles'
   settings.views = 'templates'
