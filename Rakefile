@@ -1,5 +1,7 @@
 require 'bundler/setup'
 Bundler.require :default
+require 'sinatra_static'
+require 'sinatra/advanced_routes'
 
 task default: [:run]
 

@@ -41,14 +41,9 @@ Gem::Specification.new do |s|
 
     thin 1.5.0
     rack-test 0.6.2
-  ].each_slice(2) do |n, v|
-    s.add_runtime_dependency(n, [] << "~> #{v}")
-  end
-
-  %w[
     bundler 1.2.3
     rake 10.0.3
   ].each_slice(2) do |n, v|
-    s.add_development_dependency(n, [] << "~> #{v}")
+    s.add_dependency(n, [] << "~> #{v}")
   end
 end

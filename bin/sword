@@ -1,10 +1,11 @@
 #!/usr/bin/env ruby
-class Sword < Sinatra::Base  
+class Sword < Sinatra::Base
+
   settings.scripts = 'scripts'
   settings.styles = 'styles'
   settings.views = 'templates'
   settings.public_folder = 'other'
-  set :port, 2010
+  set :port, 1111
 
   get '/*.css' do
     content_type 'text/css', :charset => 'utf-8'
