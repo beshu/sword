@@ -43,11 +43,13 @@ class Sword < Sinatra::Base
   end
 
   get '/' do
-    redirect '/index'
+    call env.merge('PATH_INFO' => '/index')
   end
 
   get '/*/?' do |page|
     %w[html htm].each do |e|
+      # This is specially for dumbasses who use .htm extension
+      # If you know another ultra-dumbass html extension, let me know.
       return send_file "#{page}.#{e}" if File.exists? "#{page}.#{e}"
     end
     engine['pages'].each do |k,v| v.each do |e| # for extension
