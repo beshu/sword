@@ -2,7 +2,8 @@ Sword
 =====
 
 Sword is a designer’s best friend.  
-It allows to use any kind of preprocessor (SASS/Compass, Slim, HAML, LESS, CoffeeScript, &c.) out-of-the box, to emulate real paths and to compile all your result into .zip-archive to upload your result to a server.
+It allows to use any kind of preprocessor (SASS/Compass, CoffeeScript, &c.) out-of-the box,  
+to emulate real paths and to compile all your result into .zip-archive to upload your result to a server.
 
 Get started
 -----------
