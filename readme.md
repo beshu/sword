@@ -17,4 +17,4 @@ License
 -------
 
 Sword is an opensource project.  
-© 2012, under the [MIT license](http://github.com/malfermu/town/blob/master/license)
+© 2012, under the [MIT license](http://github.com/somu/sword/blob/master/license)
