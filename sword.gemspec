@@ -1,9 +1,9 @@
 # encoding: utf-8
-require './lib/app'
+require './lib/talk'
 
 Gem::Specification.new do |s|
   s.name = 'sword'
-  s.version = Sword.version
+  s.version = Talk.version
   s.platform = Gem::Platform::RUBY
   s.files = `git ls-files`.split("\n")
   s.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
