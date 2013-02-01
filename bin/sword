@@ -18,4 +18,5 @@ $engine['markdown'].each do |m|
 end
 
 require "#{$dir}/talk"
-ARGV[0].nil? ? Talk.run : Talk.send(ARGV[0].gsub '-', '')
+begin ARGV[0].nil? ? Talk.run : Talk.send(ARGV[0].gsub('-', ''))
+rescue NoMethodError, ArgumentError; Talk.gem ARGV end
