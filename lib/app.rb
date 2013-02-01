@@ -1,14 +1,25 @@
+# Hook-up all gems that we will
+# probably need; open an issue
+# if this list is missing smth.
+$engine['gems'].each do |g|
+  begin require g
+  rescue LoadError; next end
+end
+
+$engine['markdown'].each do |m|
+  begin require m; break
+  rescue LoadError; next end
+end
+
 require 'sinatra/base'
 
 class Sword < Sinatra::Base
   require "#{$dir}/message"
-  sassy = {cache: false}; if defined? Compass
-    # If Compass is defined, then use the configuration
-    # file and inject all the settings into stylesheet
-    # hash called `sassy`
-    Compass.add_project_configuration "#{$dir}/compass.rb"
-    sassy = Compass.sass_engine_options
-  end
+  # Use the configuration file and inject
+  # all the settings into stylesheet
+  # hash called `sassy`
+  Compass.add_project_configuration "#{$dir}/compass.rb"
+  sassy = Compass.sass_engine_options
 
   disable :show_exceptions # show `error.erb`
   set :port, 1111 # at localhost:1111

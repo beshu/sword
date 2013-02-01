@@ -1,5 +1,5 @@
 class Talk; class << self
-  def version; '0.3.7' end
+  def version; '0.4.0' end
   def build; end
   def run
     require "#{$dir}/app"
