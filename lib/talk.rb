@@ -11,11 +11,13 @@ class Talk; class << self
     "Build your project: `sword build`"
   end
   def gem names
-    $engine['gems'] << names.flatten
+    $engine['gems'] |= names
     puts "Next time you run Sword,"
     puts names[1].nil? ? 
-      "`#{names}` gem will be avaliable." :
+      "`#{names[0]}` gem will be avaliable." :
       "`#{names * '`, `'}` gems will be avaliable."
+    File.write "#{$dir}/engine.yml",
+      Psych.dump($engine)
   end
   # Aliases
   def h; self.help; end
