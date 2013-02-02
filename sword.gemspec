@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.authors = ['George ソム']
   s.date = Date.today.to_s
   s.email = 'somu@so.mu'
-  s.homepage = 'http://gith/blog/sword'
+  s.homepage = 'http://github.com/somu/sword'
   s.required_ruby_version = '>= 1.9.3'
   s.license = 'MIT'
   s.summary = "Designer’s best friend forever."
