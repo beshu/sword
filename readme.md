@@ -1,4 +1,4 @@
-Sword
+Sword [![Code Climate](https://codeclimate.com/github/somu/sword.png)](https://codeclimate.com/github/somu/sword)
 =====
 
 Sword is a designer’s best friend.  
