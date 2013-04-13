@@ -13,10 +13,4 @@ Get started
 gem install sword
 ```
 
-About
------
-
-Sword is an opensource project.  
-© 2013, under the [MIT license](http://github.com/somu/sword/blob/master/license)
-
 [![Donate if you use it](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8PCQ52CFPFSKL)
