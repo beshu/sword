@@ -1,7 +1,8 @@
 module Sword
-  @settings[:gems].merge(@list).each do |g|
-    begin require g
-    rescue LoadError; next end
+  @settings['gems'].concat(@list).each do |lib|
+    if lib.instance_of? Hash # Take the first possible variant if there are any
+      lib.values.flatten.each { |var| begin require var; break rescue LoadError; next end } 
+    else begin require lib; rescue LoadError; end end # Else, just require it
   end
 
   class Application < Sinatra::Base
@@ -15,22 +16,22 @@ module Sword
       set options
       handler = detect_rack_handler
       server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
-      handler.run self, server_settings.merge(Port: 1111, Host: bind) do |server|
-        $stderr.puts ">> Sword #{@settings[:version]} at your service!",
-        "   http://localhost:#{port} to see your project.",
+      handler.run self, server_settings.merge(Port: @port, Host: bind) do |server|
+        $stderr.print ">> Sword #{@settings['version']} at your service!\n" +
+        "   http://localhost:#{port} to see your project.\n" +
         "   CTRL+C to stop."
         [:INT, :TERM].each { |s| trap(s) { quit!(server, handler_name) } }
+        server.silent = true unless @debug
         server.threaded = settings.threaded
-        server.silent = true unless @options[:debug]
         set :running, true
         yield server if block_given?
       end
     rescue Errno::EADDRINUSE, RuntimeError
-      $stderr.puts "!! Another instance of Sword is running.\n"
+      STDERR.puts "!! Another instance of Sword is running.\n"
     end
     def quit! server, handler_name
       server.stop!
-      $stderr.print "\n"
+      STDERR.print "\n"
     end
     # Use the configuration file and inject
     # all the settings into stylesheet
@@ -44,12 +45,10 @@ module Sword
 
     error do
       @error = env['sinatra.error']
-      erb :error, :views => @directory
+      erb :error, :views => @library
     end
 
-    get '/favicon.ico' do
-      send_file './favicon.ico'
-    end
+    get('/favicon.ico') { send_file './favicon.ico' }
 
     get '/*.css' do |style|
       return send_file "#{style}.css" if File.exists? "#{style}.css"

@@ -1,4 +1,4 @@
-Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
+Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword) [![Build Status](https://secure.travis-ci.org/slim-template/slim.png?branch=master)](http://travis-ci.org/slim-template/slim)
 =====
 
 Sword is a designer’s best friend.  
