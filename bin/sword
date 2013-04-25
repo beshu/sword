@@ -6,25 +6,24 @@ module Sword
   require 'yaml'
 
   $library = File.absolute_path(File.dirname(__FILE__) + '/../lib')
-  @required, @debug, @port = Dir.home + '/.sword', false, 1111
-  @list = File.exists?(@required) ? File.read(@required).split("\n") : []
-  @settings = YAML.load_file "#{$library}/settings.yml"
+  $settings = YAML.load_file "#{$library}/settings.yml"
   
-  VERSION = @settings['version']
-  $:.unshift $library
+  @required = Dir.home + '/.sword'
+  @list = File.read(@required).split("\n") if File.exists?(@required)
 
+  $:.unshift $library
   OptionParser.new do |o|
     o.summary_width = 17
-    o.on('-b', '--build', 'Build current project into .zip') {  }
-    o.on('--debug', 'Run server noisily') { @debug = true }
-    o.on('-d', '--dir <name>', 'Specify project directory') { |d| @directory = d }
+    o.on('-b', '--build', 'Build current project into .zip') { require 'build' }
+    o.on('--debug', 'Run server noisily') { $debug = true }
+    o.on('-d', '--dir <name>', 'Specify project directory') { |d| $directory = d }
     o.on('-g', '--gem <name>', 'Add a gem to require') { |g| open(@required, 'a') { |f| f.puts g }
       puts "`#{g}` will be loaded next time you run Sword."; exit }
     o.on('-h', '--help', 'Print this message') { puts o; exit }
-    o.on('-p', '--port <num>', 'Change the port (1111 by default)') { |p| @port = p }
-    o.on('-v', '--version', 'Print Sword’s version') { puts 'Sword ' + VERSION; exit }
+    o.on('-p', '--port <num>', 'Change the port (1111 by default)') { |p| $port = p }
+    o.on('-v', '--version', 'Print Sword’s version') { puts 'Sword ' + $settings[:version]; exit }
   end.parse!
 
   require 'application'
-  Application.run! @port
+  Application.run!
 end
