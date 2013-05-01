@@ -1,14 +1,15 @@
 gems:
+- slim
 - haml
 - erb
 - sass
 - less
 - liquid
+- rdoc
 - redcloth
-- rdoc/markup
-- slim
 - markaby
 - creole
+- therubyracer
 - coffee-script
 - markdown:
   - redcarpet

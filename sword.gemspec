@@ -1,6 +1,6 @@
 # encoding: utf-8
 require 'pathname'
-require Pathname.new(__FILE__).dirname.realpath.to_s + '/lib/constants'
+require Pathname.new(__FILE__).dirname.realpath.to_s + '/lib/main'
 
 Gem::Specification.new do |s|
   s.name = 'sword'
@@ -9,12 +9,14 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split "\n"
   s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename f }
-  s.require_paths = %w[lib]
 
   s.authors = %w[George]
   s.date = Date.today.to_s
   s.email = 'somu@so.mu'
   s.homepage = 'http://github.com/somu/sword'
+
+  %w[sinatra thin].each { |g| s.add_dependency g }
+  s.add_development_dependency 'rake'
 
   s.license = 'MIT'
   s.required_ruby_version = '>= 1.8.7'

@@ -7,18 +7,17 @@ module Sword
   PARSING  = YAML.load_file "#{LIBRARY}/parsing.yml"
   VERSION  = '0.7.0'
 
-  # Hook-up all gems that we will probably need  
+  # Hook-up all gems that we will probably need
   PARSING['gems'].concat(File.exists?(REQUIRED) ? File.read(REQUIRED).split("\n") : []).each do |lib|
-    if lib.instance_of? Hash # Take the first possible variant if there are any
-      lib.values.flatten.each { |var| begin require var; break rescue LoadError; next end } 
-    else begin require lib; rescue LoadError; end end # Else, just require it
+    lib.instance_of?(Hash) ? lib.values.first.each { |g| begin require g; break; rescue LoadError; next end } :
+    begin require lib; rescue LoadError; end
   end
 
   class Application < Sinatra::Base
     # This piece of code is from Sinatra,
     # tweaked a bit to silent Thin server
     # and add Sword version and &c.
-    NotFound = Exception.new "#{self}::NotFound"
+    NotFound = Class.new StandardError
     class << self
       def run! options = {}
         options = {:debug => false, :directory => Dir.pwd, :port => 1111}.merge options
@@ -81,7 +80,8 @@ module Sword
     parse 'styles', '/*.css', (compass || {})
     parse 'scripts', '/*.js'
 
-    parse 'pages', '/*/?', {:pretty => true} do |page|
+    set :slim, :pretty => true
+    parse 'pages', '/*/?' do |page|
       %w[html htm xhtml xht dhtml dhtm].each do |extension|
         # If you know another ultra-dumbass html extension, let me know.
         return send_file "#{page}.#{extension}" if File.exist? "#{page}.#{extension}"
