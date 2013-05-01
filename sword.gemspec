@@ -15,8 +15,9 @@ Gem::Specification.new do |s|
   s.email = 'somu@so.mu'
   s.homepage = 'http://github.com/somu/sword'
 
-  %w[sinatra thin].each { |g| s.add_dependency g }
-  s.add_development_dependency 'rake'
+  s.add_dependency 'sinatra', '>= 1.3.2'
+  s.add_dependency 'thin', '>= 1.4.0'
+  s.add_development_dependency 'rake', '>= 10.0.2'
 
   s.license = 'MIT'
   s.required_ruby_version = '>= 1.8.7'
