@@ -5,7 +5,7 @@ module Sword
   REQUIRED = Dir.home + '/.sword'
   LIBRARY  = File.dirname __FILE__
   PARSING  = YAML.load_file "#{LIBRARY}/parsing.yml"
-  VERSION  = '0.6.0'
+  VERSION  = '0.7.0'
 
   # Hook-up all gems that we will probably need  
   PARSING['gems'].concat(File.exists?(REQUIRED) ? File.read(REQUIRED).split("\n") : []).each do |lib|
