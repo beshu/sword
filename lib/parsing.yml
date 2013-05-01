@@ -1,7 +1,6 @@
 gems:
 - haml
 - erb
-- compass
 - sass
 - less
 - liquid
@@ -17,6 +16,7 @@ gems:
   - bluecloth
   - kramdown
   - maruku
+- compass
 
 pages:
 - haml
