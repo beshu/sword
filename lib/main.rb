@@ -27,7 +27,7 @@ module Sword
           STDERR.print ">> Sword #{VERSION} at your service!\n" +
           "   http://localhost:#{options[:port]} to see your project.\n" +
           "   CTRL+C to stop.\n" + (options[:debug] ?
-          ":: Options: #{options.inspect}\n" : '')
+              options.map { |k,v| "## #{k.capitalize}: #{v}\n"}.inject { |sum, n| sum + n } : '')
           [:INT, :TERM].each { |s| trap(s) { quit! server } }
           set :views, options[:directory] # Structure-agnostic
           set :public_folder, settings.views
