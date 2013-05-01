@@ -11,7 +11,7 @@ module Sword
   PARSING['gems'].concat(File.exists?(REQUIRED) ? File.read(REQUIRED).split("\n") : []).each do |lib|
     if lib.instance_of? Hash # Take the first possible variant if there are any
       lib.values.flatten.each { |var| begin require var; break rescue LoadError; next end } 
-    else begin require lib rescue LoadError; end end # Else, just require it
+    else begin require lib; rescue LoadError; end end # Else, just require it
   end
 
   class Application < Sinatra::Base
