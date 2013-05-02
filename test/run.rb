@@ -3,8 +3,6 @@ describe 'running and loading' do
     assert_equal `bin/sword -v`, "Sword #{Sword::VERSION}\n"
   end
   it 'prints help information' do
-    assert `sword -h`['Usage: sword [options]']
-  end
-  it 'starts' do
+    assert `bin/sword -h`['Usage: sword [options]']
   end
 end
