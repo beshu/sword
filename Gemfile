@@ -1,9 +1,6 @@
 source 'https://rubygems.org'
-require 'yaml'
+# Testing via Travis CI
 
-YAML.load_file(Dir.pwd + '/lib/parsing.yml')['gems'].each do |g|
-  gem(g.instance_of?(Hash) ? g.values[0].first : g)
-end
-
-gem 'sinatra'
-gem 'thin'
+%w[sinatra rake thin
+   slim haml compass
+].each { |g| gem g }
