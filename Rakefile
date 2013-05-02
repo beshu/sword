@@ -1,10 +1,10 @@
-require 'rake/testtask'
 task :default => [:test]
 
-Rake::TestTask.new do |test|
-  test.libs << 'test'
-  test.test_files = Dir['test/*.rb']
-  test.verbose = true
+task :test do
+  require 'minitest/spec'
+  require 'minitest/autorun'
+  require './lib/main'
+  Dir['./test/*.rb'].each { |l| require l.chomp '.rb' }
 end
 
 task :make do
