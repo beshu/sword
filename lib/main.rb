@@ -27,7 +27,7 @@ module Sword
           "   http://localhost:#{options[:port]} to see your project.\n" +
           "   CTRL+C to stop.\n"
           [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
-          STDERR.print options.map { |k,v| "## #{k.capitalize}: #{v}\n"}.inject { |sum, n| sum + n } unless options[:silent] or options[:debug]
+          STDERR.print options.map { |k,v| "## #{k.capitalize}: #{v}\n"}.inject { |sum, n| sum + n } if options[:debug] and not options[:silent]
           unless options[:debug]
             server.silent = true
             disable :show_exceptions
