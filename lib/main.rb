@@ -14,19 +14,39 @@ module Sword
     # and add Sword version and &c.
     NotFound = Class.new StandardError
     class << self
+      # Input/output
+
+      def puts(*args)
+        STDERR.puts(*args) unless @silent
+      end
+
+      def print(*args)
+        STDERR.print(*args) unless @silent
+      end
+
+      def debug(message, symbol = false)
+        if @debug
+          return print symbol * 2 + ' ' + message if symbol
+          print message
+        end
+      end
+
+
+      # Sinatra-related
+
       def run!(options = {})
         options = {:debug => false, :directory => Dir.pwd, :port => 1111, :silent => false}.merge(options)
-        @debug = options[:debug]
+        @debug, @silent = options[:debug], options[:silent]
         load
 
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
         detect_rack_handler.run self, server_settings.merge(:Port => options[:port], :Host => bind).
           merge( defined?(WEBrick) && !(@debug) ? {:AccessLog => [], :Logger => WEBrick::Log::new("/dev/null", 7)} : {} ) do |server|
             [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
-            STDERR.print ">> Sword #{VERSION} at your service!\n" \
+            print ">> Sword #{VERSION} at your service!\n" \
             "   http://localhost:#{options[:port]} to see your project.\n" \
             "   CTRL+C to stop.\n"
-            STDERR.print options.
+            print options.
               map { |k,v| "## #{k.capitalize}: #{v}\n" }.
               inject { |sum, n| sum + n } if @debug and not options[:silent]
             unless @debug
@@ -40,14 +60,17 @@ module Sword
             yield server if block_given?
         end
       rescue Errno::EADDRINUSE, RuntimeError
-        STDERR.print "!! Port is in use. Is Sword already running?\n"
+        print "!! Port is in use. Is Sword already running?\n"
       end
-      def debug(message, symbol = false)
-        if @debug
-          return print symbol * 2 + ' ' + message if symbol
-          print message
-        end
+
+      def quit!(server)
+        print "\n"
+        server.respond_to?(:stop!) ? server.stop! : server.stop
       end
+
+
+      # Sword-specific
+
       def load
         debug "Loading gems:\n", ' '
         # Hook-up all gems that we will probably need:
@@ -66,11 +89,7 @@ module Sword
           @compass = Compass.sass_engine_options
         end
       end
-      def quit!(server)
-        STDERR.print "\n"
-        server.respond_to?(:stop!) ? server.stop! : server.stop
 
-      end
       def parse(list, pattern, options = {}, &block)
         # TODO: too much magic; everything should be commented
         self.get pattern do |file| begin
