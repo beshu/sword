@@ -108,8 +108,8 @@ module Sword
       def jquery(version = '1.8.3')
         "<script src='//ajax.googleapis.com/ajax/libs/jquery/#{version}/jquery.min.js'/>"
       end
-      def font(options)
-      end
+
+      def font(options) end
     end
 
     error do
