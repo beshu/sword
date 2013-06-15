@@ -1,5 +1,6 @@
+*.sublime-workspace
+*.gem
+
+Gemfile.lock
 .DS_Store
 profile
-*.sublime-workspace
-Gemfile.lock
-*.gem
