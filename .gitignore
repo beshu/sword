@@ -2,3 +2,4 @@
 profile
 *.sublime-workspace
 Gemfile.lock
+*.gem
