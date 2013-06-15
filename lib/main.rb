@@ -40,15 +40,14 @@ module Sword
         load
 
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
-        detect_rack_handler.run self, server_settings.merge(:Port => options[:port], :Host => bind).
+        detect_rack_handler.run self, server_settings.
+          merge(:Port => options[:port], :Host => bind).
           merge( defined?(WEBrick) && !(@debug) ? {:AccessLog => [], :Logger => WEBrick::Log::new("/dev/null", 7)} : {} ) do |server|
             [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
             print ">> Sword #{VERSION} at your service!\n" \
             "   http://localhost:#{options[:port]} to see your project.\n" \
             "   CTRL+C to stop.\n"
-            print options.
-              map { |k,v| "## #{k.capitalize}: #{v}\n" }.
-              inject { |sum, n| sum + n } if @debug and not options[:silent]
+            debug options.map { |k,v| "## #{k.capitalize}: #{v}\n" }.inject { |sum, n| sum + n }
             unless @debug
               server.silent = true if server.respond_to? :silent
               disable :show_exceptions
@@ -71,14 +70,46 @@ module Sword
 
       # Sword-specific
 
+      def parse(list, pattern, options = {}, &block)
+        self.get pattern do |file|
+          begin
+            output = pattern[/(?<=\.).+$/]
+            return send_file "#{file}.#{output}" if output and File.exists? "#{file}.#{output}"
+            PARSING[list].map { |e| String === e ? {e => [e]} : e }.each do |language|
+              language.each do |engine, extensions| extensions.each do |extension|
+                # Iterate through extensions and find the engine you need.
+                return send engine, file.to_sym, options if File.exists? "#{file}.#{extension}"
+              end end
+            end
+            raise NotFound
+          rescue NotFound
+            block_given? ? yield(file) : raise
+          end
+        end
+      end
+
       def load
         debug "Loading gems:\n", ' '
-        # Hook-up all gems that we will probably need:
         PARSING['gems'].concat(File.exists?(REQUIRED) ? File.read(REQUIRED).split("\n") : []).each do |lib|
-          Hash === lib ? lib.values.first.each { |g| begin require g; break; rescue LoadError; next end } :
+          # Hash case (a lot of variants)
+          Hash === lib ?
+          lib.values.first.each do |variant|
+            begin
+              debug variant + '.' * (15 - variant.length), '  '
+              require variant
+              debug "OK\n"
+              break
+            rescue LoadError
+              debug "Fail\n"
+              next
+            end
+          end
+
+          :
           begin
             debug lib + '.' * (15 - lib.length), '  '
-            require lib; debug "OK\n"
+            require lib
+            debug "OK\n"
           rescue LoadError
             debug "Fail\n"
           end
@@ -89,19 +120,6 @@ module Sword
           @compass = Compass.sass_engine_options
         end
       end
-
-      def parse(list, pattern, options = {}, &block)
-        # TODO: too much magic; everything should be commented
-        self.get pattern do |file| begin
-          output = pattern[/(?<=\.).+$/]
-          return send_file "#{file}.#{output}" if output and File.exists? "#{file}.#{output}"
-          PARSING[list].map { |e| e.instance_of?(String) ? {e => [e]} : e }.each do |language|
-            language.each do |engine, extensions| extensions.each do |extension|
-              # Iterate through extensions and find the engine you need.
-              return send engine, file.to_sym, options if File.exists? "#{file}.#{extension}"
-          end end end; raise NotFound
-      rescue NotFound; block_given? ? yield(file) : raise
-      end end end
     end
 
     helpers do
