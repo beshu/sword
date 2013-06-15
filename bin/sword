@@ -10,7 +10,7 @@ module Sword
     @options = {}
     o.summary_width = 18
     #o.on('-b', '--build <file>', 'Build project into zip/folder') { Application.export!(@options) }
-    o.on('--debug', 'Run server noisily') { @options[:debug] = true }
+    o.on('--debug', 'Show server’s guts') { @options[:debug] = true }
     o.on('-d', '--dir <name>', 'Specify project directory') { |d| @options[:directory] = d }
     o.on('-g', '--gem <name>', 'Add a gem to require') { |name| open(REQUIRED, 'a') { |f| f.puts name }
       puts "`#{g}` will be loaded next time you run Sword."; exit }
