@@ -1,6 +1,5 @@
 # encoding: utf-8
-$:.unshift File.dirname(__FILE__) + '/lib'
-require 'main'
+require File.dirname(__FILE__) + '/lib/sword'
 
 Gem::Specification.new do |s|
   s.name = 'sword'
