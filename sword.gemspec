@@ -7,13 +7,14 @@ Gem::Specification.new do |s|
   s.version = Sword::VERSION
   s.platform = Gem::Platform::RUBY
 
-  s.files = `git ls-files`.split "\n"
-  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename f }
-
   s.authors = %w[George]
   s.date = Date.today.to_s
   s.email = 'somu@so.mu'
   s.homepage = 'http://github.com/somu/sword'
+
+  s.files = `git ls-files`.split("\n") - %w[.gitignore .travis.yml sword.sublime-project]
+  s.executables = `git ls-files -- bin/*`.split("\n").map { |f| File.basename f }
+  s.require_paths = %w[lib]
 
   s.add_dependency 'sinatra', '>= 1.3.2'
   s.add_development_dependency 'rake', '>= 10.0.2'
