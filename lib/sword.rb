@@ -37,9 +37,8 @@ module Sword
       def run!(options = {})
         options = {:debug => false, :directory => Dir.pwd, :port => 1111, :silent => false}.merge(options)
         @debug, @silent = options[:debug], options[:silent]
-        
+
         load unless options[:unload]
-        exit unless File.exists?(swordfile = "#{options[:directory]}/Swordfile") and File.read(swordfile) =~ /ocra/i
         init
 
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}

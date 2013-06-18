@@ -4,9 +4,9 @@
 module Sword
   require File.dirname(__FILE__) + '/../lib/sword'
   require 'optparse'
+  options = {}
 
   OptionParser.new do |o|
-    options = {}
     o.summary_width = 18
     #o.on('-b', '--build <file>', 'Build project into zip/folder') { Application.export!(options) }
     o.on('--debug', 'Show server’s guts') { options[:debug] = true }
