@@ -38,6 +38,7 @@ module Sword
         options = {:debug => false, :directory => Dir.pwd, :port => 1111, :silent => false}.merge(options)
         @debug, @silent = options[:debug], options[:silent]
         load unless options[:unload]
+        exit if options[:load]
         init
 
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
