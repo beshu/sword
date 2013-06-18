@@ -9,15 +9,16 @@ module Sword
   VERSION  = '0.8.6'
 
   class Application < Sinatra::Base
-    # This piece of code is from Sinatra,
-    # tweaked a bit to silent Thin server
-    # and add Sword version and &c.
     NotFound = Class.new StandardError
     class << self
       # Sinatra-related
       public
 
       def run!(options = {})
+        # This piece of code is from Sinatra,
+        # tweaked a bit to silent webserver
+        # and add Sword version and &c.
+        
         options = {:debug => false, :directory => Dir.pwd, :port => 1111, :silent => false}.merge(options)
         @debug, @silent = options[:debug], options[:silent]
 
