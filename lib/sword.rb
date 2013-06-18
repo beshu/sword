@@ -41,23 +41,21 @@ module Sword
         init
 
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
-        detect_rack_handler.run self, server_settings.
-          merge(:Port => options[:port], :Host => bind).
-          merge( defined?(WEBrick) && !(@debug) ? {:AccessLog => [], :Logger => WEBrick::Log::new("/dev/null", 7)} : {} ) do |server|
-            [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
-            print ">> Sword #{VERSION} at your service!\n" \
-            "   http://localhost:#{options[:port]} to see your project.\n" \
-            "   CTRL+C to stop.\n"
-            debug options.map { |k,v| "## #{k.capitalize}: #{v}\n" }.inject { |sum, n| sum + n }
-            unless @debug
-              server.silent = true if server.respond_to? :silent
-              disable :show_exceptions
-            end
-            set :views, options[:directory] # Structure-agnostic
-            set :public_folder, settings.views
-            server.threaded = settings.threaded if server.respond_to? :threaded
-            set :running, true
-            yield server if block_given?
+        detect_rack_handler.run self, server_settings.merge(:Port => options[:port], :Host => bind).merge(silent_webrick) do |server|
+          [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
+          print ">> Sword #{VERSION} at your service!\n" \
+          "   http://localhost:#{options[:port]} to see your project.\n" \
+          "   CTRL+C to stop.\n"
+          debug options.map { |k,v| "## #{k.capitalize}: #{v}\n" }.inject { |sum, n| sum + n }
+          unless @debug
+            server.silent = true if server.respond_to? :silent
+            disable :show_exceptions
+          end
+          set :views, options[:directory] # Structure-agnostic
+          set :public_folder, settings.views
+          server.threaded = settings.threaded if server.respond_to? :threaded
+          set :running, true
+          yield server if block_given?
         end
       rescue Errno::EADDRINUSE, RuntimeError
         print "!! Port is in use. Is Sword already running?\n"
@@ -68,6 +66,10 @@ module Sword
         server.respond_to?(:stop!) ? server.stop! : server.stop
       end
 
+      def silent_webrick
+        return {} if @debug or RUBY_PLATFORM =~ /mswin|mingw|cygwin/ or not defined? WEBrick
+        {:AccessLog => [], :Logger => WEBrick::Log::new("/dev/null", 7)}
+      end
 
       # Sword-specific
 
