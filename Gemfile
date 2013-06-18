@@ -9,6 +9,10 @@ gem 'slim'
 gem 'haml'
 gem 'compass'
 
-# gem 'therubyracer'
-# gem 'coffee-script'
-# gem 'less'
+gem 'coffee-script'
+gem 'less'
+
+gem 'kramdown'
+gem 'RedCloth'
+gem 'markaby'
+gem 'creole'
