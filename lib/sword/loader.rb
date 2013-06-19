@@ -3,17 +3,21 @@ module Sword
     extend Output
     class << self
       public
-      LOAD_FILE = Dir.home + '/.sword'
 
-      def load(options)
-        settings = parse_settings
+      def load(options = {})
         options = {
           :directory => Dir.pwd,
-          :port => 1111
+          :port => 1111,
+
+          :gems => parse_yaml("#{LIBRARY}/gems.yml"),
+          :engines => parse_yaml("#{LIBRARY}/engines.yml"),
+          :gemlist => parse_yaml("#{Dir.home}/.sword")
         }.merge(options)
 
+        options[:engines].map! { |l| l.map { |e| String === e ? {e => [e]} : e } }
+
         include_gems settings['gems']['general']
-        include_gems File.read(LOAD_FILE).split("\n") if File.exists? LOAD_FILE
+        include_gems options[:gemlist]
         include_gems settings['gems']['unix'] unless Windows.windows?
 
         Applicaton.run!(options)
@@ -37,13 +41,12 @@ module Sword
       
       private
 
-      def parse_settings(file = "#{LIBRARY}/settings.yml")
-        require 'yaml'
+      def parse_yaml(file)
+        require 'yaml' unless defined? YAML
         YAML.load_file file
       end
 
       def include_first(options)
-        # Tries to require the first possible gem from options hash
         options.values.first.each do |option|
           begin
             debug option + '.' * (15 - option.length), '  '
@@ -58,7 +61,6 @@ module Sword
       end
 
       def include_only(name)
-        # Tries to require a gem and does nothing if it fails
         begin
           debug lib + '.' * (15 - lib.length), '  '
           require lib

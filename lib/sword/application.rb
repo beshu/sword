@@ -43,11 +43,13 @@ module Sword
         # options   :: Hash      List of options to give to the found Tilt engine
         # &block    :: Block     Block to run if nothing is found (yields * from pattern)
         self.get pattern do |name|
-          SETTINGS[list].map { |e| String === e ? {e => [e]} : e }.each do |language|
-            language.each do |engine, extensions| extensions.each do |extension|
-              # Iterate through extensions and find the engine you need.
-              return send engine, name.to_sym, options if File.exists? "#{name}.#{extension}"
-            end end
+          list.each do |language|
+            language.each do |engine, extensions|
+              extensions.each do |extension|
+                # Iterate through extensions and find the engine you need.
+                return send engine, name.to_sym, options if File.exists? "#{name}.#{extension}"
+              end
+            end
           end
           block_given? ? yield(name) : raise(NotFound)
         end

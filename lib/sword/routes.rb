@@ -1,5 +1,7 @@
 module Sword
   class Application
+    HTML = %w[html htm xhtml xht dhtml dhtm]
+
     error do
       @error = env['sinatra.error']
       erb :error, :views => LIBRARY
@@ -15,15 +17,15 @@ module Sword
       call env.merge 'PATH_INFO' => '/index'
     end
 
-    parse 'styles', '/*.css', Loader.load_compass
-    parse 'scripts', '/*.js'
+    parse @styles, '/*.css', Loader.load_compass
+    parse @scripts, '/*.js'
 
-    get(/(.+?)\.(#{SETTINGS['html'] * '|'})/) do |route, _|
+    get(/(.+?)\.(#{HTML.join "|"})/) do |route, _|
       call env.merge 'PATH_INFO' => route
     end
 
-    parse 'markup', '/*/?' do |page|
-      SETTINGS['html'].each { |extension| return send_file(file = "#{page}.#{extension}") if File.exists? file }
+    parse @templates, '/*/?' do |page|
+      HTML.each { |extension| return send_file(file = "#{page}.#{extension}") if File.exists? file }
       raise NotFound if page =~ /\/index$/ or not defined? env
       call env.merge({'PATH_INFO' => "/#{page}/index"})
     end
