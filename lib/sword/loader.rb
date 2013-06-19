@@ -8,19 +8,20 @@ module Sword
         options = {
           :directory => Dir.pwd,
           :port => 1111,
-
           :gems => parse_yaml("#{LIBRARY}/gems.yml"),
-          :engines => parse_yaml("#{LIBRARY}/engines.yml"),
-          :gemlist => parse_yaml("#{Dir.home}/.sword")
+          :gemlist => parse_yaml("#{Dir.home}/.sword"),
+          :engines => "#{LIBRARY}/engines"
         }.merge(options)
-
-        options[:engines].map! { |l| l.map { |e| String === e ? {e => [e]} : e } }
 
         include_gems settings['gems']['general']
         include_gems options[:gemlist]
         include_gems settings['gems']['unix'] unless Windows.windows?
 
         Applicaton.run!(options)
+      end
+
+      def parse_engine(file)
+        YAML.load_file(file).map { |l| l.map { |e| String === e ? {e => [e]} : e } }
       end
 
       def install_gems(list)

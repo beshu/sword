@@ -12,8 +12,9 @@ module Sword
       def run!(options = {})
         @debug, @silent = options[:debug], options[:silent]
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
+        initialize_engines("#{LIBRARY}/engines/*.yml")
 
-        detect_rack_handler.run self, modify_settings(server_settings) do |server|
+        detect_rack_handler.run self, server_settings.merge({:Port => options[:port], :Host => bind}).merge(silent_webrick) do |server|
           [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
           print ">> Sword #{VERSION} at your service!\n" \
           "   http://localhost:#{options[:port]} to see your project.\n" \
@@ -37,6 +38,12 @@ module Sword
 
       private
 
+      def initialize_engines(engines)
+        Dir[engines].each do |file|
+          self.instance_variable_set "@#{file}", Loader.parse_engine(file)
+        end
+      end
+
       def parse(list, pattern, options = {}, &block)
         # list      :: String    List received from settings.yml
         # pattern   :: String    Ordinary Rack pattern (should be like '/*.css')
@@ -53,10 +60,6 @@ module Sword
           end
           block_given? ? yield(name) : raise(NotFound)
         end
-      end
-
-      def modify_settings(settings)
-        settings.merge({:Port => options[:port], :Host => bind}).merge(silent_webrick)
       end
 
       def specify_directory(directory)
