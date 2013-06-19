@@ -1,36 +1,35 @@
 module Sword
   class Loader
     extend Output
-    attr_writer :load_file, :settings_file, :compass_file
-    @load_file = Dir.home + '/.sword'
-    @settings_file = "#{LIBRARY}/settings.yml"
-    @compass_file = "#{LIBRARY}/compass.rb"
-
     class << self
       public
+      LOAD_FILE = Dir.home + '/.sword'
 
       def load(options)
-        parse_settings 
-        include_gems
+        settings = parse_settings
+        options = {
+          :directory => Dir.pwd,
+          :port => 1111
+        }.merge(options)
+
+        include_gems settings['gems']['general']
+        include_gems File.read(LOAD_FILE).split("\n") if File.exists? LOAD_FILE
+        include_gems settings['gems']['unix'] unless Windows.windows?
+
         Applicaton.run!(options)
       end
 
-      def parse_settings(file = @settings_file)
-        require 'yaml'
-        YAML.load_file file
+      def install_gems(list)
+        exec 'gem install ' +
+        list.map { |n| n.respond_to?(:first) ? n.first : n }.delete_if { |g| g['/'] } * ' '
       end
 
-      def add_to_load(name)
-        open(@load_file, 'a') { |f| f.puts name }
+      def append_to_include(name)
+        open(LOAD_FILE, 'a') { |f| f.puts name }
         puts "#{g} will be loaded next time you run Sword."
       end
 
-      def install_gems
-        exec 'gem install ' +
-        SETTINGS[:gems].map { |n| n.respond_to?(:first) ? n.first : n }.delete_if { |g| g['/'] } * ' '
-      end
-
-      def load_compass
+      def load_compass(file = "#{LIBRARY}/compass.rb")
         return {} unless defined? Compass
         Compass.add_project_configuration @compass_file
         Compass.sass_engine_options
@@ -38,19 +37,12 @@ module Sword
       
       private
 
-      def include_gems
-        debug "Including gems:\n", ' '
-        list = SETTINGS['gems']['general']
-
-        unless windows?
-          list.concat File.exists?(@load_file) ? File.read(@load_file).split("\n") : []
-          list.concat SETTINGS['gems']['unix']
-        end
-
-        list.each { |l| Hash === l ? include_any(l) : include_only(l) }
+      def parse_settings(file = "#{LIBRARY}/settings.yml")
+        require 'yaml'
+        YAML.load_file file
       end
 
-      def include_any(options)
+      def include_first(options)
         # Tries to require the first possible gem from options hash
         options.values.first.each do |option|
           begin
@@ -74,6 +66,11 @@ module Sword
         rescue LoadError
           debug "Fail\n"
         end
+      end
+
+      def include_gems(list)
+        debug "Including gems:\n", ' '
+        list.each { |l| Hash === l ? include_first(l) : include_only(l) }
       end
     end
   end

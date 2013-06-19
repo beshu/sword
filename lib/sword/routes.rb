@@ -11,6 +11,7 @@ module Sword
 
     get '/' do
       # Call /index, the same shit
+      # TODO: for any level
       call env.merge 'PATH_INFO' => '/index'
     end
 
@@ -22,9 +23,7 @@ module Sword
     end
 
     parse 'markup', '/*/?' do |page|
-      SETTINGS['html'].each do |extension|
-        return send_file(file = "#{page}.#{extension}") if File.exists? file
-      end
+      SETTINGS['html'].each { |extension| return send_file(file = "#{page}.#{extension}") if File.exists? file }
       raise NotFound if page =~ /\/index$/ or not defined? env
       call env.merge({'PATH_INFO' => "/#{page}/index"})
     end

@@ -7,8 +7,6 @@ module Sword
   require 'sword/loader'
   require 'sword/version'
   
-  SETTINGS = Loader.parse_settings
-
   require 'sword/helpers'
   require 'sword/application'
   require 'sword/routes'

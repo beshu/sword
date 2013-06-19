@@ -6,11 +6,14 @@ module Sword
   require 'optparse'
   options = {}
 
-  OptionParser.new do |o|
+  usage = OptionParser.new do |o|
     o.summary_width = 18
     #o.on('-b', '--build <file>', 'Build project into zip/folder') { Application.export!(options) }
+    o.on('-c', '--compress', 'Compress assets') { options[:compress] = true }
     o.on('--debug', 'Show server’s guts') { options[:debug] = true }
     o.on('-d', '--dir <name>', 'Specify watch directory') { |name| options[:directory] = name }
+    o.on('-e', '--error <page>', 'Specify error page')
+    o.on('-f', '--favicon <i>', 'Specify favicon')
     unless Windows.windows?
       o.on('-g', '--gem <name>', 'Add a gem to require') { |name| Loader.add_to_load(name); exit }
       o.on('-h', '--help', 'Print this message') { puts o; exit }
@@ -24,12 +27,8 @@ module Sword
     o.on('-s', '--silent', 'Try to turn off any messages') { options[:silent] = true }
     o.on('-u', '--unload', 'Skip heuristically loading gems') { options[:unload] = true }
     o.on('-v', '--version', 'Print Sword’s version') { puts 'Sword ' + VERSION; exit }
-    if Windows.windows? and ARGV.empty?
-      [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
-      o.banner = 'Options (press ENTER if none):'
-      print o, "\n"
-      @stdin = gets.split
-    end
-  end.parse!(@stdin || ARGV)
-  Application.run!(options, Loader.parse_settings)
+  end
+
+  usage.parse!(Windows.windows? && ARGV.empty? ? Windows.show_menu(usage) : ARGV)
+  Loader.load(options)
 end
