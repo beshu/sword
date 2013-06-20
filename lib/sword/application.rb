@@ -40,7 +40,7 @@ module Sword
 
       def initialize_engines(engines)
         Dir[engines].each do |file|
-          self.instance_variable_set "@#{file}", Loader.parse_engine(file)
+          self.instance_variable_set '@' + file.basename(file, '.yml'), Loader.parse_engine(file)
         end
       end
 
