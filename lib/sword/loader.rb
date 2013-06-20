@@ -15,7 +15,7 @@ module Sword
 
         include_gems settings['gems']['general']
         include_gems options[:gemlist]
-        include_gems settings['gems']['unix'] unless Windows.windows?
+        include_gems settings['gems']['unix'] unless Windows::PLATFORM
 
         Applicaton.run!(options)
       end

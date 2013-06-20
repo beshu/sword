@@ -44,16 +44,18 @@ module Sword
         end
       end
 
-      def parse(list, pattern, options = {}, &block)
-        # list      :: String    List received from settings.yml
-        # pattern   :: String    Ordinary Rack pattern (should be like '/*.css')
-        # options   :: Hash      List of options to give to the found Tilt engine
-        # &block    :: Block     Block to run if nothing is found (yields * from pattern)
-        self.get pattern do |name|
+
+      # Handles a request and tries to find a template engine capable to parse the template
+      # 
+      # @param list [String] instance variable containing engine list from `/engines` folder
+      # @param route [String] ordinary route pattern (should be like `/*.css`)
+      # @param options [Hash] hash of options to give to the found template engine
+      # @param &block [Block] block to run if nothing is found (yields `*` from pattern)
+      def parse(list, route, options = {}, &block)
+        self.get route do |name|
           list.each do |language|
             language.each do |engine, extensions|
               extensions.each do |extension|
-                # Iterate through extensions and find the engine you need.
                 return send engine, name.to_sym, options if File.exists? "#{name}.#{extension}"
               end
             end
@@ -74,7 +76,7 @@ module Sword
 
       def silent_webrick
         return {} if @debug or not defined? WEBrick
-        null = Windows.windows? ? 'NUL' : '/dev/null'
+        null = Windows::PLATFORM ? 'NUL' : '/dev/null'
         {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
       end
     end

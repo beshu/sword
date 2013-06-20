@@ -14,7 +14,7 @@ module Sword
     o.on('-d', '--dir <name>', 'Specify watch directory') { |name| options[:directory] = name }
     o.on('-e', '--error <page>', 'Specify error page')
     o.on('-f', '--favicon <i>', 'Specify favicon')
-    unless Windows.windows?
+    unless Windows::PLATFORM
       o.on('-g', '--gem <name>', 'Add a gem to require') { |name| Loader.add_to_load(name); exit }
       o.on('-h', '--help', 'Print this message') { puts o; exit }
       o.on('-i', '--install', 'Try to install must-have gems') { Loader.install_gems; exit }
@@ -29,6 +29,6 @@ module Sword
     o.on('-v', '--version', 'Print Sword’s version') { puts 'Sword ' + VERSION; exit }
   end
 
-  usage.parse!(Windows.windows? && ARGV.empty? ? Windows.show_menu(usage) : ARGV)
-  Loader.load(options)
+  usage.parse!(Windows::PLATFORM && ARGV.empty? ? Windows.get_options(usage) : ARGV)
+  #Loader.load(options)
 end

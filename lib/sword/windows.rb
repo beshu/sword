@@ -1,14 +1,17 @@
 module Sword
-  class Windows; class << self
-    def show_menu(options)
+  module Windows
+    # Show options menu and then get options from STDIN
+    # 
+    # @param options [OptionParser] optparse object
+    # @return [Array] options received from STDIN
+    def self.get_options(options)
       [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
       options.banner = 'Options (press ENTER if none):'
       print options, "\n"
-      gets.split
+      STDIN.gets.split
     end
 
-    def windows?
-      RUBY_PLATFORM =~ /mswin|mingw|cygwin/
-    end
-  end end
+    # Check if we’re running Windows there:
+    PLATFORM = RUBY_PLATFORM =~ /mswin|windows|win32|mingw|cygwin/
+  end
 end
