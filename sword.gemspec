@@ -4,8 +4,7 @@ require File.dirname(__FILE__) + '/lib/sword'
 Gem::Specification.new do |s|
   s.name = 'sword'
   s.version = Sword::VERSION
-
-  s.date = Date.today.to_s
+  
   s.authors = 'George'
   s.email = 'somu@so.mu'
   s.homepage = 'http://github.com/somu/sword'
