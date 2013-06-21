@@ -21,7 +21,8 @@ gem install sword
 
 ### Windows
 
-Running Windows? I’ve got your back. Here’s your [**.exe version**](https://github.com/somu/sword/blob/master/sword.exe?raw=true) with all necessary gems built-in. No Ruby required.
+Running Windows? I’ve got your back. Here’s your [**.exe version**](https://github.com/somu/sword/blob/master/sword.exe?raw=true) with all necessary gems built-in.  
+No Ruby required.
 
 License
 -------
