@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'sinatra'
 gem 'rake'
+gem 'minitest'
 
 gem 'slim'
 gem 'haml'
