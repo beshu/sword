@@ -99,5 +99,6 @@ module Sword
     end
 
     helpers { include Helpers }
+    include Routes
   end
 end
