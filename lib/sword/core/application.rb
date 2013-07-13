@@ -1,5 +1,7 @@
 require 'rubygems'
 require 'sinatra/base'
+require 'sword/core/helpers'
+require 'sword/core/routes'
 
 module Sword
   module Core
@@ -8,7 +10,6 @@ module Sword
       extend Output if defined? Output
 
       class << self
-        public
 
         def run!(options = {})
           @debug, @silent = options[:debug], options[:silent]
@@ -36,6 +37,8 @@ module Sword
         rescue Errno::EADDRINUSE, RuntimeError
           print "!! Port is in use. Is Sword already running?\n"
         end
+
+        private
 
         # Generate instance variables containing parsed versions of YAML engine lists.
         # Variable names are identical to file names.
@@ -90,16 +93,14 @@ module Sword
         # @return [Hash] hash with settings required to silent him
         def silent_webrick
           return {} if @debug or not defined? WEBrick
-          null = Windows::PLATFORM ? 'NUL' : '/dev/null'
+          null = WINDOWS ? 'NUL' : '/dev/null'
           {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
         end
       end
-
-      require 'sword/core/helpers'
-      require 'sword/core/routes'
       
       helpers { include Helpers }
       include Routes
+      inject_routes
     end
   end
 end

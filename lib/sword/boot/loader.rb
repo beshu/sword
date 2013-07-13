@@ -1,73 +1,40 @@
+require 'sword/boot/gems'
+
 module Sword
-  module Loader
-    def load(options = {})
-      options = {
-        :directory => Dir.pwd,
-        :port => 1111,
-        :gems => parse_yaml('./gems'),
-        :gemlist => parse_yaml("#{Dir.home}/.sword"),
-        :engines => "./engines"
-      }.merge(options)
+  module Boot
+    module Loader
+      def load(options = {})
+        options = {
+          :directory => Dir.pwd,
+          :port => 1111,
+          :gems => parse_yaml('./gems'),
+          :gemlist => parse_yaml("#{Dir.home}/.sword"),
+          :engines => "./engines"
+        }.merge(options)
 
-      include_gems settings['gems']['general']
-      include_gems options[:gemlist]
-      include_gems settings['gems']['unix'] unless Windows::PLATFORM
+        include_gems settings['gems']['general']
+        include_gems options[:gemlist]
+        include_gems settings['gems']['unix'] unless Windows::PLATFORM
 
-      Applicaton.run!(options)
-    end
-
-    def parse_engine(file)
-      YAML.load_file(file).map { |l| l.map { |e| String === e ? {e => [e]} : e } }
-    end
-
-    def install_gems(list)
-      exec 'gem install ' +
-      list.map { |n| n.respond_to?(:first) ? n.first : n }.delete_if { |g| g['/'] } * ' '
-    end
-
-    def append_to_include(name)
-      open(LOAD_FILE, 'a') { |f| f.puts name }
-      puts "#{g} will be loaded next time you run Sword."
-    end
-
-    def load_compass(file = "#{LIBRARY}/compass.rb")
-      return {} unless defined? Compass
-      Compass.add_project_configuration @compass_file
-      Compass.sass_engine_options
-    end
-    
-    def parse_yaml(file)
-      require 'yaml' unless defined? YAML
-      YAML.load_file file
-    end
-
-    def include_first(options)
-      options.values.first.each do |option|
-        begin
-          debug option + '.' * (15 - option.length), '  '
-          require option
-          debug "OK\n"
-          break
-        rescue LoadError
-          debug "Fail\n"
-          next
-        end
+        Applicaton.run!(options)
       end
-    end
 
-    def include_only(name)
-      begin
-        debug lib + '.' * (15 - lib.length), '  '
-        require lib
-        debug "OK\n"
-      rescue LoadError
-        debug "Fail\n"
+      include Gems
+
+      def parse_engine(file)
+        YAML.load_file(file).map { |l| l.map { |e| String === e ? {e => [e]} : e } }
       end
-    end
 
-    def include_gems(list)
-      debug "Including gems:\n", ' '
-      list.each { |l| Hash === l ? include_first(l) : include_only(l) }
+      def load_compass(file = "#{LIBRARY}/compass.rb")
+        return {} unless defined? Compass
+        Compass.add_project_configuration @compass_file
+        Compass.sass_engine_options
+      end
+      
+      def parse_yaml(file)
+        require 'yaml' unless defined? YAML
+        YAML.load_file file
+      end
     end
   end
 end
