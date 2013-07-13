@@ -35,6 +35,16 @@ module Sword
         require 'yaml' unless defined? YAML
         YAML.load_file file
       end
+
+      def install_gems(list)
+        exec 'gem install ' +
+        list.map { |n| n.respond_to?(:first) ? n.first : n }.delete_if { |g| g['/'] } * ' '
+      end
+
+      def append_to_include(name)
+        open(LOAD_FILE, 'a') { |f| f.puts name }
+        puts "#{g} will be loaded next time you run Sword."
+      end
     end
   end
 end

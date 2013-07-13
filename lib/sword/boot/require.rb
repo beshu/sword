@@ -1,14 +1,17 @@
 module Sword
   module Boot
-    module Gems
-      def install_gems(list)
-        exec 'gem install ' +
-        list.map { |n| n.respond_to?(:first) ? n.first : n }.delete_if { |g| g['/'] } * ' '
-      end
-
-      def append_to_include(name)
-        open(LOAD_FILE, 'a') { |f| f.puts name }
-        puts "#{g} will be loaded next time you run Sword."
+    module Require
+      def require_gems(list)
+        debug "Including gems:\n", ' '
+        list.each do |l|
+          if Hash === l
+            require_first_avaliable(l)
+          elsif String === l
+            require_if_avaliable(l)
+          else
+            raise LoadError, 'require list should contain hashes and strings only'
+          end
+        end
       end
 
       def require_first_avaliable(hash)
@@ -33,11 +36,6 @@ module Sword
         rescue LoadError
           debug "Fail\n"
         end
-      end
-
-      def require_gems(list)
-        debug "Including gems:\n", ' '
-        list.each { |l| Hash === l ? require_first_avaliable(l) : require_if_avaliable(l) }
       end
     end
   end
