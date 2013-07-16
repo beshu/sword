@@ -99,7 +99,7 @@ module Sword
       end
       
       helpers { include Helpers }
-      include Routes
+      extend Routes
       inject_routes
     end
   end

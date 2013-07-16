@@ -1,5 +1,5 @@
-require 'optparse'
 require 'sword/boot/options'
+require 'optparse'
 
 module Sword
   module Boot

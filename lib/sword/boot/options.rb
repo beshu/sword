@@ -27,8 +27,8 @@ module Sword
       end
 
       def set_error(parser)
-        parser.on '-e', '--error <page>', 'Specify error page' do
-          abort '--error option not implemented'
+        parser.on '-e', '--error <page>', 'Specify error page' do |page|
+          @options[:error] = page
         end
       end
 

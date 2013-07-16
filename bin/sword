@@ -3,4 +3,4 @@ $:.unshift File.dirname(__FILE__) + '/../lib'
 
 require 'sword/boot/cli'
 require 'sword/windows'
-Sword::Boot::CLI.new.run(WINDOWS ? false : ARGV)
+Sword::Boot::CLI.new.run(Sword::WINDOWS ? false : ARGV)
