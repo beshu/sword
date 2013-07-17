@@ -8,6 +8,22 @@ module Sword
         return run
       end
 
+      protected
+
+      def load
+        load_require
+        Dir[''].each { |y| require_all tilt(y) }
+      end
+
+      def load_require
+        require 'sword/boot/require'
+        include Require
+      end
+
+      def tilt(file)
+        YAML.load_file(file).map { |l| l.map { |e| String === e ? {e => [e]} : e } }
+      end
+
       private
 
       def build

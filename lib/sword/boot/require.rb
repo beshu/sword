@@ -1,20 +1,20 @@
 module Sword
   module Boot
     module Require
-      def require_gems(list)
+      def require_list(list)
         debug "Including gems:\n", ' '
         list.each do |l|
           if Hash === l
-            require_first_avaliable(l)
+            require_any(l)
           elsif String === l
-            require_if_avaliable(l)
+            require_gem(l)
           else
-            raise LoadError, 'require list should contain hashes and strings only'
+            raise LoadError, 'Require list should contain hashes and strings only'
           end
         end
       end
 
-      def require_first_avaliable(hash)
+      def require_any(hash)
         options.values.first.each do |option|
           begin
             debug option + '.' * (15 - option.length), '  '
@@ -28,7 +28,7 @@ module Sword
         end
       end
 
-      def require_if_avaliable(name)
+      def require_gem(name)
         begin
           debug lib + '.' * (15 - lib.length), '  '
           require lib
