@@ -28,7 +28,7 @@ module Sword
         end
       end
 
-      def inject_main
+      def inject_parsers
         parse_styles
         parse_scripts
         synonymize_html

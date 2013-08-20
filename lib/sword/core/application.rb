@@ -16,7 +16,6 @@ module Sword
       extend Output if defined? Output
 
       class << self
-
         def run!(options = {})
           @debug, @silent = options[:debug], options[:silent]
           server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}

@@ -2,7 +2,7 @@ require 'rubygems'
 
 module Sword
   module Installer
-    GEMS = %w[sass compass slim haml]
+    GEMS = %w[compass slim haml]
 
     def self.install(sudo = false)
       @sudo = sudo

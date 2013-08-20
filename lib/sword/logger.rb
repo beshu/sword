@@ -1,18 +1,19 @@
 module Sword
   module Logger
-    def debug(message, symbol = false)
-      if @debug
-        return print symbol * 2 + ' ' + message if symbol
-        print message
-      end
+    def debug(message)
+      print message if Environment.debug
+    end
+
+    def debugln(message)
+      puts message if Environment.debug
     end
 
     def puts(*args)
-      STDERR.puts(*args) unless @silent
+      $stderr.puts(*args) unless Environment.silent
     end
 
     def print(*args)
-      STDERR.print(*args) unless @silent
+      $stderr.print(*args) unless Environment.silent
     end
   end
 end
