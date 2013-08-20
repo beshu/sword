@@ -32,7 +32,8 @@ end
 desc 'Install the latest version'
 task :install do
   command = 'gem install '
-  sh command << latest_gem ? latest_gem : 'sword'
+  command << latest_gem ? latest_gem : 'sword'
+  sh command
 end
 
 desc 'Deletes all old versions of the gem'
