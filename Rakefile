@@ -1,5 +1,6 @@
 task :default => [:test]
 
+desc 'Run test suite'
 task :test do
   require 'rubygems'
   require 'rspec/autorun'
@@ -10,18 +11,36 @@ task :test do
   Dir['./test/*.rb'].each { |t| require t.chomp '.rb' }
 end
 
-task :gem do
-  system 'gem build sword.gemspec
-  for gem in sword-*.gem; do
-    gem push $gem
-    rm $gem
-  done'
+def compiled_gems
+  Dir['./sword-*']
 end
 
-task :doc do
-  system 'yard doc'
+def latest_gem
+  compiled_gems.sort.last
 end
 
-task :update do
-  system 'gem install sword && gem cleanup sword'
+desc 'Build a gem'
+task :build do
+  sh 'gem build sword.gemspec'
+end
+
+desc 'Push the latest version to Rubygems'
+task :push do
+  sh "gem push #{latest_gem}"
+end
+
+desc 'Install the latest version'
+task :install do
+  command = 'gem install '
+  sh command << latest_gem ? latest_gem : 'sword'
+end
+
+desc 'Deletes all old versions of the gem'
+task :cleanup do
+  sh 'gem cleanup sword'
+end
+
+desc 'Deletes all compiled gems'
+task :purify do
+  compiled_gems.each { |f| rm f }
 end
