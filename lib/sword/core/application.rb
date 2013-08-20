@@ -5,6 +5,7 @@ rescue LoadError
   require 'sinatra/base'
 end
 
+require 'sword/core/templates'
 require 'sword/core/helpers'
 require 'sword/core/routes'
 
@@ -70,13 +71,8 @@ module Sword
         # @yield '*' from the route pattern
         def parse(list, route, options = {}, &block)
           self.get route do |name|
-            list.each do |language|
-              language.each do |engine, extensions|
-                extensions.each do |extension|
-                  return send engine, name.to_sym, options if File.exists? "#{name}.#{extension}"
-                end
-              end
-            end
+            engine = find_engine(list, options, &block)
+            return engine if engine
             block_given? ? yield(name) : raise(NotFoundError)
           end
         end

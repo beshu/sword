@@ -6,9 +6,9 @@ module Sword
         list.each do |element|
           case element
           when Hash
-            require_any(l)
+            require_any(element)
           when String
-            require_gem(l)
+            require_gem(element)
           else
             raise LoadError, 'Gemlist should contain hashes and strings only'
           end

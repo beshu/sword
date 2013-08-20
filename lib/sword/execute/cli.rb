@@ -1,4 +1,3 @@
-require 'sword'
 require 'optparse'
 
 module Sword
@@ -6,10 +5,11 @@ module Sword
     # Sword command line interface
     # @api private
     class CLI
-      def initialize(width = 18, &block)
+      def initialize(width = 25, &block)
         @parser = OptionParser.new do |parser|
+          @parser = parser
           parser.summary_width = width
-          set_options(parser)
+          parse_options
           if block_given?
             parser.separator 'Plugin options:'
             yield parser
@@ -39,17 +39,17 @@ module Sword
       # 
       # @param parser [OptionParser] optparse object
       # @return [Array] options received from STDIN
-      def get_options(parser)
-        [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
-        parser.banner = 'Options (press ENTER if none):'
-        print parser, "\n"
-        $stdin.gets.split
-      end
+      # def get_options(parser)
+      #   [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
+      #   parser.banner = 'Options (press ENTER if none):'
+      #   print parser, "\n"
+      #   $stdin.gets.split
+      # end
 
       def parse_options
         setters = methods.delete_if { |m| not m.to_s.start_with? 'parse_' }
         setters.delete(:parse_options)
-        setters.each { |m| send m }
+        setters.sort.each { |m| send m }
       end
 
       include Options

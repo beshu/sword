@@ -1,5 +1,6 @@
 module Sword
   require 'sword/windows'
-  require 'sword/execute/environment'
+  require 'sword/environment'
   require 'sword/execute/options'
+  require 'sword/execute/cli'
 end
