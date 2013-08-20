@@ -1,4 +1,4 @@
-require 'optparse'
+require 'sword'
 
 module Sword
   module Execute
@@ -6,23 +6,26 @@ module Sword
     # @api private
     class CLI
       def initialize(arguments = ARGV, width = 25, &block)
-        @arguments = arguments
-        @parser = OptionParser.new do |parser|
-          @parser = parser
-          parser.summary_width = width
-          parse_options
-          if block_given?
-            parser.separator 'Plugin options:'
-            yield parser
-          end
-        end
+        @parser = Parser.new(arguments, 25, &block)
       end
 
       def run
-        parse
-        load_lists
+        parse_arguments
+        parse_lists
         require_gems
+        run_server
         delete_pid
+      end
+
+      def parse_arguments
+        @parser.parse
+      end
+
+      def parse_lists
+        unless Environment.unload
+          require 'sword/execute/lists'
+          Lists.load
+        end
       end
 
       def require_gems
@@ -30,42 +33,13 @@ module Sword
         Gems.require_default
       end
 
-      def load_lists
-        unless Environment.unload
-          require 'sword/execute/lists'
-          Lists.load
-        end
+      def run_server
+        require 'sword/server'
       end
 
       def delete_pid
         File.delete(Environment.pid) if Environment.pid
       end
-
-      def parse
-        arguments = @arguments || get_options
-        @parser.parse!(arguments)
-      end
-
-      protected
-
-      # Show options menu and then get options from STDIN
-      # 
-      # @param parser [OptionParser] optparse object
-      # @return [Array] options received from STDIN
-      def get_options(parser)
-        [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
-        parser.banner = 'Options (press ENTER if none):'
-        print parser, "\n"
-        $stdin.gets.split
-      end
-
-      def parse_options
-        setters = methods.delete_if { |m| not m.to_s.start_with? 'parse_' }
-        setters.delete(:parse_options)
-        setters.sort.each { |m| send m }
-      end
-
-      include Options
     end
   end
 end

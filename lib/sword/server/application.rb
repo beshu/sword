@@ -1,16 +1,12 @@
 begin
-  require 'rubygems'
   require 'sinatra/base'
 rescue LoadError
+  require 'rubygems'
   require 'sinatra/base'
 end
 
-require 'sword/core/templates'
-require 'sword/core/helpers'
-require 'sword/core/routes'
-
 module Sword
-  module Core
+  module Server
     class Application < Sinatra::Base
       NotFoundError = Class.new StandardError
       extend Output if defined? Output
@@ -100,7 +96,7 @@ module Sword
       
       helpers { include Helpers }
       extend Routes
-      inject_routes
+      routes
     end
   end
 end

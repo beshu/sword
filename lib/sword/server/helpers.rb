@@ -1,5 +1,5 @@
 module Sword
-  module Core
+  module Server
     module Helpers
       # @todo Google fonts helper
       def font(options) end

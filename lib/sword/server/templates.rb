@@ -1,5 +1,5 @@
 module Sword
-  module Core
+  module Server
     module Templates
       def find_engine(template, options)
         template.each do |language|

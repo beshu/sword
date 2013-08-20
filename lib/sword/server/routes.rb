@@ -1,10 +1,12 @@
 module Sword
-  module Core
+  module Server
     module Routes
       HTML = %w[html htm xhtml xht dhtml dhtm]
       
       def routes
-        methods.delete_if { |m| not m.to_s.start_with? 'inject_' }.each { |m| send m } 
+        methods.delete_if do |m|
+          not m.to_s.start_with? 'inject_'
+        end.each { |m| send m } 
       end
 
       def inject_error
@@ -41,7 +43,7 @@ module Sword
       end
 
       def parse_styles
-        parse @styles, '/*.css', Boot::Loader.load_compass
+        parse @styles, '/*.css' #, Boot::Loader.load_compass
       end
 
       def parse_scripts
