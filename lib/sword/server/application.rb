@@ -53,7 +53,7 @@ module Sword
           get route do |name|
             engine = find_engine(list, name, options)
             return engine if engine
-            block_given? ? yield(self, name) : raise(NotFoundError)
+            block_given? ? yield(self, name, env) : raise(NotFoundError)
           end
         end
 
