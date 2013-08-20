@@ -17,7 +17,7 @@ module Sword
       end
 
       def parse_styles
-        parse @styles, '/*.css', Frameworks.compass
+        parse @styles, '/*.css'
       end
 
       def parse_scripts
