@@ -2,10 +2,6 @@
 # :: String    Both engine method and the only extension,
 # :: Hash      Key is the engine method and value is an array of extensions 
 
-# TODO:
-# For each file in /engines folder Sword::Application has an instance variable,
-# which contains a parsed YAML array of engines.
-
 - haml
 - liquid
 - textile

@@ -2,8 +2,6 @@
 # :: String    Just try to load gem
 # :: Hash      Only one gem is loaded for one key
 
-# TODO: Memorize hash keys
-
 - slim
 - haml
 - erb
