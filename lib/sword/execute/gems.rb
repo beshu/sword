@@ -1,15 +1,16 @@
 module Sword
-  module Boot
-    module Require
+  module Execute
+    module Gems
       def require_list(list)
         debug "Including gems:\n", ' '
-        list.each do |l|
-          if Hash === l
+        list.each do |element|
+          case element
+          when Hash
             require_any(l)
-          elsif String === l
+          when String
             require_gem(l)
           else
-            raise LoadError, 'Require list should contain hashes and strings only'
+            raise LoadError, 'Gemlist should contain hashes and strings only'
           end
         end
       end

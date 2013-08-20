@@ -1,5 +1,10 @@
-require 'rubygems'
-require 'sinatra/base'
+begin
+  require 'rubygems'
+  require 'sinatra/base'
+rescue LoadError
+  require 'sinatra/base'
+end
+
 require 'sword/core/helpers'
 require 'sword/core/routes'
 

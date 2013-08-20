@@ -1,5 +1,5 @@
 module Sword
-  module Boot
+  module Execute
     class Manager
       def initialize(options, &block)
         @options = options

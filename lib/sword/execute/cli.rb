@@ -1,8 +1,8 @@
-require 'sword/boot/options'
+require 'sword'
 require 'optparse'
 
 module Sword
-  module Boot
+  module Execute
     # Sword command line interface
     # @api private
     class CLI
@@ -18,8 +18,9 @@ module Sword
       end
 
       def run(arguments = ARGV)
-        require 'sword/boot/manager'
-        Manager.new parse!(arguments)
+        parse!(arguments)
+        require 'sword/execute/manager'
+        Manager.new
       end
 
       def parse(arguments = ARGV)
@@ -27,8 +28,7 @@ module Sword
       end
 
       def parse!(arguments = ARGV)
-        @options = {}
-        arguments = get_options(@parser) unless arguments
+        arguments = get_options unless arguments
         @parser.parse!(arguments)
         @options
       end
@@ -43,15 +43,13 @@ module Sword
         [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
         parser.banner = 'Options (press ENTER if none):'
         print parser, "\n"
-        STDIN.gets.split
+        $stdin.gets.split
       end
 
-      def set_options(parser)
-        setters = methods.delete_if { |m| not m.to_s.start_with? 'set_' }
-        setters.delete(:set_options)
-        setters.each do |m|
-          send m, parser
-        end
+      def parse_options
+        setters = methods.delete_if { |m| not m.to_s.start_with? 'parse_' }
+        setters.delete(:parse_options)
+        setters.each { |m| send m }
       end
 
       include Options
