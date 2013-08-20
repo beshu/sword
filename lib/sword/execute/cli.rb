@@ -19,8 +19,6 @@ module Sword
 
       def run(arguments = ARGV)
         parse!(arguments)
-        require 'sword/execute/manager'
-        Manager.new
       end
 
       def parse(arguments = ARGV)
@@ -39,12 +37,12 @@ module Sword
       # 
       # @param parser [OptionParser] optparse object
       # @return [Array] options received from STDIN
-      # def get_options(parser)
-      #   [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
-      #   parser.banner = 'Options (press ENTER if none):'
-      #   print parser, "\n"
-      #   $stdin.gets.split
-      # end
+      def get_options(parser)
+        [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
+        parser.banner = 'Options (press ENTER if none):'
+        print parser, "\n"
+        $stdin.gets.split
+      end
 
       def parse_options
         setters = methods.delete_if { |m| not m.to_s.start_with? 'parse_' }
