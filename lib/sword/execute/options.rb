@@ -91,9 +91,10 @@ module Sword
         end
       end
 
-      def parse_ppid
-        @parser.on '--pid', 'Print this process ID' do
-          puts Process.ppid
+      def parse_pid
+        @parser.on '--pid <path>', 'Make PID file' do |path|
+          Environment.pid = path
+          open(path, 'w') { |f| f.puts Process.ppid }
         end
       end
 
