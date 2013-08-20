@@ -15,6 +15,16 @@ module Sword
         end
       end
 
+      def parse_daemonize
+        begin
+          require 'daemons'
+          @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
+            Daemons.daemonize
+          end
+        rescue LoadError
+        end
+      end
+
       def parse_debug
         @parser.on '--debug', 'Show server’s guts' do
           Environment.debug = true
@@ -41,7 +51,7 @@ module Sword
 
       def parse_gem
         @parser.on '--gem <name>', 'Add a gem to require' do |name|
-          Environment.gems
+          open(Environment.local_gem_list, 'a') { |f| f.puts name }
           exit
         end
       end
@@ -49,7 +59,8 @@ module Sword
       def parse_generate
         @parser.on '-g', '--generate', 'Generate boilerplate' do
           require 'sword/generator'
-          Generator.generate
+          Generator.new
+          exit
         end
       end
 
