@@ -12,31 +12,32 @@ module Sword
       extend Debugger
 
       class << self
-        # def run!(options = {})
-        #   @debug, @silent = options[:debug], options[:silent]
-        #   server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
-        #   initialize_engines("#{LIBRARY}/engines/*.yml")
+        if Environment.CLI
+          def run!(options = {})
+            set options
+            handler         = detect_rack_handler
+            handler_name    = handler.name.gsub(/.*::/, '')
+            server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
+            handler.run self, server_settings.merge(:Port => port, :Host => bind) do |server|
+              unless handler_name =~ /cgi/i
+                $stderr.puts "== Sword #{Sword::VERSION} at your service " +
+                "on #{port} for #{environment} with backup from #{handler_name}"
+              end
+              [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler_name) } }
+              server.threaded = settings.threaded if server.respond_to? :threaded=
+              set :running, true
+              yield server if block_given?
+            end
+          rescue Errno::EADDRINUSE, RuntimeError
+            $stderr.puts "== Port is in use. Is Sword already running?"
+          end
 
-        #   detect_rack_handler.run self, server_settings.merge({:Port => options[:port], :Host => bind}).merge(silent_webrick) do |server|
-        #     [:INT, :TERM].each { |s| trap(s) { quit!(server) } }
-        #     print ">> Sword #{VERSION} at your service!\n" \
-        #     "   http://localhost:#{options[:port]} to see your project.\n" \
-        #     "   CTRL+C to stop.\n"
-            
-        #     specify_directory options[:directory]
-
-        #     unless @debug
-        #       server.silent = true if server.respond_to? :silent=
-        #       disable :show_exceptions
-        #     end
-
-        #     server.threaded = settings.threaded if server.respond_to? :threaded
-        #     set :running, true
-        #     yield server if block_given?
-        #   end
-        # rescue Errno::EADDRINUSE, RuntimeError
-        #   print "!! Port is in use. Is Sword already running?\n"
-        # end
+          def quit!(server, handler_name)
+            $stderr.puts "\n" unless handler_name =~/cgi/i
+            # Use Thin's hard #stop! if available, otherwise just #stop.
+            server.respond_to?(:stop!) ? server.stop! : server.stop
+          end
+        end
 
         private
 
@@ -55,12 +56,6 @@ module Sword
             block_given? ? yield(name) : raise(NotFoundError)
           end
         end
-
-        # Stops the server (stolen from original Sinatra)
-        # def quit!(server)
-        #   print "\n"
-        #   server.respond_to?(:stop!) ? server.stop! : server.stop
-        # end
 
         # Silents WEBrick server (platform-specific)
         # @return [Hash] hash with settings required to silent him

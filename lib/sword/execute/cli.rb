@@ -7,6 +7,7 @@ module Sword
     class CLI
       def initialize(arguments = ARGV, width = 25, &block)
         @parser = Parser.new(arguments, 25, &block)
+        Environment.CLI = true
       end
 
       def run

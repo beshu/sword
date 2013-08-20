@@ -126,7 +126,6 @@ module Sword
 
       def parse_version
         @parser.on '-v', '--version', 'Print Sword’s version' do
-          require 'sword/version'
           puts 'Sword ' << VERSION
           exit
         end
