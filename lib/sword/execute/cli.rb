@@ -5,7 +5,8 @@ module Sword
     # Sword command line interface
     # @api private
     class CLI
-      def initialize(width = 25, &block)
+      def initialize(arguments = ARGV, width = 25, &block)
+        @arguments = arguments
         @parser = OptionParser.new do |parser|
           @parser = parser
           parser.summary_width = width
@@ -17,18 +18,17 @@ module Sword
         end
       end
 
-      def run(arguments = ARGV)
-        parse!(arguments)
+      def run
+        parse!(@arguments)
       end
 
-      def parse(arguments = ARGV)
-        parse!(arguments.dup)
+      def parse
+        parse!(@arguments.dup)
       end
 
-      def parse!(arguments = ARGV)
-        arguments = get_options unless arguments
+      def parse!
+        arguments = @arguments || get_options
         @parser.parse!(arguments)
-        @options
       end
 
       protected

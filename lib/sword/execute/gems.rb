@@ -2,7 +2,7 @@ module Sword
   module Execute
     module Gems
       def require_list(list)
-        debug "Including gems:\n", ' '
+        debugln "Including gems:"
         list.each do |element|
           case element
           when Hash
