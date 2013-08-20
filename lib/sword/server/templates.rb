@@ -15,11 +15,9 @@ module Sword
       end
 
       def find_engine(template, name, options)
-        template.each do |language|
-          language.each do |engine, extensions|
-            extensions.each do |extension|
-              return send(engine.to_sym, name.to_sym, options) if File.exists? "#{name}.#{extension}"
-            end
+        template.each do |engine, extensions|
+          extensions.each do |extension|
+            return send(engine, name.to_sym, options) if File.exists? "#{name}.#{extension}"
           end
         end
         false

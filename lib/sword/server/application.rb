@@ -71,14 +71,15 @@ module Sword
         # end
       end
 
+      set :port, Environment.port
       set :views, Environment.directory # Structure-agnostic
       set :public_folder, settings.views
       
       helpers { include Helpers }
       include Templates
       extend Templates
-      extend Parsers
       extend Routes
+      extend Parsers
       inject
     end
   end

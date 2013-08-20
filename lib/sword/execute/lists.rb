@@ -23,7 +23,7 @@ module Sword
           String === element ? {element => [element]} : element
         end
 
-        Environment.templates.merge!({File.basename(file, '.yml') => list})
+        Environment.templates[File.basename(file, '.yml')] = list.inject(&:merge)
       end
 
       def self.load_gems
