@@ -70,7 +70,7 @@ module Sword
 
       def parse_port
         @parser.on '-p', '--port <number>', 'Change the port, 1111 by default' do |number|
-          @options[:port] = number
+          Environment.port = number
         end
       end
 
@@ -81,14 +81,14 @@ module Sword
       end
 
       def parse_settings
-        @parser.on '-S', '--settings <path>', 'Load settings from file' do |path|
+        @parser.on '-s', '--settings <path>', 'Load settings from file' do |path|
           require 'sword/settings'
-          Settings.load(path)
+          Environment.load(path)
         end
       end
 
       def parse_silent
-        @parser.on '-s', '--silent', 'Try to turn off any messages' do
+        @parser.on '--silent', 'Try to turn off any messages' do
           Environment.silent = true
         end
       end

@@ -10,7 +10,7 @@ module Sword
           when String
             require_gem(element)
           else
-            raise LoadError, 'Gemlist should contain hashes and strings only'
+            raise LoadError, 'Gem list should contain hashes and strings only'
           end
         end
       end

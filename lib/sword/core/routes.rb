@@ -23,7 +23,6 @@ module Sword
       def inject_index
         get '/' do
           # Call /index, the same shit
-          # TODO: for any level
           call env.merge 'PATH_INFO' => '/index'
         end
       end
