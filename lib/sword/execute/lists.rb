@@ -8,6 +8,10 @@ module Sword
         load_gems
       end
 
+      def self.parse(file)
+        YAML.load_file(file)
+      end
+
       def self.load_templates
         Environment.template_lists.each do |list|
           load_template_list(list)
@@ -15,11 +19,11 @@ module Sword
       end
 
       def self.load_template_list(file)
-        list = YAML.load_file(file).map do |element|
+        list = parse(file).map do |element|
           String === element ? {element => [element]} : element
         end
 
-        Environment.templates += list
+        Environment.templates.merge!({File.basename(file, '.yml') => list})
       end
 
       def self.load_gems
@@ -31,7 +35,7 @@ module Sword
       end
 
       def self.load_gem_list(file)
-        list = YAML.load_file(file)
+        list = parse(file)
         return false unless list
         Environment.gems += list
       end

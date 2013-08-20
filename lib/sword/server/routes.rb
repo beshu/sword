@@ -1,24 +1,22 @@
 module Sword
   module Server
-    module Routes
-      HTML = %w[html htm xhtml xht dhtml dhtm]
-      
-      def routes
+    module Routes      
+      def inject
         methods.delete_if do |m|
           not m.to_s.start_with? 'inject_'
-        end.each { |m| send m } 
+        end.reverse.each { |m| send m } 
       end
 
       def inject_error
         error do
           @error = env['sinatra.error']
-          erb :error, :views => LIBRARY
+          erb File.read(Environment.error)
         end
       end
 
       def inject_favicon
         get '/favicon.ico' do
-          send_file "#{LIBRARY}/favicon.ico"
+          send_file Environment.favicon
         end
       end
 
@@ -26,35 +24,6 @@ module Sword
         get '/' do
           # Call /index, the same shit
           call env.merge 'PATH_INFO' => '/index'
-        end
-      end
-
-      def inject_parsers
-        parse_styles
-        parse_scripts
-        synonymize_html
-        parse_templates
-      end
-
-      def synonymize_html
-        get(/(.+?)\.(#{ HTML * '|' })/) do |route, _|
-          call env.merge 'PATH_INFO' => route
-        end
-      end
-
-      def parse_styles
-        parse @styles, '/*.css' #, Boot::Loader.load_compass
-      end
-
-      def parse_scripts
-        parse @scripts, '/*.js'
-      end
-
-      def parse_templates
-        parse @templates, '/*/?' do |page|
-          HTML.each { |extension| return erb File.read(file = "#{page}.#{extension}") if File.exists? file }
-          raise NotFound if page =~ /\/index$/ or not defined? env
-          call env.merge({'PATH_INFO' => "/#{page}/index"})
         end
       end
     end

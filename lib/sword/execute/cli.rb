@@ -35,6 +35,7 @@ module Sword
 
       def run_server
         require 'sword/server'
+        Sword::Server::Application.run!
       end
 
       def delete_pid

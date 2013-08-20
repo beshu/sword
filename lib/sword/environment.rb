@@ -4,11 +4,12 @@ module Sword
   Environment = OpenStruct.new
   
   Environment.directory = '.'
-  Environment.templates = []
+  Environment.templates = {}
   Environment.gems = []
   Environment.port = 1111
 
   Environment.library = File.dirname File.dirname(__FILE__)
+  Environment.compass = Environment.library + '/compass.rb'
   Environment.favicon = Environment.library + '/favicon.ico'
   Environment.error   = Environment.library + '/error.erb'
 
