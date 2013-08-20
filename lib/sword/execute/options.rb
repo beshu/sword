@@ -57,7 +57,7 @@ module Sword
 
       def parse_gem
         @parser.on '--gem <name>', 'Add a gem to require' do |name|
-          open(Environment.local_gem_list, 'a') { |f| f.puts name }
+          open(Environment.local_gems, 'a') { |f| f.puts name }
           exit
         end
       end
@@ -107,6 +107,7 @@ module Sword
       def parse_settings
         @parser.on '-s', '--settings <path>', 'Load settings from file' do |path|
           require 'sword/settings'
+          Environment.settings = path
           Environment.load(path)
         end
       end

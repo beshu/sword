@@ -20,9 +20,25 @@ module Sword
 
       def run
         parse
+        load_lists
+        require_gems
+        delete_pid
+      end
 
-        require 'sword/execute/lists'
-        Lists.load
+      def require_gems
+        require 'sword/execute/gems'
+        Gems.require_default
+      end
+
+      def load_lists
+        unless Environment.unload
+          require 'sword/execute/lists'
+          Lists.load
+        end
+      end
+
+      def delete_pid
+        File.delete(Environment.pid) if Environment.pid
       end
 
       def parse

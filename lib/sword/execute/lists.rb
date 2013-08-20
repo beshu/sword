@@ -19,12 +19,12 @@ module Sword
           String === element ? {element => [element]} : element
         end
 
-        Environment.templates << list
+        Environment.templates += list
       end
 
       def self.load_gems
-        lists =  Environment.gem_lists.dup
-        lists << Environment.local_gem_list
+        lists  = Environment.gem_lists.dup
+        lists << Environment.local_gems
         lists.each do |list|
           load_gem_list(list)
         end
@@ -33,7 +33,7 @@ module Sword
       def self.load_gem_list(file)
         list = YAML.load_file(file)
         return false unless list
-        Environment.gems << list
+        Environment.gems += list
       end
     end
   end

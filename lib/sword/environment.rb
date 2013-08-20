@@ -15,8 +15,8 @@ module Sword
   Environment.template_lists = Dir[Environment.library + '/templates/*.yml']
   Environment.gem_lists      = Dir[Environment.library + '/gems/*.yml']
 
-  Environment.settings_file  = Dir.home + '/.swordrc'
-  Environment.local_gem_list = Dir.home + '/.swordgems'
+  Environment.settings   = Dir.home + '/.swordrc'
+  Environment.local_gems = Dir.home + '/.swordgems'
 
   def Environment.load(path)
     instance_eval File.read(path)

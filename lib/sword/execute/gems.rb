@@ -1,7 +1,13 @@
 module Sword
   module Execute
     module Gems
-      def require_list(list)
+      extend Debugger
+
+      def self.require_default
+        require_list(Environment.gems)
+      end
+
+      def self.require_list(list)
         debugln "Including gems:"
         list.each do |element|
           case element
@@ -10,15 +16,20 @@ module Sword
           when String
             require_gem(element)
           else
-            raise LoadError, 'Gem list should contain hashes and strings only'
+            raise LoadError, "Gem list should contain hashes and strings only," \
+              "you have #{element.inspect} which is #{element.class}"
           end
         end
       end
 
-      def require_any(hash)
+      def self.pretty_debug(string)
+        debug '  ' + string + '.' * (20 - string.length)
+      end
+
+      def self.require_any(options)
         options.values.first.each do |option|
           begin
-            debug option + '.' * (15 - option.length), '  '
+            pretty_debug option
             require option
             debug "OK\n"
             break
@@ -29,10 +40,10 @@ module Sword
         end
       end
 
-      def require_gem(name)
+      def self.require_gem(name)
         begin
-          debug lib + '.' * (15 - lib.length), '  '
-          require lib
+          pretty_debug name
+          require name
           debug "OK\n"
         rescue LoadError
           debug "Fail\n"

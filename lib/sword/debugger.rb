@@ -1,5 +1,5 @@
 module Sword
-  module Logger
+  module Debugger
     def debug(message)
       print message if Environment.debug
     end
