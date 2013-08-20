@@ -14,6 +14,7 @@ module Sword
         parse_arguments
         parse_lists
         require_gems
+        change_directory
         run_server
         delete_pid
       end
@@ -32,6 +33,12 @@ module Sword
       def require_gems
         require 'sword/execute/gems'
         Gems.require_default
+      end
+
+      def change_directory
+        unless Environment.nocd
+          Dir.chdir Environment.directory
+        end
       end
 
       def run_server

@@ -40,6 +40,7 @@ module Sword
       def parse_dir
         @parser.on '-d', '--directory <name>', 'Specify watch directory' do |name|
           Environment.directory = name
+          puts Environment.directory
         end
       end
 
@@ -82,6 +83,12 @@ module Sword
           require 'sword/installer'
           Installer.install
           exit
+        end
+      end
+
+      def parse_nocd
+        @parser.on '--nocd', "Don't change directory" do
+          Environment.nocd = true
         end
       end
 
