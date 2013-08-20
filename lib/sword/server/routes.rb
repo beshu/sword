@@ -1,10 +1,12 @@
 module Sword
   module Server
-    module Routes      
+    module Routes
+      SERVED_FIRST = %w[inject_index inject_favicon inject_templates]
+
       def inject
-        methods.delete_if do |m|
-          not m.to_s.start_with? 'inject_'
-        end.reverse.each { |m| send m }
+        injections = methods.delete_if { |m| not m.to_s.start_with? 'inject_' }
+        SERVED_FIRST.each { |i| send i; injections - [i] }
+        injections.reverse.each { |i| send i }
       end
 
       def inject_error
