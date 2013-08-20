@@ -16,12 +16,18 @@ module Sword
       end
 
       def parse_daemonize
-        begin
-          require 'daemons'
+        if RUBY_VERSION >= '1.9.1'
           @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
-            Daemons.daemonize
+            Process.daemon
           end
-        rescue LoadError
+        else
+          begin
+            require 'daemons'
+            @parser.on '--daemonize', 'Daemonize Sword using daemons gem' do
+              Daemons.daemonize
+            end
+          rescue LoadError
+          end
         end
       end
 
@@ -82,6 +88,12 @@ module Sword
       def parse_port
         @parser.on '-p', '--port <number>', 'Change the port, 1111 by default' do |number|
           Environment.port = number
+        end
+      end
+
+      def parse_ppid
+        @parser.on '--pid', 'Print this process ID' do
+          puts Process.ppid
         end
       end
 
