@@ -1,3 +1,5 @@
+require 'yaml'
+
 module Sword
   module Execute
     module Lists
@@ -13,9 +15,11 @@ module Sword
       end
 
       def self.load_template_list(file)
-        YAML.load_file(file).map do |element|
-          Environment.templates << element.map { |e| String === e ? {e => [e]} : e }
+        list = YAML.load_file(file).map do |element|
+          String === element ? {element => [element]} : element
         end
+
+        Environment.templates << list
       end
 
       def self.load_gems
@@ -26,11 +30,10 @@ module Sword
         end
       end
 
-      def self.load_gem_list
-        YAML.load_file(file).map do |element|
-          # TODO: finish writing this method
-          Environment.gems << element
-        end
+      def self.load_gem_list(file)
+        list = YAML.load_file(file)
+        return false unless list
+        Environment.gems << list
       end
     end
   end
