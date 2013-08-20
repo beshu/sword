@@ -4,7 +4,7 @@ module Sword
       def inject
         methods.delete_if do |m|
           not m.to_s.start_with? 'inject_'
-        end.reverse.each { |m| puts m; send m }
+        end.reverse.each { |m| send m }
       end
 
       def inject_error

@@ -25,7 +25,6 @@ module Sword
       end
 
       def parse_templates
-        p @templates
         parse @templates, '/*/?' do |page|
           HTML.each { |extension| return erb File.read(file = "#{page}.#{extension}") if File.exists? file }
           raise NotFound if page =~ /\/index$/ or not defined? env
