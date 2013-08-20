@@ -25,14 +25,16 @@ module Sword
       end
 
       def parse_templates
-        parse @templates, '/*/?' do |page|
-          HTML.each do |extension|
-            file = "#{Environment.directory}/#{page}.#{extension}"
-            return erb File.read(file) if File.exists?(file)
+        parse @templates, '/*/?' do |app, page|
+          files = HTML.dup.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
+          file = files.find { |file| File.exists? file }
+          if file
+            app.erb File.read(file)
+          else
+            raise Application::NotFoundError, "Can't find #{page}, " \
+            "tried every engine & HTML extension" if page =~ /\/index$/ or not defined? env
+            call env.merge({'PATH_INFO' => "/#{page}/index"})
           end
-          raise Application::NotFoundError, "Can't find #{page}, " \
-          "tried every engine & HTML extension" if page =~ /\/index$/ or not defined? env
-          call env.merge({'PATH_INFO' => "/#{page}/index"})
         end
       end
     end

@@ -50,10 +50,10 @@ module Sword
         # @raise [NotFoundError] if no template engine was found and block was not specified
         # @yield '*' from the route pattern
         def parse(list, route, options = {}, &block)
-          self.get route do |name|
+          get route do |name|
             engine = find_engine(list, name, options)
             return engine if engine
-            block_given? ? yield(name) : raise(NotFoundError)
+            block_given? ? yield(self, name) : raise(NotFoundError)
           end
         end
 
@@ -66,6 +66,7 @@ module Sword
         end
       end
 
+      set :show_exceptions, false
       set :port, Environment.port
       set :views, Environment.directory # Structure-agnostic
       set :public_folder, settings.views
