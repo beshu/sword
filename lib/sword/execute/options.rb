@@ -2,12 +2,12 @@
 module Sword
   module Execute
     module Options
-      def parse_build
-        @parser.on '-b', '--build', 'Build project into .zip' do
-          require 'sword/builder'
-          Builder.new
-        end
-      end
+      # def parse_build
+      #   @parser.on '-b', '--build', 'Build project into .zip' do
+      #     require 'sword/builder'
+      #     Builder.new
+      #   end
+      # end
 
       def parse_compress
         @parser.on '-c', '--compress', 'Compress assets' do 
@@ -38,7 +38,7 @@ module Sword
       end
 
       def parse_dir
-        @parser.on '-d', '--dir <name>', 'Specify watch directory' do |name|
+        @parser.on '-d', '--directory <name>', 'Specify watch directory' do |name|
           Environment.directory = name
         end
       end
@@ -62,13 +62,13 @@ module Sword
         end
       end
 
-      def parse_generate
-        @parser.on '-g', '--generate', 'Generate boilerplate' do
-          require 'sword/generator'
-          Generator.new
-          exit
-        end
-      end
+      # def parse_generate
+      #   @parser.on '-g', '--generate', 'Generate boilerplate' do
+      #     require 'sword/generator'
+      #     Generator.new
+      #     exit
+      #   end
+      # end
 
       def parse_help
         @parser.on '-h', '--help', 'Print this message' do

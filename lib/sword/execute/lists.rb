@@ -1,6 +1,11 @@
 module Sword
   module Execute
     module Lists
+      def self.load
+        load_templates
+        load_gems
+      end
+
       def self.load_templates
         Environment.template_lists.each do |list|
           load_template_list(list)

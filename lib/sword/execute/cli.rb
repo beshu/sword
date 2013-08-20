@@ -19,14 +19,13 @@ module Sword
       end
 
       def run
-        parse!(@arguments)
+        parse
+
+        require 'sword/execute/lists'
+        Lists.load
       end
 
       def parse
-        parse!(@arguments.dup)
-      end
-
-      def parse!
         arguments = @arguments || get_options
         @parser.parse!(arguments)
       end
