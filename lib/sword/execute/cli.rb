@@ -14,18 +14,16 @@ module Sword
         parse_arguments
         parse_lists
         require_gems
-        change_directory
-        open
+        change_directory unless Environment.here
+        open if Environment.open
         run_server
-        delete_pid
+        delete_pid if Environment.pid
       end
 
       def open
-        if Environment.open
-          Thread.new do
-            sleep 0.75
-            system "open http://localhost:#{Environment.port}"
-          end
+        Thread.new do
+          sleep 0.75
+          system "open http://localhost:#{Environment.port}"
         end
       end
 
@@ -44,9 +42,7 @@ module Sword
       end
 
       def change_directory
-        unless Environment.nocd
-          Dir.chdir Environment.directory
-        end
+        Dir.chdir Environment.directory
       end
 
       def run_server
@@ -55,7 +51,7 @@ module Sword
       end
 
       def delete_pid
-        File.delete(Environment.pid) if Environment.pid
+        File.delete(Environment.pid)
       end
     end
   end

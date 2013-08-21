@@ -38,15 +38,14 @@ module Sword
       end
 
       def parse_directory
-        @parser.on '-d', '--directory <name>', 'Specify watch directory' do |name|
-          Environment.directory = name
-          puts Environment.directory
+        @parser.on '-d', '--directory <path>', 'Specify watch directory' do |path|
+          Environment.directory = path
         end
       end
 
       def parse_error
-        @parser.on '-e', '--error <page>', 'Specify error page' do |page|
-          Environment.error = page
+        @parser.on '-e', '--error <path>', 'Specify error page' do |path|
+          Environment.error = path
         end
       end
 
@@ -56,9 +55,9 @@ module Sword
         end
       end
 
-      def parse_gem
-        @parser.on '--gem <name>', 'Add a gem to require' do |name|
-          open(Environment.local_gems, 'a') { |f| f.puts name }
+      def parse_add
+        @parser.on '-a', '--add <x,y>', Array, 'Add gems to require' do |gems|
+          open(Environment.local_gems, 'a') { |f| gems.each { |g| f.puts g } }
           exit
         end
       end
@@ -86,9 +85,9 @@ module Sword
         end
       end
 
-      def parse_nocd
-        @parser.on '--nocd', "Don't change directory" do
-          Environment.nocd = true
+      def parse_here
+        @parser.on '--here', "Don't change directory" do
+          Environment.here = true
         end
       end
 
@@ -101,7 +100,7 @@ module Sword
       end
 
       def parse_port
-        @parser.on '-p', '--port <number>', 'Change the port, 1111 by default' do |number|
+        @parser.on '-p', '--port <number>', Integer, 'Change the port, 1111 by default' do |number|
           Environment.port = number
         end
       end
@@ -120,8 +119,8 @@ module Sword
       end
 
       def parse_require
-        @parser.on '-r', '--require <gem>', 'Require the gem this time' do |g|
-          Environment.gems << g
+        @parser.on '-r', '--require <x,y>', Array, 'Require these gems this time' do |gems|
+          Environment.gems += gems
         end
       end
 
