@@ -1,6 +1,7 @@
 module Sword
   module Server
     require 'sword/server/templates'
+    require 'sword/server/sinatra'
     require 'sword/server/plugins'
     require 'sword/server/parsers'
     require 'sword/server/helpers'
