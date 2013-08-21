@@ -30,7 +30,8 @@ module Sword
       end
 
       def inject_html
-        get(/(.+?)\.(#{ HTML * '|' })/) do |route, _|
+        divided = HTML * '|'
+        get(/(.+?)\.(#{divided})/) do |route, _|
           call env.merge 'PATH_INFO' => route
         end
       end
