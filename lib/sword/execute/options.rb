@@ -37,7 +37,7 @@ module Sword
         end
       end
 
-      def parse_dir
+      def parse_directory
         @parser.on '-d', '--directory <name>', 'Specify watch directory' do |name|
           Environment.directory = name
           puts Environment.directory
@@ -113,6 +113,12 @@ module Sword
         end
       end
 
+      def parse_plain
+        @parser.on '--plain', 'Skip heuristically loading gems' do
+          Environment.gem_lists = []
+        end
+      end
+
       def parse_require
         @parser.on '-r', '--require <gem>', 'Require the gem this time' do |g|
           Environment.gems << g
@@ -130,12 +136,6 @@ module Sword
       def parse_silent
         @parser.on '--silent', 'Try to turn off any messages' do
           Environment.silent = true
-        end
-      end
-
-      def parse_unload
-        @parser.on '-u', '--unload', 'Skip heuristically loading gems' do
-          Environment.gem_lists = []
         end
       end
 
