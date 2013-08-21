@@ -34,10 +34,8 @@ module Sword
       end
 
       def parse_lists
-        unless Environment.unload
-          require 'sword/execute/lists'
-          Lists.load
-        end
+        require 'sword/execute/lists'
+        Lists.load
       end
 
       def require_gems

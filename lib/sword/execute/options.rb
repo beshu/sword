@@ -135,7 +135,7 @@ module Sword
 
       def parse_unload
         @parser.on '-u', '--unload', 'Skip heuristically loading gems' do
-          Environment.unload = true
+          Environment.gem_lists = []
         end
       end
 
