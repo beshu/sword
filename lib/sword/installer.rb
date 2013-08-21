@@ -3,9 +3,10 @@ require 'rubygems'
 module Sword
   module Installer
     GEMS = %w[compass slim haml]
+    class SudoError < LoadError; end
 
     def self.install(sudo = false)
-      $sudo = sudo
+      @sudo = sudo
       GEMS.each do |name|
         begin
           require name
@@ -18,24 +19,13 @@ module Sword
 
     def self.install_gem(name)
       print "#{name}... "
-      begin
-        $sudo ? sudo_install_gem(name) : just_install_gem(name)
-      rescue
-        unless @sudo
-          $sudo = true
-          print 'Trying sudo... '
-          retry
-        end
-        raise
-      end
-    end
-
-    def self.sudo_install_gem(name)
-      system "sudo gem install #{name}"
-    end
-
-    def self.just_install_gem(name)
-      system "gem install #{name}"
+      query = system @sudo ? "sudo gem install #{name}" : "gem install #{name}"
+      raise SudoError unless query
+    rescue SudoError
+      raise if @sudo
+      print 'Trying sudo... '
+      @sudo = true
+      retry
     end
   end
 end

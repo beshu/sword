@@ -15,7 +15,7 @@ module Sword
             server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
             handler.run self, server_settings.merge(:Port => port, :Host => bind) do |server|
               unless handler_name =~ /cgi/i
-                $stderr.puts "== Sword #{Sword::VERSION} at your service " +
+                $stderr.puts "== Sword #{Sword::VERSION} at your service " /
                 "on #{port} for #{environment} with backup from #{handler_name}"
               end
               [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler_name) } }
