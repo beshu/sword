@@ -28,11 +28,11 @@ module Sword
 
       # Silents WEBrick server (platform-specific)
       # @return [Hash] hash with settings required to silent him
-      # def silent_webrick
-      #   return {} if @debug or not defined? WEBrick
-      #   null = WINDOWS ? 'NUL' : '/dev/null'
-      #   {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
-      # end
+      def silent_webrick
+        return {} if @debug or not defined? WEBrick
+        null = WINDOWS ? 'NUL' : '/dev/null'
+        {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
+      end
     end
   end
 end

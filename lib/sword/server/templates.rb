@@ -8,7 +8,7 @@ module Sword
       #   Format is as follows:
       #   string is both engine method and the only extension,
       #   hash is the key is an engine method and the value is an array of extensions
-      def inject_templates
+      def inject_template_variables_first
         Environment.templates.each do |engine, rules|
           instance_variable_set('@' << engine, rules)
         end

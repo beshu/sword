@@ -1,34 +1,48 @@
 module Sword
   module Server
     module Injector
-      SERVED_FIRST = %w[inject_index inject_favicon inject_templates]
-
       def inject
-        injections = methods.delete_if { |m| not m.to_s.start_with? 'inject_' }
-        SERVED_FIRST.each { |i| send i; injections - [i] }
-        injections.reverse.each { |i| send i }
+        send_injections(find_injections)
       end
 
-      def create_pidfile
-        open(Environment.pid, 'w') { |f| f.puts Process.pid }
+      def find_injections
+        methods.delete_if { |m| not m.to_s.start_with? 'inject_' }
       end
 
-      def load_settings
+      def send_injections(injections)
+        send_remaining_injections send_first_injections(injections)
+      end
+
+      def send_first_injections(injections)
+        debugln "Sending high-priority injections..."
+        remaining = injections.dup
+        injections.each do |i|
+          if i.to_s.end_with? '_first'
+            debugln '  ' << i.to_s
+            send i
+            remaining.delete(i)
+          end
+        end
+        remaining
+      end
+
+      def send_remaining_injections(injections)
+        debugln "Sending remaining injections..."
+        injections.each do |i|
+          debugln '  ' << i.to_s
+          send i
+        end
+      end
+
+      def inject_pidfile
+        open(Environment.pid, 'w') { |f| f.puts Process.pid } if Environment.pid
+      end
+
+      def inject_environment
         set :show_exceptions, false
         set :port, Environment.port
         set :views, Environment.directory # Structure-agnostic
         set :public_folder, settings.views
-
-        helpers { include Helpers }
-        include Templates
-
-        extend Plugins
-        extend Templates
-        extend Routes
-        extend Parsers
-
-        inject
-        plugins
       end
     end
   end

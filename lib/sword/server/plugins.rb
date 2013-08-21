@@ -1,12 +1,7 @@
 module Sword
   module Server
     module Plugins
-      def plugins
-        plugins = methods.delete_if { |m| not m.to_s.start_with?('plugin_') }
-        plugins.each { |plugin| send plugin }
-      end
-
-      def plugin_compass
+      def inject_compass
         return {} unless defined? Compass
         configure do
           Compass.configuration do |c|
