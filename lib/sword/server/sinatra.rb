@@ -19,11 +19,11 @@ module Sword
           yield server if block_given?
         end
       rescue Errno::EADDRINUSE, RuntimeError
-        $stderr.puts ">> Port is in use. Another instance of Sword running?"
+        puts ">> Port is in use. Another instance of Sword running?"
       end
       
       def quit!(server, handler_name)
-        $stderr.puts "\n" unless handler_name =~/cgi/i
+        puts "\n" unless handler_name =~/cgi/i
         # Use Thin's hard #stop! if available, otherwise just #stop.
         server.respond_to?(:stop!) ? server.stop! : server.stop
       end

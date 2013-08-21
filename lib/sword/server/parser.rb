@@ -1,8 +1,6 @@
 module Sword
   module Server
-    module Parsers
-      HTML = %w[html htm xhtml xht dhtml dhtm]
-
+    module Parser
       # Handles a request and tries to find a template engine capable to parse the template
       # 
       # @param list [String] instance variable containing engine list from `/engines` folder
@@ -21,33 +19,14 @@ module Sword
         end
       end
 
-      def inject_styles
-        parse @styles, '/*.css'
-      end
-
-      def inject_scripts
-        parse @scripts, '/*.js'
-      end
-
-      def inject_html
-        divided = HTML * '|'
-        get(/(.+?)\.(#{divided})/) do |route, _|
-          call env.merge 'PATH_INFO' => route
-        end
-      end
-
-      def inject_templates
-        parse @templates, '/*/?' do |app, page, env|
-          files = HTML.dup.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
-          file = files.find { |f| File.exists? f }
-          if file
-            app.erb File.read(file)
-          else
-            raise Application::NotFoundError, "Can't find #{page}, " \
-            "tried every engine & HTML extension in #{Environment.directory}" if page =~ /\/index$/
-            call env.merge({'PATH_INFO' => "/#{page}/index"})
+      def find_engine(template, name, options)
+        template.each do |engine, extensions|
+          extensions.each do |extension|
+            return send(engine, name.to_sym, options) \
+              if File.exists? "#{Environment.directory}/#{name}.#{extension}"
           end
         end
+        false
       end
     end
   end

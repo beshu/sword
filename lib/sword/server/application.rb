@@ -10,12 +10,11 @@ module Sword
       extend Injector
 
       helpers { include Helpers }
-      include Templates
+      include Parser
 
       extend Plugins
-      extend Templates
       extend Routes
-      extend Parsers
+      extend Templates
 
       inject
     end
