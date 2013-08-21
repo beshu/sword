@@ -43,7 +43,7 @@ module Sword
 
       def require_gems
         require 'sword/execute/gems'
-        Gems.require_default
+        Gems.require_list(Environment.gems)
       end
 
       def change_directory

@@ -3,12 +3,8 @@ module Sword
     module Gems
       extend Debugger
 
-      def self.require_default
-        require_list(Environment.gems)
-      end
-
       def self.require_list(list)
-        debugln "Including gems:"
+        debugln 'Including gems:'
         list.each do |element|
           case element
           when Hash
@@ -23,7 +19,7 @@ module Sword
       end
 
       def self.pretty_debug(string)
-        debug '   ' << string + '.' * (20 - string.length)
+        debugup string + '.' * (20 - string.length)
       end
 
       def self.require_any(options)
