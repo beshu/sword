@@ -19,6 +19,9 @@ def latest_gem
   compiled_gems.sort.last
 end
 
+desc 'Release a version'
+task :release => [:build, :push, :install, :cleanup, :purify]
+
 desc 'Build a gem'
 task :build do
   sh 'gem build sword.gemspec'
@@ -32,7 +35,7 @@ end
 desc 'Install the latest version'
 task :install do
   command = 'gem install '
-  command << latest_gem ? latest_gem : 'sword'
+  command << (compiled_gems.empty? ? 'sword' : latest_gem)
   sh command
 end
 
