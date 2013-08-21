@@ -9,6 +9,10 @@ module Sword
         injections.reverse.each { |i| send i }
       end
 
+      def make_pid
+        open(Environment.pid, 'w') { |f| f.puts Process.pid }
+      end
+
       def load_settings
         set :show_exceptions, false
         set :port, Environment.port

@@ -13,7 +13,6 @@ module Sword
       install_therubyracer unless WINDOWS
       install_from(SOURCE) unless defined? JRUBY_VERSION
       print "\n"
-
     end
 
     def self.install_from(list)

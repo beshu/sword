@@ -14,10 +14,15 @@ module Sword
         parse_arguments
         parse_lists
         require_gems
+        daemonize if Environment.daemonize
         change_directory unless Environment.here
         open if Environment.open
         run_server
         delete_pid if Environment.pid
+      end
+
+      def daemonize
+        Process.daemon(true)
       end
 
       def open

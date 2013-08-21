@@ -18,15 +18,7 @@ module Sword
       def parse_daemonize
         if RUBY_VERSION >= '1.9.1'
           @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
-            Process.daemon
-          end
-        else
-          begin
-            require 'daemons'
-            @parser.on '--daemonize', 'Daemonize Sword using daemons gem' do
-              Daemons.daemonize
-            end
-          rescue LoadError
+            Environment.daemonize = true
           end
         end
       end
@@ -108,7 +100,6 @@ module Sword
       def parse_pid
         @parser.on '--pid <path>', 'Make PID file' do |path|
           Environment.pid = path
-          open(path, 'w') { |f| f.puts Process.ppid }
         end
       end
 

@@ -32,7 +32,7 @@ module Sword
             app.erb File.read(file)
           else
             raise Application::NotFoundError, "Can't find #{page}, " \
-            "tried every engine & HTML extension" if page =~ /\/index$/
+            "tried every engine & HTML extension in #{Environment.directory}" if page =~ /\/index$/
             call env.merge({'PATH_INFO' => "/#{page}/index"})
           end
         end

@@ -26,7 +26,7 @@ module Sword
           rescue Errno::EADDRINUSE, RuntimeError
             $stderr.puts "== Port is in use. Is Sword already running?"
           end
-
+          
           def quit!(server, handler_name)
             $stderr.puts "\n" unless handler_name =~/cgi/i
             # Use Thin's hard #stop! if available, otherwise just #stop.
@@ -65,6 +65,7 @@ module Sword
 
       extend Injector
       load_settings
+      make_pid if Environment.pid
     end
   end
 end
