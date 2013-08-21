@@ -1,3 +1,4 @@
+require 'rubygems' if RUBY_VERSION <= '1.8.7'
 require 'yaml'
 
 module Sword

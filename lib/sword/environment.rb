@@ -16,8 +16,11 @@ module Sword
   Environment.template_lists = Dir[Environment.library + '/templates/*.yml']
   Environment.gem_lists      = Dir[Environment.library + '/gems/*.yml']
 
-  Environment.settings   = Dir.home + '/.swordrc'
-  Environment.local_gems = Dir.home + '/.swordgems'
+  Environment.home = Dir.home if Dir.respond_to? :home
+  Environment.home ||= ENV['HOME']
+
+  Environment.settings   = Environment.home + '/.swordrc'
+  Environment.local_gems = Environment.home + '/.swordgems'
 
   def Environment.load(path)
     instance_eval File.read(path)

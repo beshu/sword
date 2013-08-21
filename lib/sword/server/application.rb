@@ -1,9 +1,4 @@
-begin
-  require 'sinatra/base'
-rescue LoadError
-  require 'rubygems'
-  require 'sinatra/base'
-end
+require 'sinatra/base'
 
 module Sword
   module Server

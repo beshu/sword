@@ -36,8 +36,9 @@ module Sword
 
       def parse_options
         setters = methods.delete_if { |m| not m.to_s.start_with? 'parse_' }
+        setters.sort!.map!(&:to_sym)
         setters.delete(:parse_options)
-        setters.sort.each { |m| send m }
+        setters.each { |m| send m }
       end
 
       include Options
