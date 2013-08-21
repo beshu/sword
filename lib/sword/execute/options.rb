@@ -10,7 +10,7 @@ module Sword
       # end
 
       def parse_add
-        @parser.on '-a', '--add <x,y>', Array, 'Add gems to require' do |gems|
+        @parser.on '-a', '--add <x,y>', Array, 'Permanently require the gems' do |gems|
           debuglnup "Adding #{gems.join(', ')} to your #{Environment.local_gems}"
           open(Environment.local_gems, 'a') { |f| gems.each { |g| f.puts g } }
           exit
@@ -35,8 +35,8 @@ module Sword
 
       def parse_debug
         @parser.on '--debug', "Show Sword's guts" do
-          debugln 'Parsing options:'
           Environment.debug = true
+          debugln 'Parsing options:'
         end
       end
 
@@ -78,7 +78,7 @@ module Sword
       end
 
       def parse_install
-        @parser.on '-i', '--install', 'Try to install must-have gems' do
+        @parser.on '-i', '--install', 'Install must-have gems using RubyGems' do
           debuglnup 'Installing all gems required by default by Sword and #exit'
           require 'sword/installer'
           Installer.install
@@ -92,6 +92,13 @@ module Sword
           Environment.here = true
         end
       end
+
+      # def parse_log
+      #   @parser.on '-l', '--log <path>', 'Redirect stderr into the file' do |path|
+      #     debuglnup "Logging into #{path}"
+      #     Environment.log = path
+      #   end
+      # end
 
       def parse_open
         if RUBY_PLATFORM.include? 'darwin'
@@ -117,21 +124,21 @@ module Sword
       end
 
       def parse_plain
-        @parser.on '--plain', 'Skip heuristically loading gems' do
+        @parser.on '--plain', 'Skip including gems from built-in list' do
           debuglnup 'Environment.gem_lists = []'
           Environment.gem_lists = []
         end
       end
 
       def parse_require
-        @parser.on '-r', '--require <x,y>', Array, 'Require these gems this time' do |gems|
+        @parser.on '-r', '--require <x,y>', Array, 'Require the gems this run' do |gems|
           debuglnup "#{gems.join(', ')} added to Environment.gems"
           Environment.gems += gems
         end
       end
 
       def parse_settings
-        @parser.on '-s', '--settings <path>', 'Load settings from file' do |path|
+        @parser.on '-s', '--settings <path>', 'Load settings from the file' do |path|
           debuglnup "Loading settings from #{path}..."
           Environment.settings = path
           settings = File.read(path)
@@ -141,7 +148,7 @@ module Sword
       end
 
       def parse_silent
-        @parser.on '--silent', 'Try to turn off any messages' do
+        @parser.on '--silent', 'Turn off any messages excluding exceptions' do
           debuglnup "Turn off any #puts or #print messages"
           Environment.silent = true
         end

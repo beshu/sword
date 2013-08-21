@@ -15,6 +15,7 @@ module Sword
         parse_lists
         require_gems
         daemonize if Environment.daemonize
+        #redirect_stderr if Environment.log
         change_directory unless Environment.here
         open if Environment.open
         run_server
