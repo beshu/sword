@@ -32,7 +32,7 @@ module Sword
 
       extend Injector
       load_settings
-      make_pid if Environment.pid
+      create_pidfile if Environment.pid
     end
   end
 end

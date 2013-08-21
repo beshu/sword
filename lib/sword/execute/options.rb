@@ -117,7 +117,6 @@ module Sword
 
       def parse_settings
         @parser.on '-s', '--settings <path>', 'Load settings from file' do |path|
-          require 'sword/settings'
           Environment.settings = path
           Environment.load(path)
         end

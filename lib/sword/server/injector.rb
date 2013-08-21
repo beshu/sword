@@ -9,7 +9,7 @@ module Sword
         injections.reverse.each { |i| send i }
       end
 
-      def make_pid
+      def create_pidfile
         open(Environment.pid, 'w') { |f| f.puts Process.pid }
       end
 
