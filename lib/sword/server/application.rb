@@ -51,9 +51,11 @@ module Sword
         # @yield '*' from the route pattern
         def parse(list, route, options = {}, &block)
           get route do |name|
+            layout = Dir[File.dirname(name) << '/layout.*'].first
+            options.merge!({:layout => layout ? layout.sub(/\.\w+$/, '').to_sym : false})
             engine = find_engine(list, name, options)
             return engine if engine
-            block_given? ? yield(self, name, env) : raise(NotFoundError)
+            return block_given? ? yield(self, name, env) : raise(NotFoundError)
           end
         end
 
