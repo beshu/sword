@@ -61,28 +61,15 @@ module Sword
 
         # Silents WEBrick server (platform-specific)
         # @return [Hash] hash with settings required to silent him
-        def silent_webrick
-          return {} if @debug or not defined? WEBrick
-          null = WINDOWS ? 'NUL' : '/dev/null'
-          {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
-        end
+        # def silent_webrick
+        #   return {} if @debug or not defined? WEBrick
+        #   null = WINDOWS ? 'NUL' : '/dev/null'
+        #   {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
+        # end
       end
 
-      set :show_exceptions, false
-      set :port, Environment.port
-      set :views, Environment.directory # Structure-agnostic
-      set :public_folder, settings.views
-      
-      helpers { include Helpers }
-      include Templates
-
-      extend Plugins
-      extend Templates
-      extend Routes
-      extend Parsers
-
-      plugins
-      inject
+      extend Injector
+      load_settings
     end
   end
 end
