@@ -1,11 +1,21 @@
 module Sword
   module Debugger
     def debug(*messages)
-      print(*messages) if Environment.debug
+      $stderr.print(*messages) if Environment.debug
+    end
+
+    def debugup(*messages)
+      messages.map! { |m| '   ' << m.to_s }
+      debug(*messages)
     end
 
     def debugln(*messages)
-      puts(*messages) if Environment.debug
+      $stderr.puts(*messages) if Environment.debug
+    end
+
+    def debuglnup(*messages)
+      messages.map! { |m| '   ' << m.to_s }
+      debugln(*messages)
     end
 
     def puts(*messages)
