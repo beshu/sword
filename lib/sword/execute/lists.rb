@@ -28,7 +28,7 @@ module Sword
 
       def self.load_gems
         lists  = Environment.gem_lists.dup
-        lists << Environment.local_gems
+        lists << Environment.local_gems if File.exists?(Environment.local_gems)
         lists.each do |list|
           load_gem_list(list)
         end
