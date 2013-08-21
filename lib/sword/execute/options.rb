@@ -92,6 +92,14 @@ module Sword
         end
       end
 
+      def parse_open
+        if RUBY_PLATFORM.include? 'darwin'
+          @parser.on '-o', '--open', 'Open in browser (OS X specific)' do
+            Environment.open = true
+          end
+        end
+      end
+
       def parse_port
         @parser.on '-p', '--port <number>', 'Change the port, 1111 by default' do |number|
           Environment.port = number

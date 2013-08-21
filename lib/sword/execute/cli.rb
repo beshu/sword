@@ -15,8 +15,18 @@ module Sword
         parse_lists
         require_gems
         change_directory
+        open
         run_server
         delete_pid
+      end
+
+      def open
+        if Environment.open
+          Thread.new do
+            sleep 0.75
+            system "open http://localhost:#{Environment.port}"
+          end
+        end
       end
 
       def parse_arguments
