@@ -3,7 +3,7 @@ require 'rubygems'
 module Sword
   module Installer
     GEMS = %w[compass slim haml]
-    JS = %w[coffee-script stylus]
+    SOURCE = %w[coffee-script stylus thin]
 
     class SudoError < LoadError; end
 
@@ -11,8 +11,9 @@ module Sword
       @sudo = sudo
       install_from GEMS
       install_therubyracer unless WINDOWS
-      install_from(JS) unless defined? JRUBY_VERSION
+      install_from(SOURCE) unless defined? JRUBY_VERSION
       print "\n"
+
     end
 
     def self.install_from(list)
