@@ -23,7 +23,6 @@ module Sword
         list = parse(file).map do |element|
           String === element ? {element => [element]} : element
         end
-
         Environment.templates[File.basename(file, '.yml')] = list.inject(&:merge)
       end
 

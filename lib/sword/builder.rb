@@ -1,4 +1,3 @@
 module Sword
-  class Builder
-  end
+  class Builder; end
 end

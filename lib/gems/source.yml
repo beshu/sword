@@ -1,5 +1,7 @@
 - less
 - markdown:
   - redcarpet
-  - rdiscount
-  - bluecloth
+# - rdiscount
+# - bluecloth
+# - kramdown
+# - maruku

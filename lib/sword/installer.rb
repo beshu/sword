@@ -3,7 +3,7 @@ require 'rubygems'
 module Sword
   module Installer
     GEMS = %w[compass slim haml]
-    SOURCE = %w[coffee-script stylus thin]
+    SOURCE = %w[redcarpet coffee-script stylus thin]
 
     class SudoError < LoadError; end
 

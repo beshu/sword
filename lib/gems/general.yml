@@ -1,17 +1,14 @@
 # Format is as follows:
-# :: String    Just try to load gem
-# :: Hash      Only one gem is loaded for one key
+#   [String]    Just try to load gem
+#   [Hash]      Only one gem is loaded for one key
 
 # Skipped to improve perfomance
-# (you can add back via sword --gem <name>):
+# (you can add back via sword --add <x,y>):
 # - liquid
 # - rdoc
 # - redcloth
 # - markaby
 # - creole
-# - markdown:
-#   - kramdown
-#   - maruku
 
 - slim
 - haml
