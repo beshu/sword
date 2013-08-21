@@ -6,18 +6,20 @@ module Sword
         handler         = detect_rack_handler
         handler_name    = handler.name.gsub(/.*::/, '')
         server_settings = settings.respond_to?(:server_settings) ? settings.server_settings : {}
-        handler.run self, server_settings.merge(:Port => port, :Host => bind) do |server|
+        handler.run self, server_settings.merge(:Port => port, :Host => bind).merge(silent_webrick) do |server|
           unless handler_name =~ /cgi/i
-            $stderr.puts "== Sword #{Sword::VERSION} at your service " +
-            "on #{port} for #{environment} with backup from #{handler_name}"
+            puts ">> Sword #{Sword::VERSION}/#{handler_name} at your service!\n" \
+            ">> http://localhost:#{Environment.port} to see your project.\n" \
+            ">> CTRL+C to stop."
           end
           [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler_name) } }
           server.threaded = settings.threaded if server.respond_to? :threaded=
+          server.silent = true if server.respond_to? :silent=
           set :running, true
           yield server if block_given?
         end
       rescue Errno::EADDRINUSE, RuntimeError
-        $stderr.puts "== Port is in use. Is Sword already running?"
+        $stderr.puts ">> Port is in use. Another instance of Sword running?"
       end
       
       def quit!(server, handler_name)
