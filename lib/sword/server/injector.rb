@@ -18,7 +18,7 @@ module Sword
         remaining = injections.dup
         injections.each do |i|
           if i.to_s.end_with? '_first'
-            debugln '  ' << i.to_s
+            debugln '   ' << i.to_s
             send i
             remaining.delete(i)
           end
@@ -29,7 +29,7 @@ module Sword
       def send_remaining_injections(injections)
         debugln "Sending remaining injections..."
         injections.each do |i|
-          debugln '  ' << i.to_s
+          debugln '   ' << i.to_s
           send i
         end
       end

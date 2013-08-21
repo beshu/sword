@@ -2,27 +2,30 @@ require 'ostruct'
 
 module Sword
   Environment = OpenStruct.new
-  
-  Environment.directory = '.'
-  Environment.templates = {}
-  Environment.gems = []
-  Environment.port = 1111
+  E = Environment
 
-  Environment.library = File.dirname File.dirname(__FILE__)
-  Environment.compass = Environment.library + '/compass.rb'
-  Environment.favicon = Environment.library + '/favicon.ico'
-  Environment.error   = Environment.library + '/error.erb'
+  def Environment.configure(&block)
+    yield self
+  end
 
-  Environment.template_lists = Dir[Environment.library + '/templates/*.yml']
-  Environment.gem_lists      = Dir[Environment.library + '/gems/*.yml']
+  Environment.configure do |e|
+    e.directory = '.'
+    e.templates = {}
+    e.gems = []
+    e.port = 1111
 
-  Environment.home = Dir.home if Dir.respond_to? :home
-  Environment.home ||= ENV['HOME']
+    e.library = File.dirname File.dirname(__FILE__)
+    e.compass = e.library + '/compass.rb'
+    e.favicon = e.library + '/favicon.ico'
+    e.error   = e.library + '/error.erb'
 
-  Environment.settings   = Environment.home + '/.swordrc'
-  Environment.local_gems = Environment.home + '/.swordgems'
+    e.template_lists = Dir["#{e.library}/templates/*.yml"]
+    e.gem_lists      = Dir["#{e.library}/gems/*.yml"]
 
-  def Environment.load(path)
-    instance_eval File.read(path)
+    e.home = Dir.home if Dir.respond_to? :home
+    e.home ||= ENV['HOME']
+
+    e.local_gems = e.home + '/.swordgems'
+    e.settings   = e.home + '/.swordrc'
   end
 end
