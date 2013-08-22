@@ -3,17 +3,14 @@
 source 'https://rubygems.org'
 gemspec
 
-gem 'rack-test', :group => :test
-gem 'rspec'
-gem 'rake'
+gem 'rack-test', '~> 0.6', :group => :test
+gem 'rake', '~> 10.1'
+gem 'rspec', '~> 2.14'
 
-# gem 'slim'
-# gem 'haml'
-# gem 'compass'
-# gem 'coffee-script'
-# gem 'stylus'
-# gem 'less'
-# gem 'kramdown'
-# gem 'RedCloth'
-# gem 'markaby'
-# gem 'creole'
+gem 'compass'
+gem 'slim'
+gem 'haml'
+
+# JS environment required
+gem 'coffee-script'
+gem 'stylus'

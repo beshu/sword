@@ -16,5 +16,5 @@ Gem::Specification.new do |s|
   s.summary = 'Designer’s best friend forever'
   s.description = 'Develop using SASS/Compass, Slim, LESS &c. and convert it to static'
 
-  s.add_dependency 'sinatra', '>= 1.3.2'
+  s.add_dependency 'sinatra', '~> 1'
 end
