@@ -15,8 +15,6 @@ module Sword
       extend Plugins
       extend Routes
       extend Templates
-
-      inject
     end
   end
 end
