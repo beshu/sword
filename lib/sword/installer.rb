@@ -11,7 +11,7 @@ module Sword
       @sudo = sudo
       install_from GEMS
       install_therubyracer unless WINDOWS
-      install_from(SOURCE) unless defined? JRUBY_VERSION
+      install_from SOURCE  unless defined? JRUBY_VERSION
       print "\n"
     end
 
