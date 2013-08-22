@@ -5,7 +5,9 @@ Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 [![Dependency Status](https://gemnasium.com/somu/sword.png)](https://gemnasium.com/somu/sword)
 [![Code readability](https://codeclimate.com/github/somu/sword.png)](https://codeclimate.com/github/somu/sword)
 
-[**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)
+[**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)  
+[**Rubygems**](http://rubygems.org/gems/sword)
+
 
 Sword is a designer’s best friend. It allows to use any kind of preprocessor (SASS/Compass, CoffeeScript, Stylus, &c.) out-of-the box, to emulate real paths and to compile all your result into .zip-archive to upload your result to a server.
 
