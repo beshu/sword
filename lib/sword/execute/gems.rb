@@ -19,7 +19,7 @@ module Sword
       end
 
       def self.pretty_debug(string)
-        debugup string + '.' * (20 - string.length)
+        sdebug string + '.' * (20 - string.length)
       end
 
       def self.require_any(options)

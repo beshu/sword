@@ -34,10 +34,10 @@ module Sword
 
       def inject_templates
         parse @templates, '/*/?' do |app, page, env|
-          files = HTML.dup.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
+          files = HTML.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
           file = files.find { |f| File.exists? f }
           if file
-            debuglnup "Sending #{file} page..."
+            sdebugln "Sending #{file} page..."
             app.content_type 'text/html'
             app.send_file File.read(file)
           else

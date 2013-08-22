@@ -15,10 +15,10 @@ module Sword
           get route do |name|
             debugln "Parsing #{env['PATH_INFO']}..."
             if engine = find_engine(list, name, options)
-              debuglnup "Template compiled!"
+              sdebugln "Template compiled!"
               return engine
             end
-            debuglnup "Engine has not been found, yielding or raising now..."
+            sdebugln "Engine has not been found, yielding or raising now..."
             return block_given? ? yield(self, name, env) : raise(Application::NotFoundError, \
             "Can't find #{name} using #{route} mask; no rescue block given")
           end
@@ -27,7 +27,7 @@ module Sword
 
       def find_layout(name, extension)
         layout = nil
-        debuglnup "Searching for a layout for #{name}.#{extension}..."
+        sdebugln "Searching for a layout for #{name}.#{extension}..."
         until layout || name == Environment.directory
           name = File.dirname(name)
           layout = find_layout_file(name, extension)
@@ -41,7 +41,7 @@ module Sword
 
       def find_layout_file(directory, extension)
         layout = "#{directory}/layout.#{extension}"
-        debuglnup '   ' << layout
+        sdebugln '   ' << layout
         Dir[layout].first
       end
 
@@ -50,7 +50,7 @@ module Sword
           extensions.each do |extension|
             if File.exists? "#{Environment.directory}/#{name}.#{extension}"
               options.merge! find_layout(name, extension) if Environment.layouts.include?(extension)
-              debuglnup "Sending #{name} to #{engine}..."
+              sdebugln "Sending #{name} to #{engine}..."
               return send(engine, name.to_sym, options)
             end 
           end

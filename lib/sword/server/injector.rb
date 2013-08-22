@@ -18,7 +18,7 @@ module Sword
         remaining = injections.dup
         injections.each do |i|
           if i.to_s.end_with? '_first'
-            debuglnup i
+            sdebugln i
             send i
             remaining.delete(i)
           end
@@ -29,7 +29,7 @@ module Sword
       def send_remaining_injections(injections)
         debugln "Sending remaining injections..."
         injections.each do |i|
-          debuglnup i
+          sdebugln i
           send i
         end
       end
@@ -39,7 +39,7 @@ module Sword
       end
 
       def inject_environment
-        set :show_exceptions, false
+        set :show_exceptions, false unless Environment.exceptions
         set :port, Environment.port
         set :views, Environment.directory # Structure-agnostic
         set :public_folder, settings.views

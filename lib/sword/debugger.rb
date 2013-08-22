@@ -4,7 +4,7 @@ module Sword
       $stderr.print(*messages) if Environment.debug
     end
 
-    def debugup(*messages)
+    def sdebug(*messages)
       messages.map! { |m| '   ' << m.to_s }
       debug(*messages)
     end
@@ -13,7 +13,7 @@ module Sword
       $stderr.puts(*messages) if Environment.debug
     end
 
-    def debuglnup(*messages)
+    def sdebugln(*messages)
       messages.map! { |m| '   ' << m.to_s }
       debugln(*messages)
     end
