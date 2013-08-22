@@ -36,9 +36,11 @@ module Sword
           files = HTML.dup.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
           file = files.find { |f| File.exists? f }
           if file
-            app.erb File.read(file)
+            debuglnup "Sending #{file} page..."
+            app.content_type 'text/html'
+            app.send_file File.read(file)
           else
-            raise Application::NotFoundError, "Can't find #{page}, " \
+            raise Application::NotFoundError, "Can't find #{page} page, " \
             "tried every engine & HTML extension in #{Environment.directory}" if page =~ /\/index$/
             call env.merge({'PATH_INFO' => "/#{page}/index"})
           end
