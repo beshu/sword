@@ -118,8 +118,8 @@ module Sword
       #   end
       # end
 
-      def parse_no_layout
-        @parser.on '--no-layout', 'Turn off layouts at all (pretty faster)' do
+      def parse_no_layouts
+        @parser.on '--no-layouts', 'Turn off layouts at all (pretty faster)' do
           Environment.layout_lists = []
         end
       end
