@@ -41,6 +41,7 @@ module Sword
       def inject_environment
         set :show_exceptions, false unless Environment.exceptions
         set :port, Environment.port
+        set :server, Environment.server
         set :views, Environment.directory # Structure-agnostic
         set :public_folder, settings.views
       end

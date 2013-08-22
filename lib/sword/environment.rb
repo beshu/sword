@@ -14,6 +14,7 @@ module Sword
     e.layouts = []
     e.gems = []
     e.port = 1111
+    e.server = 'thin'
 
     e.home = Dir.home if Dir.respond_to? :home
     e.home ||= ENV['HOME']

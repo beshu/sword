@@ -60,7 +60,7 @@ module Sword
       end
 
       def parse_error
-        @parser.on '-e', '--error <path>', 'Specify error page' do |path|
+        @parser.on '--error <path>', 'Specify error page' do |path|
           sdebugln "Point Sinatra errors at #{path}"
           Environment.error = path
         end
@@ -161,11 +161,11 @@ module Sword
         end
       end
 
-      # def parse_server
-      #   @parser.on '--server <name>', 'Specify server' do |name|
-      #     Environment.server = name
-      #   end
-      # end
+      def parse_server
+        @parser.on '--server <name>', 'Specify server' do |name|
+          Environment.server = name
+        end
+      end
 
       def parse_settings
         @parser.on '-s', '--settings <path>', 'Load settings from the file' do |path|
