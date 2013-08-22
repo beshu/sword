@@ -5,7 +5,7 @@ module Sword
     GEMS = %w[compass slim haml]
     SOURCE = %w[redcarpet coffee-script stylus thin]
 
-    class SudoError < LoadError; end
+    SudoError = Class.new(LoadError)
 
     def self.install(sudo = false)
       @sudo = sudo
