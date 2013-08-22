@@ -29,5 +29,4 @@ License
 
 Sword is under [MIT license](https://github.com/somu/sword/blob/master/license).
 
-<br/>
 [![Donate](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8PCQ52CFPFSKL)
