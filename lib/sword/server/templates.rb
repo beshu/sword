@@ -32,7 +32,7 @@ module Sword
         end
       end
 
-      def inject_templates
+      def inject_templates_last
         parse @templates, '/*/?' do |app, page, env|
           files = HTML.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
           file = files.find { |f| File.exists? f }

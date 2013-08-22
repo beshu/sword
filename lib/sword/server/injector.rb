@@ -10,24 +10,30 @@ module Sword
       end
 
       def send_injections(injections)
-        send_remaining_injections send_first_injections(injections)
+        send_last_injections send_general_injections send_first_injections(injections)
       end
 
       def send_first_injections(injections)
         debugln "Sending high-priority injections..."
         remaining = injections.dup
-        injections.each do |i|
-          if i.to_s.end_with? '_first'
-            sdebugln i
-            send i
-            remaining.delete(i)
-          end
-        end
-        remaining
+        injections.delete_if { |i| not i.to_s.end_with? '_first' }
+        send_list injections
+        remaining - injections
       end
 
-      def send_remaining_injections(injections)
-        debugln "Sending remaining injections..."
+      def send_general_injections(injections)
+        debugln "Sending general injections..."
+        last = injections.dup.delete_if { |i| not i.to_s.end_with? '_last' }
+        send_list (injections - last)
+        last
+      end
+
+      def send_last_injections(injections)
+        debugln "Sending low-priority injections..."
+        send_list(injections)
+      end
+
+      def send_list(injections)
         injections.each do |i|
           sdebugln i
           send i

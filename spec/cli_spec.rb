@@ -9,7 +9,7 @@ describe Sword::Execute::CLI do
 
   it 'prints the version and exits' do
     lambda do
-      Sword::Execute::Parser.new(['-v'], 20).parse
+      Sword::Execute::CLI.new(['-v']).run
     end.should raise_error SystemExit
     $stderr.string.should == "Sword #{Sword::VERSION}\n"
   end
