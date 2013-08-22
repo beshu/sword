@@ -27,6 +27,7 @@ module Sword
       def inject_html
         divided = HTML * '|'
         get(/(.+?)\.(#{divided})/) do |route, _|
+          debugln "Redirecting #{env['PATH_INFO']} to #{route}..."
           call env.merge 'PATH_INFO' => route
         end
       end
