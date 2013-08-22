@@ -1,15 +1,7 @@
-task :default => [:test]
+require 'rspec/core/rake_task'
 
-desc 'Run test suite'
-task :test do
-  require 'rubygems'
-  require 'rspec/autorun'
-  require 'rspec'
-  require 'rack/test'
-
-  require './lib/sword'
-  Dir['./test/*.rb'].each { |t| require t.chomp '.rb' }
-end
+RSpec::Core::RakeTask.new(:spec)
+task :default => :spec
 
 def compiled_gems
   Dir['./sword-*']
