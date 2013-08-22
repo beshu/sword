@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.files = Dir['lib/**/*']
   s.executables = 'sword'
 
-  s.add_runtime_dependency 'sinatra', '>= 1.3.2'
+  s.add_dependency('sinatra', '>= 1.3.2')
   s.required_ruby_version = '>= 1.8.7'
 
   s.license = 'MIT'
