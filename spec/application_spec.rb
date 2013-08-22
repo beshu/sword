@@ -5,6 +5,7 @@ require 'rack/test'
 require 'erb'
 
 describe Sword::Server::Application do
+  E = Sword::E
   Sword::Environment.configure do |e|
     e.directory = './spec/example'
     e.templates = {'templates' => {'erb' => ['erb']}}
@@ -21,26 +22,26 @@ describe Sword::Server::Application do
   it 'should get /index.html and send it back' do
     get '/index.html'
     last_response.should be_ok
-    last_response.body.should == File.read('spec/example/index.html')
+    last_response.body.should == File.read("#{E.directory}/index.html")
   end
 
   it 'should prefer templates over pure HTML' do
     get '/favourite/page'
-    last_response.body.should == File.read('spec/example/favourite/page.erb')
+    last_response.body.should == File.read("#{E.directory}/favourite/page.erb")
   end
 
   it 'should synonymize / to /index' do
     get '/'
-    last_response.body.should == File.read('spec/example/index.html')
+    last_response.body.should == File.read("#{E.directory}/index.html")
   end
 
   it 'should synonymize /foo to /foo/index if /foo is not found' do
     get '/synonym'
-    last_response.body.should == File.read('spec/example/synonym/index.html')
+    last_response.body.should == File.read("#{E.directory}/synonym/index.html")
   end
 
   it 'should prefer page over /index synonym' do
     get '/no_synonym'
-    last_response.body.should == File.read('spec/example/no_synonym.html')
+    last_response.body.should == File.read("#{E.directory}/no_synonym.html")
   end
 end
