@@ -40,6 +40,10 @@ describe Sword::Server::Application do
     check '/favourite/page', 'favourite/page.erb'
   end
 
+  it 'should prefer HTML if you use HTML extension' do
+    check '/favourite/page.html', 'favourite/page.html'
+  end
+
   it 'should synonymize / to /index' do
     check '/', 'index.html'
   end
