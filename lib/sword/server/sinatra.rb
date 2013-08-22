@@ -14,7 +14,7 @@ module Sword
           end
           [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler_name) } }
           server.threaded = settings.threaded if server.respond_to? :threaded=
-          server.silent = true if server.respond_to? :silent= and not Environment.debug
+          server.silent = true if server.respond_to? :silent= and not Environment.aloud
           set :running, true
           yield server if block_given?
         end
@@ -31,7 +31,7 @@ module Sword
       # Silents WEBrick server (platform-specific)
       # @return [Hash] hash with settings required to silent him
       def silent_webrick
-        return {} if Environment.debug or not defined? WEBrick
+        return {} if not defined? WEBrick or Environment.aloud
         null = WINDOWS ? 'NUL' : '/dev/null'
         {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
       end

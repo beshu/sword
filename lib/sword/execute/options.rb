@@ -17,6 +17,12 @@ module Sword
         end
       end
 
+      def parse_aloud
+        @parser.on '--aloud', "Show server's guts" do
+          Environment.aloud = true
+        end
+      end
+
       def parse_compress
         @parser.on '-c', '--compress', 'Compress assets' do 
           debuglnup 'Compress assets'
@@ -142,6 +148,12 @@ module Sword
           Environment.gems += gems
         end
       end
+
+      # def parse_server
+      #   @parser.on '--server <name>', 'Specify server' do |name|
+      #     Environment.server = name
+      #   end
+      # end
 
       def parse_settings
         @parser.on '-s', '--settings <path>', 'Load settings from the file' do |path|
