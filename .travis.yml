@@ -11,3 +11,7 @@ rvm:
 - jruby-20mode
 - jruby-head
 - ruby-head
+
+allow_failures:
+- jruby-head
+- ruby-head
