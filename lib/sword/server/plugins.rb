@@ -1,6 +1,14 @@
 module Sword
   module Server
     module Plugins
+      def inject_slim
+        configure do
+          unless Environment.compress
+            set :slim, :pretty => true
+          end
+        end
+      end
+
       def inject_compass
         return {} unless defined? Compass
         configure do
