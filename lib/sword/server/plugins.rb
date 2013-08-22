@@ -3,9 +3,7 @@ module Sword
     module Plugins
       def inject_slim
         configure do
-          unless Environment.compress
-            set :slim, :pretty => true
-          end
+          set :slim, :pretty => true unless Environment.compress
         end
       end
 
