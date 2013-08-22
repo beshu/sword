@@ -39,7 +39,7 @@ module Sword
           if file
             sdebugln "Sending #{file} page..."
             app.content_type 'text/html'
-            app.send_file File.read(file)
+            app.erb File.read(file)
           else
             raise Application::NotFoundError, "Can't find #{page} page, " \
             "tried every engine & HTML extension in #{Environment.directory}" if page =~ /\/index$/
