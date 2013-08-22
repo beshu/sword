@@ -95,6 +95,12 @@ module Sword
         end
       end
 
+      def parse_host
+        @parser.on '--host <address>', 'Specify host (default is localhost)' do |address|
+          Environment.host = address
+        end
+      end
+
       def parse_install
         @parser.on '-i', '--install', 'Install must-have gems using RubyGems' do
           sdebugln 'Installing all gems required by default by Sword and #exit'
@@ -118,6 +124,12 @@ module Sword
       #   end
       # end
 
+      def parse_mutex
+        @parser.on '--mutex', 'Turn on the mutex lock' do
+          Environment.mutex = true
+        end
+      end
+
       def parse_no_layouts
         @parser.on '--no-layouts', 'Turn off layouts at all (pretty faster)' do
           Environment.layout_lists = []
@@ -127,7 +139,7 @@ module Sword
       def parse_open
         if RUBY_PLATFORM.include? 'darwin'
           @parser.on '-o', '--open', 'Open in browser (OS X specific)' do
-            sdebugln "Open localhost:#{Environment.port} in the browser"
+            sdebugln "Open #{Environment.bind ? Environment.bind : 'localhost'}:#{Environment.port} in the browser"
             Environment.open = true
           end
         end

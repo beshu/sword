@@ -9,7 +9,7 @@ module Sword
         handler.run self, server_settings.merge(:Port => port, :Host => bind).merge(silent_webrick) do |server|
           unless handler_name =~ /cgi/i
             puts ">> Sword #{Sword::VERSION}/#{handler_name} at your service!\n" \
-            ">> http://localhost:#{Environment.port} to see your project.\n" \
+            ">> http://#{bind}:#{port} to see your project.\n" \
             ">> CTRL+C to stop."
           end
           [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler_name) } }
