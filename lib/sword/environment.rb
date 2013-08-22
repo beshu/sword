@@ -11,6 +11,7 @@ module Sword
   Environment.configure do |e|
     e.directory = '.'
     e.templates = {}
+    e.layouts = []
     e.gems = []
     e.port = 1111
 
@@ -24,6 +25,7 @@ module Sword
     e.favicon = "#{e.library}/favicon.ico"
     e.error = "#{e.library}/error.erb"
 
+    e.layout_lists = ["#{e.library}/templates/templates.yml"]
     e.template_lists = Dir["#{e.library}/templates/*.yml"]
     e.gem_lists = Dir["#{e.library}/gems/*.yml"]
   end

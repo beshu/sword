@@ -100,6 +100,12 @@ module Sword
       #   end
       # end
 
+      def parse_no_layout
+        @parser.on '--no-layout', 'Turn off layouts at all (pretty faster)' do
+          Environment.layout_lists = []
+        end
+      end
+
       def parse_open
         if RUBY_PLATFORM.include? 'darwin'
           @parser.on '-o', '--open', 'Open in browser (OS X specific)' do

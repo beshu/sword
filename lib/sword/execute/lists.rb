@@ -7,6 +7,7 @@ module Sword
       def self.load
         load_templates
         load_gems
+        load_layouts
       end
 
       def self.parse(file)
@@ -19,11 +20,14 @@ module Sword
         end
       end
 
-      def self.load_template_list(file)
-        list = parse(file).map do |element|
+      def self.parse_template_list(file)
+        parse(file).map do |element|
           String === element ? {element => [element]} : element
-        end
-        Environment.templates[File.basename(file, '.yml')] = list.inject(&:merge)
+        end.inject(&:merge)
+      end
+
+      def self.load_template_list(file)
+        Environment.templates[File.basename(file, '.yml')] = parse_template_list(file)
       end
 
       def self.load_gems
@@ -38,6 +42,12 @@ module Sword
         list = parse(file)
         return false unless list
         Environment.gems += list
+      end
+
+      def self.load_layouts
+        Environment.layout_lists.each do |list|
+          Environment.layouts += parse_template_list(list).values.flatten
+        end
       end
     end
   end

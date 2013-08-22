@@ -13,35 +13,44 @@ module Sword
         # @yield '*' from the route pattern
         def parse(list, route, options = {}, &block)
           get route do |name|
-            options.merge! find_layout(name) unless route =~ /\/.+\..+$/
-            engine = find_engine(list, name, options)
-            return engine if engine
+            debugln "Parsing #{env['PATH_INFO']}..."
+            if engine = find_engine(list, name, options)
+              debuglnup "Engine found and parsed!"
+              return engine
+            end
+            debuglnup "Engine has not been found, yielding or raising now..."
             return block_given? ? yield(self, name, env) : raise(Application::NotFoundError, \
             "Can't find #{name} using #{route} mask; no rescue block given")
           end
         end
       end
 
-      def find_layout(name)
-        debugln "Searching for a layout for #{name}..."
-        layout = find_layout_file name
+      def find_layout(name, extension)
+        debuglnup "Searching for a layout for #{name}.#{extension}..."
+        layout = find_layout_file(name, extension)
         until layout || name == Environment.directory
           name = File.dirname(name)
-          layout = find_layout_file name
-          debuglnup name
+          layout = find_layout_file(name, extension)
+          debuglnup '   ' << name
         end
-        {:layout => layout ? layout.sub(/\.\w+$/, '').to_sym : false}
+        {:layout => layout ? find_layout_symbol(layout) : false}
       end
 
-      def find_layout_file(directory)
-        Dir["#{directory}/layout.*"].first
+      def find_layout_symbol(layout)
+        layout.sub(/\.\w+$/, '').to_sym
+      end
+
+      def find_layout_file(directory, extension)
+        Dir["#{directory}/layout.#{extension}"].first
       end
 
       def find_engine(template, name, options)
         template.each do |engine, extensions|
           extensions.each do |extension|
-            return send(engine, name.to_sym, options) \
-              if File.exists? "#{Environment.directory}/#{name}.#{extension}"
+            if File.exists? "#{Environment.directory}/#{name}.#{extension}"
+              options.merge! find_layout(name, extension) if Environment.layouts.include?(extension)
+              return send(engine, name.to_sym, options)
+            end 
           end
         end
         false
