@@ -39,7 +39,8 @@ gem install sword
 ```
 
 Running Windows? I’ve got your back. [**Here’s your executable**](https://github.com/somu/sword/blob/master/sword.exe?raw=true)
-with all necessary gems built-in.  No Ruby required.
+with all necessary gems built-in.  
+No Ruby required.
 
 Now you start it. If you are using the executable, just throw it into the project directory and you're ready to rock.  
 If you are using it as a gem:
