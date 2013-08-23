@@ -8,25 +8,37 @@ Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 [**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)  
 [**Rubygems**](http://rubygems.org/gems/sword)
 
-Sword is a designer’s best friend. It allows to use any kind of preprocessor (Sass/Compass, CoffeeScript, Stylus, &c.)
-out-of-the box, to emulate real paths and to compile all your result into .zip-archive to upload your result to a server.
+**Sword** is a designer’s best friend.
+
+It works as follows: you put, say, `index.slim`, `main.sass` and `script.coffee` into your project folder,
+run Sword in it, it tells you to open `localhost:1111` in your browser, you do it, and you see your
+website all working.
+
+Technically, it is a Sinatra server application with a configurable environment,
+very wise routing mechanisms and a lot of metaprogramming stuff inside.
+
+Sword is designed to be used in local static website development, when you want to use different preprocessors like Sass, but
+you are way to lazy to compile them all manually. And you do not need to: really not comfortable.
+
+Still, Sword can be used as a smart but slow semi-production server. You can easily deploy it on your own server using
+`--daemonize`, `--pid <path>`, `--compress` and `--cache` flags. Those were added to run Sword on the server.
+
+**Sword** uses [semantic versioning](http://semver.org) starting with version 1.6.0.
 
 Get started
 -----------
 
-**Sword** is avaliable as a gem:
+**Sword** is avaliable as a gem, working with all popular Ruby versions (JRuby, Rubinius, Ruby 1.8...2.0):
 
 ```sh
 gem install sword
 ```
 
-Working with all popular Ruby versions (JRuby, Rubinius, Ruby 1.8..2.0).
-
-Running Windows? I’ve got your back. Here’s your [**.exe version**](https://github.com/somu/sword/blob/master/sword.exe?raw=true)
+Running Windows? I’ve got your back. [**Here’s your executable**](https://github.com/somu/sword/blob/master/sword.exe?raw=true)
 with all necessary gems built-in.  No Ruby required.
 
-Now you turn it on. If you are using compiled version, just throw the executable into the directory and you're ready to rock.  
-If you are using it as gem:
+Now you start it. If you are using the executable, just throw it into the project directory and you're ready to rock.  
+If you are using it as a gem:
 
 ```sh
 cd directory/you/wanna/watch
@@ -39,13 +51,14 @@ And it works. One-liner:
 sword -d directory/you/wanna/watch
 ```
 
-And it tells you something like:
+So. It tells you something like:
 
     >> Sword 1.6.0/Thin at your service!
     >> http://localhost:1111 to see your project.
     >> CTRL+C to stop.
 
-Still, you need to install all basic gems used for compiling templates. Do it using Sword `--install` flag:
+Now you need to install all basic gems used for compiling templates, if you haven't got any.  
+Do it using the `--install` flag:
 
 ```sh
 sword --install
@@ -84,10 +97,3 @@ Sword has got a lot of different options:
         --silent              Turn off any messages excluding exceptions
     -v, --version             Print Sword's version
 
-[![Donate](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8PCQ52CFPFSKL)
-
-<iframe style="border: 0; margin: 0; padding: 0;"
-        src="https://www.gittip.com/somu/widget.html"
-        width="48pt" height="22pt"></iframe>
-
-Yandex.Money: 410011380966315
