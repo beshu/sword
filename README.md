@@ -11,11 +11,15 @@ Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 **Sword** is a designer’s best friend.
 
 It works as follows: you put, say, `index.slim`, `main.sass` and `script.coffee` into your project folder,
-run Sword in it, it tells you to open `localhost:1111` in your browser, you do it, and you see your
+run Sword in it, it tells you to open `localhost:1111` in your browser, you do so, and you see your
 website all working.
 
 Technically, it is a Sinatra server application with a configurable environment,
 very wise routing mechanisms and a lot of metaprogramming stuff inside.
+
+When you make `GET /page` query to Sword application, it searches for files named `path` in the project
+root with an extension linked to some templating engine in `templates`. When it finds, it compiles it
+and gives you back (if you're interested in how Sword works, run it with `--debug` flag).
 
 Sword is designed to be used in local static website development, when you want to use different preprocessors like Sass, but
 you are way to lazy to compile them all manually. And you do not need to: really not comfortable.
@@ -41,15 +45,11 @@ Now you start it. If you are using the executable, just throw it into the projec
 If you are using it as a gem:
 
 ```sh
-cd directory/you/wanna/watch
-sword
-```
-
-And it works. One-liner:
-
-```sh
 sword -d directory/you/wanna/watch
 ```
+
+You can also `cd` to this directory first, and then run `sword`, it is okay (`.` is default directory).  
+If you are on OS X, consider using `-o` flag: it automatically opens `localhost:1111` in your browser of choice.
 
 So. It tells you something like:
 
@@ -57,7 +57,7 @@ So. It tells you something like:
     >> http://localhost:1111 to see your project.
     >> CTRL+C to stop.
 
-Now you need to install all basic gems used for compiling templates, if you haven't got any.  
+Now you need to stop it and install all basic gems used for compiling templates, if you haven't got any.  
 Do it using the `--install` flag:
 
 ```sh
