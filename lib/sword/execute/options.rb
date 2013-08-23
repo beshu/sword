@@ -191,6 +191,24 @@ module Sword
         end
       end
 
+      def parse_scripts
+        @parser.on '--scripts <x,y>', Array, 'List script engines you want to use' do |engines|
+          Environment.filter_scripts = engines
+        end
+      end
+
+      def parse_styles
+        @parser.on '--styles <x,y>', Array, 'List style engines you want to use' do |engines|
+          Environment.filter_styles = engines
+        end
+      end
+
+      def parse_templates
+        @parser.on '--templates <x,y>', Array, 'List template engines you want to use' do |engines|
+          Environment.filter_templates = engines
+        end
+      end
+
       def parse_silent
         @parser.on '--silent', 'Turn off any messages excluding exceptions' do
           sdebugln "Turn off any #puts or #print messages"

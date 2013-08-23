@@ -8,6 +8,31 @@ module Sword
         load_templates
         load_gems
         load_layouts
+        filter        
+      end
+
+      def self.filter
+        filter_scripts   if Environment.filter_scripts
+        filter_styles    if Environment.filter_styles
+        filter_templates if Environment.filter_templates
+      end
+
+      def self.filter_scripts
+        Environment.templates['scripts'].delete_if do |k,_|
+          not Environment.filter_scripts.include? k
+        end
+      end
+
+      def self.filter_styles
+        Environment.templates['styles'].delete_if do |k,_|
+          not Environment.filter_styles.include? k
+        end
+      end
+
+      def self.filter_templates
+        Environment.templates['templates'].delete_if do |k,_|
+          not Environment.filter_templates.include? k
+        end
       end
 
       def self.parse(file)
@@ -33,9 +58,7 @@ module Sword
       def self.load_gems
         lists  = Environment.gem_lists.dup
         lists << Environment.local_gems if File.exists?(Environment.local_gems)
-        lists.each do |list|
-          load_gem_list(list)
-        end
+        lists.each { |list| load_gem_list(list) }
       end
 
       def self.load_gem_list(file)
