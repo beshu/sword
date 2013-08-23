@@ -8,31 +8,6 @@ module Sword
         load_templates
         load_gems
         load_layouts
-        filter        
-      end
-
-      def self.filter
-        filter_scripts   if Environment.filter_scripts
-        filter_styles    if Environment.filter_styles
-        filter_templates if Environment.filter_templates
-      end
-
-      def self.filter_scripts
-        Environment.templates['scripts'].delete_if do |k,_|
-          not Environment.filter_scripts.include? k
-        end
-      end
-
-      def self.filter_styles
-        Environment.templates['styles'].delete_if do |k,_|
-          not Environment.filter_styles.include? k
-        end
-      end
-
-      def self.filter_templates
-        Environment.templates['templates'].delete_if do |k,_|
-          not Environment.filter_templates.include? k
-        end
       end
 
       def self.parse(file)
