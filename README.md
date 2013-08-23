@@ -84,7 +84,10 @@ Sword has got a lot of different options:
         --silent              Turn off any messages excluding exceptions
     -v, --version             Print Sword's version
 
-
 [![Donate](https://www.paypalobjects.com/en_GB/i/btn/btn_donate_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=8PCQ52CFPFSKL)
+
+<iframe style="border: 0; margin: 0; padding: 0;"
+        src="https://www.gittip.com/somu/widget.html"
+        width="48pt" height="22pt"></iframe>
 
 Yandex.Money: 410011380966315
