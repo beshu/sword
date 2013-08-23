@@ -3,16 +3,12 @@ require 'optparse'
 module Sword
   module Execute
     class Parser
-      def initialize(arguments, width, &block)
+      def initialize(arguments, width)
         @arguments = arguments
         @parser = OptionParser.new do |parser|
           @parser = parser
           parser.summary_width = width
-          arguments.nil? ? get_options : parse_options
-          if block_given?
-            parser.separator 'Plugin options:'
-            yield parser
-          end
+          arguments.nil? ? get_options : include_options
         end
       end
 
@@ -34,11 +30,9 @@ module Sword
         $stdin.gets.split
       end
 
-      def parse_options
+      def include_options
         setters = methods.delete_if { |m| not m.to_s.start_with? 'parse_' }
-        setters.sort!.map!(&:to_sym)
-        setters.delete(:parse_options)
-        setters.each { |m| send m }
+        setters.sort.map(&:to_sym).each { |m| send m }
       end
 
       include Options
