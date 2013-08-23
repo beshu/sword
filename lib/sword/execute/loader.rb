@@ -1,6 +1,6 @@
 module Sword
   module Execute
-    class GemLoader
+    class Loader
       include Debugger
 
       def initialize(list = Environment.gems)
