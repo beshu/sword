@@ -14,17 +14,13 @@ Sword is a designer’s best friend. It allows to use any kind of preprocessor (
 Get started
 -----------
 
-### UNIX
-
 **Sword** is avaliable as a gem:
 ```sh
 gem install sword
 ```
 
-### Windows
-
-Running Windows? I’ve got your back. Here’s your [**.exe version**](https://github.com/somu/sword/blob/master/sword.exe?raw=true) with all necessary gems built-in.  
-No Ruby required.
+Running Windows? I’ve got your back. Here’s your [**.exe version**](https://github.com/somu/sword/blob/master/sword.exe?raw=true)
+with all necessary gems built-in.  No Ruby required.
 
 License
 -------
