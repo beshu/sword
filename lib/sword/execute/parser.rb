@@ -8,7 +8,7 @@ module Sword
         @parser = OptionParser.new do |parser|
           @parser = parser
           parser.summary_width = width
-          arguments.nil? ? get_options : parse_options
+          arguments ? parse_options : get_options
           if block_given?
             parser.separator 'Plugin options:'
             yield parser
