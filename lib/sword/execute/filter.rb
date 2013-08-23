@@ -12,7 +12,7 @@ module Sword
       def method_missing(list, *args)
         list = list.to_s
         method = "filter_#{list}".to_sym
-        env = Environment[method]
+        env = Environment.send method
 
         return unless env and Environment.templates[list]
         Environment.templates[list].delete_if do |k,_|

@@ -1,6 +1,10 @@
 module Sword
   module Execute
     module Steps
+      def require_rubygems
+        require 'rubygems' unless System::NEW
+      end
+
       def parse_arguments
         @parser.parse
       end

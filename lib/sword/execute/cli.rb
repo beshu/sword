@@ -13,6 +13,7 @@ module Sword
       include Steps
 
       def run
+        require_rubygems
         parse_arguments
         load_templates
         filter_templates
