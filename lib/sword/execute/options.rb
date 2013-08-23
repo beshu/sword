@@ -102,11 +102,13 @@ module Sword
       end
 
       def parse_install
-        @parser.on '-i', '--install', 'Install must-have gems using RubyGems' do
-          sdebugln 'Installing all gems required by default by Sword and #exit'
-          require 'sword/installer'
-          Installer.install
-          exit
+        unless WINDOWS
+          @parser.on '-i', '--install', 'Install must-have gems using RubyGems' do
+            sdebugln 'Installing all gems required by default by Sword and #exit'
+            require 'sword/installer'
+            Installer.install
+            exit
+          end
         end
       end
 
