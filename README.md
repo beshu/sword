@@ -50,7 +50,7 @@ sword -d directory/you/wanna/watch
 ```
 
 You can also `cd` to this directory first, and then run `sword`, it is okay (`.` is default directory).  
-If you are on OS X, consider using `-o` flag: it automatically opens `localhost:1111` in your browser of choice.
+If you are on OS X, consider using `-o` flag: it automatically opens `localhost:1111` in your browser.
 
 So. It tells you something like:
 
