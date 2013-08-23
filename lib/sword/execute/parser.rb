@@ -8,7 +8,7 @@ module Sword
         @parser = OptionParser.new do |parser|
           @parser = parser
           parser.summary_width = width
-          parse_options
+          arguments.nil? ? get_options : parse_options
           if block_given?
             parser.separator 'Plugin options:'
             yield parser
@@ -27,10 +27,10 @@ module Sword
       # 
       # @param parser [OptionParser] optparse object
       # @return [Array] options received from STDIN
-      def get_options(parser)
+      def get_options
         [:INT, :TERM].each { |s| trap(s) { abort "\n" } }
-        parser.banner = 'Options (press ENTER if none):'
-        print parser, "\n"
+        @parser.banner = 'Options (press ENTER if none):'
+        print @parser, "\n> "
         $stdin.gets.split
       end
 
