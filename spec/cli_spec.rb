@@ -1,6 +1,5 @@
-$:.unshift File.dirname(__FILE__) + '/../lib'
+require File.expand_path('../helper', __FILE__)
 require 'sword/execute/cli'
-require 'stringio'
 
 describe Sword::Execute::CLI do
   before :each do

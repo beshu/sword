@@ -1,4 +1,4 @@
-$:.unshift File.dirname(__FILE__) + '/../lib'
+require File.expand_path('../helper', __FILE__)
 require 'sword'
 require 'sword/server'
 require 'rack/test'
