@@ -32,7 +32,7 @@ module Sword
       # @return [Hash] hash with settings required to silent him
       def silent_webrick
         return {} if not defined? WEBrick or Environment.aloud
-        null = WINDOWS ? 'NUL' : '/dev/null'
+        null = System::WINDOWS ? 'NUL' : '/dev/null'
         {:AccessLog => [], :Logger => WEBrick::Log::new(null, 7)}
       end
     end

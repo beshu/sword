@@ -37,7 +37,7 @@ module Sword
       end
 
       def parse_daemonize
-        if RUBY_VERSION >= '1.9.1'
+        if System::NEW
           @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
             sdebugln 'Run as UNIX daemon'
             Environment.daemonize = true
@@ -102,7 +102,7 @@ module Sword
       end
 
       def parse_install
-        unless WINDOWS
+        unless System::OCRA
           @parser.on '-i', '--install', 'Install must-have gems using RubyGems' do
             sdebugln 'Installing all gems required by default by Sword and #exit'
             require 'sword/installer'
@@ -139,7 +139,7 @@ module Sword
       end
 
       def parse_open
-        if RUBY_PLATFORM.include? 'darwin'
+        if System::OSX
           @parser.on '-o', '--open', 'Open in browser (OS X specific)' do
             sdebugln "Open #{Environment.bind ? Environment.bind : 'localhost'}:#{Environment.port} in the browser"
             Environment.open = true
