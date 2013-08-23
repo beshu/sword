@@ -15,9 +15,7 @@ module Sword
         env = Environment.send method
 
         return unless env and Environment.templates[list]
-        Environment.templates[list].delete_if do |k,_|
-          not env.include? k
-        end
+        Environment.templates[list].delete_if { |k,_| not env.include? k }
       end
     end
   end
