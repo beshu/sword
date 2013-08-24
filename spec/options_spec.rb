@@ -40,7 +40,6 @@ describe Sword::Execute::Options do
   it { should have_option [:d, :directory] }
   it { should have_option [:h, :help]      }
   it { should have_option [:i, :install]   }
-  it { should have_option [:o, :open]      }
   it { should have_option [:p, :port]      }
   it { should have_option [:r, :require]   }
   it { should have_option [:s, :settings]  }
@@ -66,6 +65,6 @@ describe Sword::Execute::Options do
   it 'should have --open if running on OS X' do
     stub_const('::RUBY_PLATFORM', 'x86_64-darwin12.4.1')
     reload_system
-    should have_option :open
+    should have_option [:o, :open]
   end
 end
