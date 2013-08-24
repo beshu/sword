@@ -10,7 +10,6 @@ describe Sword::Execute::Parser do
   it { should have_option :help       }
   it { should have_option :cache      }
   it { should have_option :compress   }
-  it { should have_option :daemonize  }
   it { should have_option :debug      }
   it { should have_option :directory  }
   it { should have_option :error      }
@@ -22,7 +21,6 @@ describe Sword::Execute::Parser do
   it { should have_option :install    }
   it { should have_option :mutex      }
   it { should have_option :no_layouts }
-  it { should have_option :open       }
   it { should have_option :pid        }
   it { should have_option :plain      }
   it { should have_option :port       }
@@ -35,5 +33,21 @@ describe Sword::Execute::Parser do
   it { should have_option :templates  }
   it { should have_option :version    }
 
-  it { should_not have_option :destroy_humanity }
+  it 'should have --daemonize if running new Ruby' do
+    stub_const('::RUBY_VERSION', '1.9.1')
+    reload_system
+    should have_option :daemonize
+  end
+
+  it 'should not have --daemonize if running old Ruby' do
+    stub_const('::RUBY_VERSION', '1.8.7')
+    reload_system
+    should_not have_option :daemonize
+  end
+
+  it 'should not have --daemonize if running on OS X' do
+    stub_const('::RUBY_PLATFORM', 'x86_64-darwin12.4.1')
+    reload_system
+    should have_option :open
+  end
 end

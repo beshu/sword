@@ -1,3 +1,11 @@
+ORIGINAL_VERBOSITY = $VERBOSE
+
+def reload_system
+  $VERBOSE = nil
+  load 'sword/system.rb'
+  $VERBOSE = ORIGINAL_VERBOSITY
+end
+
 RSpec::Matchers.define :have_constant do |const|
   match do |owner|
     owner.const_defined?(const)
