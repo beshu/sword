@@ -19,6 +19,15 @@ def latest_gem
   compiled_gems.sort.last
 end
 
+desc 'Compile README'
+task :readme do
+  $:.unshift File.dirname(__FILE__) << '/lib'
+  require 'tilt'
+  require 'sword'
+  include Sword
+  open('README.md', 'w') { |f| f.puts Tilt.new('README.erb').render }
+end
+
 desc 'Release a version'
 task :release => [:build, :push, :install, :cleanup, :purify]
 
