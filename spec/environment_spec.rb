@@ -2,6 +2,8 @@ require 'support'
 require 'sword/environment'
 
 describe Sword::Environment do
+  it { should be_instance_of OpenStruct }
+  
   it { should respond_to :port }
   it 'should be preset to 1111' do
     Sword::E.port.should == 1111

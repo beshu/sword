@@ -1,3 +1,5 @@
+require 'pp'
+
 ORIGINAL_VERBOSITY = $VERBOSE
 
 def reload_system
@@ -13,14 +15,33 @@ RSpec::Matchers.define :have_constant do |const|
 end
 
 RSpec::Matchers.define :have_option do |option|
-  method = "parse_#{option}".to_sym
-  match { |parser| parser.respond_to? method }
+  def option_list(parser)
+    instance = parser.instance_eval { @parser }
+    instance.instance_eval { @stack.map(&:list).delete_if(&:empty?) }.first
+  end
 
   match do |parser|
-    option = option.to_s.gsub('_', '-').to_sym
-    instance = parser.instance_eval { @parser }
-    options = instance.instance_eval { @stack.map(&:list).delete_if(&:empty?) }
-    long = "--#{option}"
-    options.first.map(&:long).flatten.include? long
+    if option.instance_of? Array and option.length == 2
+      shorthand = option.first
+      option = option.last
+    else
+      shorthand = false
+    end
+
+    method = "parse_#{option}".to_sym
+    method_defined_correctly = parser.respond_to? method
+
+    list = option_list(parser)
+    long = '--' << option.to_s.gsub('_', '-')
+
+    if shorthand
+      short = '-' << shorthand.to_s
+      short_present = list.map(&:short).flatten.include? short
+    end
+
+    long_present = list.map(&:long).flatten.include? long
+    short_present ||= true
+
+    method_defined_correctly && long_present && short_present
   end
 end

@@ -2,9 +2,10 @@ require 'support'
 require 'sword/debugger'
 require 'sword/execute/parser'
 
-describe Sword::Execute::Parser do
-  subject { described_class.new([], 20) }
+describe Sword::Execute::Options do
+  subject { Sword::Execute::Parser.new([], 20) }
 
+  # Full options check
   it { should have_option :add        }
   it { should have_option :aloud      }
   it { should have_option :help       }
@@ -33,6 +34,23 @@ describe Sword::Execute::Parser do
   it { should have_option :templates  }
   it { should have_option :version    }
 
+  # Shorthands check
+  it { should have_option [:a, :add]       }
+  it { should have_option [:c, :compress]  }
+  it { should have_option [:d, :directory] }
+  it { should have_option [:h, :help]      }
+  it { should have_option [:i, :install]   }
+  it { should have_option [:o, :open]      }
+  it { should have_option [:p, :port]      }
+  it { should have_option [:r, :require]   }
+  it { should have_option [:s, :settings]  }
+  it { should have_option [:v, :version]   }
+
+  # Check if it is not random
+  it { should_not have_option :destroy_humanity }
+  it { should_not have_option [:h, :harass]     }
+  it { should_not have_option [:C, :cheat ]     }
+
   it 'should have --daemonize if running new Ruby' do
     stub_const('::RUBY_VERSION', '1.9.1')
     reload_system
@@ -45,7 +63,7 @@ describe Sword::Execute::Parser do
     should_not have_option :daemonize
   end
 
-  it 'should not have --daemonize if running on OS X' do
+  it 'should have --open if running on OS X' do
     stub_const('::RUBY_PLATFORM', 'x86_64-darwin12.4.1')
     reload_system
     should have_option :open
