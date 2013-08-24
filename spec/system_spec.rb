@@ -10,29 +10,23 @@ def reload
   $VERBOSE = ORIGINAL_VERBOSITY
 end
 
-RSpec::Matchers.define :have_constant do |const|
-  match do |owner|
-    owner.const_defined?(const)
-  end
-end
-
 describe Sword::System do
   let(:system) { described_class }
 
   it 'should have OCRA constant' do
-    system.should have_constant :OCRA
+    should have_constant :OCRA
   end
 
   it 'should have WINDOWS constant' do
-    system.should have_constant :WINDOWS
+    should have_constant :WINDOWS
   end
 
   it 'should have OSX constant' do
-    system.should have_constant :OSX
+    should have_constant :OSX
   end
 
   it 'should have OLD_RUBY constant' do
-    system.should have_constant :OLD_RUBY
+    should have_constant :OLD_RUBY
   end
 
   it 'should have OLD_RUBY true if running on Ruby 1.8.7' do
