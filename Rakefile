@@ -1,10 +1,18 @@
+desc 'Run specs'
 require 'rspec/core/rake_task'
-
 RSpec::Core::RakeTask.new(:spec)
+
+name = 'sword'
+
+desc 'Check documentation coverage'
+task :docs do 
+  ruby '-S yard stats'
+end
+
 task :default => :spec
 
 def compiled_gems
-  Dir['./sword-*']
+  Dir["./#{name}-*"]
 end
 
 def latest_gem
@@ -16,7 +24,7 @@ task :release => [:build, :push, :install, :cleanup, :purify]
 
 desc 'Build a gem'
 task :build do
-  sh 'gem build sword.gemspec'
+  sh "gem build #{name}.gemspec"
 end
 
 desc 'Push the latest version to Rubygems'
@@ -27,13 +35,13 @@ end
 desc 'Install the latest version'
 task :install do
   command = 'gem install '
-  command << (compiled_gems.empty? ? 'sword' : latest_gem)
+  command << (compiled_gems.empty? ? name : latest_gem)
   sh command
 end
 
 desc 'Deletes all old versions of the gem'
 task :cleanup do
-  sh 'gem cleanup sword'
+  sh "gem cleanup #{name}"
 end
 
 desc 'Deletes all compiled gems'
