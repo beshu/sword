@@ -7,7 +7,7 @@ Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 [![Code readability](https://codeclimate.com/github/somu/sword.png)](https://codeclimate.com/github/somu/sword)
 
 [**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)  
-[**Rubygems**](http://rubygems.org/gems/sword)
+[**Gem**](http://rubygems.org/gems/sword)
 
 **Sword** is a designer’s best friend.
 
@@ -94,8 +94,10 @@ Sword has got a lot of different options:
         --plain               Skip including gems from built-in list
     -p, --port <number>       Change the port, 1111 by default
     -r, --require <x,y>       Require the gems this run
+        --scripts <x,y>       List script engines you want to use
         --server <name>       Specify server
     -s, --settings <path>     Load settings from the file
         --silent              Turn off any messages excluding exceptions
+        --styles <x,y>        List style engines you want to use
+        --templates <x,y>     List template engines you want to use
     -v, --version             Print Sword's version
-
