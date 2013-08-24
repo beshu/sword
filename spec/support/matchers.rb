@@ -6,7 +6,13 @@ end
 
 RSpec::Matchers.define :have_option do |option|
   method = "parse_#{option}".to_sym
+  match { |parser| parser.respond_to? method }
+
   match do |parser|
-    parser.method_defined?(method)
+    option = option.to_s.gsub('_', '-').to_sym
+    instance = parser.instance_eval { @parser }
+    options = instance.instance_eval { @stack.map(&:list).delete_if(&:empty?) }
+    long = "--#{option}"
+    options.first.map(&:long).flatten.include? long
   end
 end

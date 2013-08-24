@@ -1,8 +1,10 @@
 require 'support'
 require 'sword/debugger'
-require 'sword/execute/options'
+require 'sword/execute/parser'
 
-describe Sword::Execute::Options do
+describe Sword::Execute::Parser do
+  subject { described_class.new([], 20) }
+
   it { should have_option :add        }
   it { should have_option :aloud      }
   it { should have_option :help       }
