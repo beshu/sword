@@ -37,7 +37,7 @@ module Sword
       end
 
       def parse_daemonize
-        if System::NEW
+        unless System::OLD_RUBY
           @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
             sdebugln 'Run as UNIX daemon'
             Environment.daemonize = true

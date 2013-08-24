@@ -2,7 +2,7 @@ module Sword
   module Execute
     module Steps
       def require_rubygems
-        require 'rubygems' unless System::NEW
+        require 'rubygems' if System::OLD_RUBY
       end
 
       def parse_arguments
