@@ -10,10 +10,12 @@ group :test do
   gem 'coveralls'
 end
 
-gem 'compass'
-gem 'slim'
-gem 'haml'
+group :production do
+  gem 'compass'
+  gem 'slim'
+  gem 'haml'
 
-# JS environment required
-gem 'coffee-script'
-gem 'stylus'
+  # JS environment required
+  gem 'coffee-script'
+  gem 'stylus'
+end
