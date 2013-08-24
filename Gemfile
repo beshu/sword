@@ -10,7 +10,7 @@ group :test do
   gem 'coveralls'
 end
 
-group :production do
+group :ocra do
   gem 'compass'
   gem 'slim'
   gem 'haml'
