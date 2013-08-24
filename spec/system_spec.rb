@@ -5,21 +5,10 @@ require 'securerandom'
 describe Sword::System do
   let(:system) { described_class }
 
-  it 'should have OCRA constant' do
-    should have_constant :OCRA
-  end
-
-  it 'should have WINDOWS constant' do
-    should have_constant :WINDOWS
-  end
-
-  it 'should have OSX constant' do
-    should have_constant :OSX
-  end
-
-  it 'should have OLD_RUBY constant' do
-    should have_constant :OLD_RUBY
-  end
+  it { should have_constant :OCRA     }
+  it { should have_constant :WINDOWS  }
+  it { should have_constant :OSX      }
+  it { should have_constant :OLD_RUBY }
 
   it 'should have OLD_RUBY true if running on Ruby 1.8.7' do
     stub_const('::RUBY_VERSION', '1.8.7')
