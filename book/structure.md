@@ -5,22 +5,17 @@ Sword {{sword}}
 {{coveralls}}  
 {{code_climate}}  
 
-**{{documentation}}**  
-**{{gem}}**
+{{documentation}}  
+{{rubygems}}
 
 {{introduction}}
+
+Get started
+-----------
+
+{{get_started}}
 
 Options
 -------
 
 {{options}}
-
-Engines
--------
-
-{{engines}}
-
-Gems
-----
-
-{{gems}}

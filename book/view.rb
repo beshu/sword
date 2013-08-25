@@ -1,12 +1,14 @@
+$:.unshift('./lib')
 require 'sword'
+require 'gutenberg/mixins'
 
 class View < Gutenberg::View
-  @repo = 'sword'
-  @user = 'somu'
+  def repo; 'sword' end
+  def user; 'somu'  end
 
   def sword
-    link image('Sword', "http://so.mu/icons/#{@repo}.png"),
-    "http://so.mu/blog/#{@repo}"
+    "[![Sword](http://so.mu/icons/#{repo}.png)]" \
+    "(http://so.mu/blog/#{repo})"
   end
 
   def dir_sample
@@ -18,7 +20,10 @@ class View < Gutenberg::View
     parser.instance_eval { @parser }.to_s.split("\n")[1..-1].join("\n")
   end
 
-  @version   = Sword::VERSION
-  @directory = Sword::E.directory
-  @port      = Sword::E.port
+  def version;   Sword::VERSION     end
+  def directory; Sword::E.directory end
+  def port;      Sword::E.port      end
+
+  def executable; "https://github.com/#{user}/#{repo}/blob/master/#{repo}.exe?raw=true" end
+  include Gutenberg::Mixins
 end

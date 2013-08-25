@@ -1,10 +1,9 @@
-Sword [![](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
+Sword [![Sword](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 =====
-[![Build status](https://secure.travis-ci.org/somu/sword.png?branch=master)](http://travis-ci.org/somu/sword)
-[![Version](https://badge.fury.io/rb/sword.png)](http://rubygems.org/gems/sword)
-[![Coverage status](https://coveralls.io/repos/somu/sword/badge.png)](https://coveralls.io/r/somu/sword)
-[![Dependency Status](https://gemnasium.com/somu/sword.png)](https://gemnasium.com/somu/sword)
-[![Code readability](https://codeclimate.com/github/somu/sword.png)](https://codeclimate.com/github/somu/sword)
+[![Build status](https://secure.travis-ci.org/somu/sword.png?branch=master)](http://travis-ci.org/somu/sword)  
+[![Gem version](https://badge.fury.io/rb/sword.png)](http://rubygems.org/gems/sword)  
+[![Coverage status](https://coveralls.io/repos/somu/sword/badge.png)](https://coveralls.io/r/somu/sword)  
+[![Code readability](https://codeclimate.com/github/somu/sword.png)](https://codeclimate.com/github/somu/sword)  
 
 [**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)  
 [**Gem**](http://rubygems.org/gems/sword)
@@ -18,7 +17,7 @@ website all working.
 Technically, it is a Sinatra server application with a configurable environment,
 very wise routing mechanisms and a lot of metaprogramming stuff inside.
 
-When you make `GET /page` query to Sword application, it searches for files named `path` in the project
+When you make `GET /page` query to Sword application, it searches for files named `page` in the project
 root with an extension linked to some templating engine in `templates`. When it finds, it compiles it
 and gives you back (if you're interested in how Sword works, run it with `--debug` flag).
 
@@ -33,25 +32,29 @@ Still, Sword can be used as a smart but slow semi-production server. You can eas
 Get started
 -----------
 
-**Sword** is avaliable as a gem, working with all popular Ruby versions (JRuby, Rubinius, Ruby 1.8...2.0):
+**Sword** is avaliable as a gem, working with all popular
+Ruby versions (JRuby, Rubinius, Ruby 1.8...2.0):
 
 ```sh
 gem install sword
 ```
 
-Running Windows? I’ve got your back. [**Here’s your executable**](https://github.com/somu/sword/blob/master/sword.exe?raw=true)
-with all necessary gems built-in.  
+Running Windows? I’ve got your back.
+[**Here’s your executable**](https://github.com/somu/sword/blob/master/sword.exe?raw=true) with all necessary gems built-in.  
 No Ruby required.
 
-Now you start it. If you are using the executable, just throw it into the project directory and you're ready to rock.  
+Now you start it. If you are using the executable, just throw it into
+the project directory and you're ready to rock.  
 If you are using it as a gem:
 
 ```sh
 sword -d directory/you/wanna/watch
 ```
 
-You can also `cd` to this directory first, and then run `sword`, it is okay (`.` is default directory).  
-If you are on OS X, consider using `-o` flag: it automatically opens `localhost:1111` in your browser.
+You can also `cd` to this directory first, and then run `sword`,
+it is okay (`.` is the default directory).  
+If you are on OS X, consider using `-o` flag:
+it automatically opens `localhost:1111` in your browser.
 
 So. It tells you something like:
 
@@ -59,19 +62,19 @@ So. It tells you something like:
     >> http://localhost:1111 to see your project.
     >> CTRL+C to stop.
 
-Now you need to stop it and install all basic gems used for compiling templates, if you haven't got any.  
+Now you need to stop it and install all basic gems used for
+compiling templates, if you haven't got any.  
 Do it using the `--install` flag:
 
 ```sh
 sword --install
 ```
 
-And it will install all possible dependencies automatically. You are ready to go.
+And it will install all possible dependencies automatically.
+You are ready to go.
 
 Options
 -------
-
-Sword has got a lot of different options:
 
     -a, --add <x,y>           Permanently require the gems
         --aloud               Show server's guts

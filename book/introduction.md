@@ -17,4 +17,4 @@ you are way to lazy to compile them all manually. And you do not need to: really
 Still, Sword can be used as a smart but slow semi-production server. You can easily deploy it on your own server using
 `--daemonize`, `--pid <path>`, `--compress` and `--cache` flags. Those were added to run Sword on the server.
 
-**{{name}}** uses [semantic versioning](http://semver.org) starting with version 1.6.0.
+**{{name}}** uses {{semver}} starting with version 1.6.0.
