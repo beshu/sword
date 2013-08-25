@@ -1,9 +1,9 @@
 Sword {{sword}}
 =====
-{{travis}}  
-{{gem_version}}  
-{{coveralls}}  
-{{code_climate}}  
+{{travis}}
+{{gem_version}}
+{{coveralls}}
+{{code_climate}}
 
 {{documentation}}  
 {{rubygems}}
