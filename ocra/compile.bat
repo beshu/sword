@@ -1,1 +1,2 @@
-ocra ../bin/sword ../lib/* --gemfile Gemfile --icon icon.ico --add-all-core --console --no-dep-run --gem-full -- ocra
+cd %~dp0
+ocra sword.rb ../lib/** --icon icon.ico --console -- ocra

@@ -1,6 +1,8 @@
 source 'https://rubygems.org'
 gemspec :path => '../'
 
+gem 'ocra'
+
 gem 'compass'
 gem 'slim'
 gem 'haml'
