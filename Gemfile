@@ -13,13 +13,3 @@ end
 group :development do
   gem 'gutenberg', '~> 0.0'
 end
-
-group :ocra do
-  gem 'compass'
-  gem 'slim'
-  gem 'haml'
-
-  # JS environment required
-  gem 'coffee-script'
-  gem 'stylus'
-end

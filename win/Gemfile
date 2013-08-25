@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+gemspec :path => '../'
+
+gem 'compass'
+gem 'slim'
+gem 'haml'
+
+# JS environment required
+gem 'coffee-script'
+gem 'stylus'
