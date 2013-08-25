@@ -10,6 +10,10 @@ group :test do
   gem 'coveralls'
 end
 
+group :development do
+  gem 'gutenberg', '~> 0.0'
+end
+
 group :ocra do
   gem 'compass'
   gem 'slim'
