@@ -14,6 +14,12 @@ RSpec::Matchers.define :have_constant do |const|
   end
 end
 
+RSpec::Matchers.define :have_method do |method|
+  match do |owner|
+    owner.method_defined?(method)
+  end
+end
+
 RSpec::Matchers.define :have_option do |option|
   def option_list(parser)
     instance = parser.instance_eval { @parser }
