@@ -1,6 +1,6 @@
 require 'sword'
 
-class View < Gutenberg
+class View < Gutenberg::View
   @repo = 'sword'
   @user = 'somu'
 

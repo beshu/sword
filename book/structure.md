@@ -5,6 +5,9 @@ Sword {{sword}}
 {{coveralls}}  
 {{code_climate}}  
 
+**{{documentation}}**  
+**{{gem}}**
+
 {{introduction}}
 
 Options
