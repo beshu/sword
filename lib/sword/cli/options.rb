@@ -1,6 +1,6 @@
 module Sword
   module Execute
-    module Options
+    class Options < Sword::Extendable
       include Debugger
 
       def parse_add
@@ -17,12 +17,6 @@ module Sword
         end
       end
 
-      def parse_cache
-        @parser.on '--cache', 'Turn on caching for some engines' do
-          Environment.cache = true
-        end
-      end
-
       def parse_compile
         @parser.on '--compile', 'Compile Sword queries' do
           Environment.compile = true
@@ -36,12 +30,6 @@ module Sword
         end
       end
 
-      def parse_console
-        @parser.on '--console', "Don't open browser" do
-          Environment.console = true
-        end
-      end
-
       def parse_daemonize
         unless System::OLD_RUBY
           @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
@@ -51,12 +39,12 @@ module Sword
         end
       end
 
-      def parse_debug
-        @parser.on '--debug', "Show Sword's guts" do
-          Environment.debug = true
-          debugln 'Parsing options:'
-        end
-      end
+      # def parse_debug
+      #   @parser.on '--debug', "Show Sword's guts" do
+      #     Environment.debug = true
+      #     debugln 'Parsing options:'
+      #   end
+      # end
 
       def parse_directory
         @parser.on '-d', '--directory <path>', 'Specify watch directory' do |path|
@@ -73,15 +61,8 @@ module Sword
       end
 
       def parse_exceptions
-        @parser.on '--exceptions', "Show Sinatra exception page" do
+        @parser.on '--exceptions', "Show defaul Sinatra exception page" do
           Environment.exceptions = true
-        end
-      end
-
-      def parse_favicon
-        @parser.on '--favicon <path>', 'Specify favicon' do |path|
-          sdebugln "Make #{path} the default favicon"
-          Environment.favicon = path
         end
       end
 

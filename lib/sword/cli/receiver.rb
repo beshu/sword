@@ -1,10 +1,10 @@
 require 'sword'
 
 module Sword
-  module Execute
+  module CLI
     # Sword command line interface
     # @api private
-    class CLI
+    class Receiver
       def initialize(arguments = ARGV, width = 25)
         @parser = Parser.new(arguments, 25)
         Environment.CLI = true
