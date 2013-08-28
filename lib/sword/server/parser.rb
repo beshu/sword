@@ -11,10 +11,10 @@ module Sword
         # @param &block [Block] block to run if nothing is found
         # @raise [NotFoundError] if no template engine was found and block was not specified
         # @yield '*' from the route pattern
-        def parse(list, route, options = {}, &block)
+        def parse(list, into, route, options = {}, &block)
           get route do |name|
             debugln "Parsing #{env['PATH_INFO']}..."
-            if engine = find_engine(list, name, options)
+            if engine = find_engine(list, into, name, options)
               sdebugln "Template compiled!"
               return engine
             end
@@ -45,14 +45,16 @@ module Sword
         Dir[layout].first
       end
 
-      def find_engine(template, name, options)
+      def find_engine(template, into, name, options)
         template.each do |engine, extensions|
           extensions.each do |extension|
             if File.exists? "#{Environment.directory}/#{name}.#{extension}"
               options.merge! find_layout(name, extension) if Environment.layouts.include?(extension)
               sdebugln "Sending #{name} to #{engine}..."
-              return send(engine, name.to_sym, options)
-            end 
+              compiled = send(engine, name.to_sym, options)
+              open("#{Environment.directory}/#{name}.#{into}", 'w') { |f| f.puts compiled } if Environment.compile
+              return compiled
+            end
           end
         end
         false

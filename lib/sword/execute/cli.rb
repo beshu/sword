@@ -21,7 +21,7 @@ module Sword
         daemonize if Environment.daemonize
         #redirect_stderr if Environment.log
         change_directory unless Environment.here
-        open_browser if Environment.open
+        open_browser unless Environment.console
         run_server
         delete_pid if Environment.pid
       end

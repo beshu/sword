@@ -2,12 +2,6 @@ module Sword
   module Execute
     module Options
       include Debugger
-      # def parse_build
-      #   @parser.on '-b', '--build', 'Build project into .zip' do
-      #     require 'sword/builder'
-      #     Builder.new
-      #   end
-      # end
 
       def parse_add
         @parser.on '-a', '--add <x,y>', Array, 'Permanently require the gems' do |gems|
@@ -29,10 +23,22 @@ module Sword
         end
       end
 
+      def parse_compile
+        @parser.on '--compile', 'Compile Sword queries' do
+          Environment.compile = true
+        end
+      end
+
       def parse_compress
         @parser.on '-c', '--compress', 'Compress assets' do 
           sdebugln 'Compress assets'
           Environment.compress = true
+        end
+      end
+
+      def parse_console
+        @parser.on '--console', "Don't open browser" do
+          Environment.console = true
         end
       end
 
@@ -78,14 +84,6 @@ module Sword
           Environment.favicon = path
         end
       end
-
-      # def parse_generate
-      #   @parser.on '-g', '--generate', 'Generate boilerplate' do
-      #     require 'sword/generator'
-      #     Generator.new
-      #     exit
-      #   end
-      # end
 
       def parse_help
         @parser.on '-h', '--help', 'Print this message' do
@@ -138,15 +136,6 @@ module Sword
         end
       end
 
-      def parse_open
-        if System::OSX
-          @parser.on '-o', '--open', 'Open in browser (OS X specific)' do
-            sdebugln "Open #{Environment.bind ? Environment.bind : 'localhost'}:#{Environment.port} in the browser"
-            Environment.open = true
-          end
-        end
-      end
-
       def parse_port
         @parser.on '-p', '--port <number>', Integer, 'Change the port, 1111 by default' do |number|
           sdebugln "Run server at 127.0.0.1:#{number}"
@@ -165,6 +154,17 @@ module Sword
         @parser.on '--plain', 'Skip including gems from built-in list' do
           sdebugln 'Environment.gem_lists = []'
           Environment.gem_lists = []
+        end
+      end
+
+      def parse_production
+        @parser.on '--production', 'Apply production settings' do
+          Environment.configure do |e|
+            e.console = true
+            e.daemonize = true unless System::OLD_RUBY
+            e.compress = true
+            e.cache = true
+          end
         end
       end
 

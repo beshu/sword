@@ -35,7 +35,13 @@ module Sword
       def open_browser
         Thread.new do
           sleep 0.75
-          system "open http://localhost:#{Environment.port}"
+          url = "http://localhost:#{Environment.port}"
+          if System::OSX
+            system "open #{url}"
+          else
+            require 'launchy'
+            Launchy.open(url) {}
+          end
         end
       end
 

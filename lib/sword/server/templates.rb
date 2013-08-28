@@ -17,11 +17,11 @@ module Sword
       end
 
       def inject_styles
-        parse @styles, '/*.css'
+        parse @styles, 'css', '/*.css'
       end
 
       def inject_scripts
-        parse @scripts, '/*.js'
+        parse @scripts, 'js', '/*.js'
       end
 
       def inject_html
@@ -33,7 +33,7 @@ module Sword
       end
 
       def inject_templates_last
-        parse @templates, '/*/?' do |app, page, env|
+        parse @templates, 'html', '/*/?' do |app, page, env|
           files = HTML.map { |extension| "#{Environment.directory}/#{page}.#{extension}" }
           file = files.find { |f| File.exists? f }
           if file

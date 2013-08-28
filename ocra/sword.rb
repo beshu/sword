@@ -1,6 +1,7 @@
 $:.unshift File.dirname(__FILE__) + '/../lib'
 
 # Temple compatability fix
+# (monkey patch)
 #
 module ActionView
   class Template
@@ -13,7 +14,7 @@ end
 module ActionPack
   module VERSION
     MAJOR = 3
-    MINOR = 50
+    MINOR = 3
   end
 end
 
