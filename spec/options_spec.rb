@@ -62,9 +62,9 @@ describe Sword::Execute::Options do
     should_not have_option :daemonize
   end
 
-  it 'should have --open if running on OS X' do
-    stub_const('::RUBY_PLATFORM', 'x86_64-darwin12.4.1')
-    reload_system
-    should have_option [:o, :open]
-  end
+  # it 'should have --open if running on OS X' do
+  #   stub_const('::RUBY_PLATFORM', 'x86_64-darwin12.4.1')
+  #   reload_system
+  #   should have_option [:o, :open]
+  # end
 end
