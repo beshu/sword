@@ -13,7 +13,7 @@ module Sword
       end
 
       def parse
-        arguments = @arguments || get_options
+        arguments = @arguments || []
         @parser.parse!(arguments)
       end
 
