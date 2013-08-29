@@ -1,24 +1,24 @@
 module Sword
-  module Execute
-    module Options
-      def parse_cache
-        @parser.on '--cache', 'Turn on caching for some engines' do
-          Environment.cache = true
-        end
+  module Plugins
+    class Deploy < Sword::CLI::Options
+      parse :cache, 'Turn on caching for some engines'
+      parse :console, "Don't open browser"
+      parse :daemonize, 'Daemonize Sword' unless System::OLD_RUBY
+      parse :here, "Don't change directory"
+
+      parse :server, 'Specify server' do |name|
+        Environment.server = name
       end
 
-      def parse_console
-        @parser.on '--console', "Don't open browser" do
-          Environment.console = true
+      desc 'Apply production settings'
+      parse :production do
+        Environment.configure do |e|
+          e.console = true
+          e.daemonize = true unless System::OLD_RUBY
+          e.compress = true
+          e.cache = true
         end
       end
-
-      def parse_server
-        @parser.on '--server <name>', 'Specify server' do |name|
-          Environment.server = name
-        end
-      end
-
     end
   end
 end

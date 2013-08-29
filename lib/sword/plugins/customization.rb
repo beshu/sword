@@ -1,13 +1,16 @@
 module Sword
   module Plugins
     class Customization < Sword::CLI::Options
-      @parser.separator 'Customization options:'
+      separator "Customization options:\n"
 
-      def parse_favicon
-        @parser.on '--favicon <path>', 'Specify favicon' do |path|
-          sdebugln "Make #{path} the default favicon"
-          Environment.favicon = path
-        end
+      desc 'Specify favicon'
+      parse :favicon do |path|
+        Environment.favicon = path
+      end
+
+      desc 'Specify error page'
+      parse :error do |path|
+        Environment.error = path
       end
     end
   end

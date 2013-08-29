@@ -1,8 +1,8 @@
 module Sword
-  module Server
-    def inject_slim
-      configure do
-        set :slim, :pretty => true unless Environment.compress
+  module Plugins
+    class Deploy < Sword::CLI::Options
+      inject :slim do
+        set :slim, :pretty => true unless E.compress
       end
     end
   end

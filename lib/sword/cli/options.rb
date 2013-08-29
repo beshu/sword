@@ -1,159 +1,69 @@
 module Sword
   module Execute
     class Options < Sword::Extendable
-      include Debugger
-
-      def parse_add
-        @parser.on '-a', '--add <x,y>', Array, 'Permanently require the gems' do |gems|
-          sdebugln "Adding #{gems.join(', ')} to your #{Environment.local_gems}"
-          open(Environment.local_gems, 'a') { |f| gems.each { |g| f.puts g } }
-          exit
-        end
+      desc 'Permanently require the gems'
+      parse :add, Array do |gems|
+        log.info "Adding #{gems.join(', ')} to your #{Environment.local_gems}"
+        open(Environment.local_gems, 'a') { |f| gems.each { |g| f.puts g } }
+        exit
       end
 
-      def parse_aloud
-        @parser.on '--aloud', "Show server's guts" do
-          Environment.aloud = true
-        end
+      desc "Show server's guts"
+      parse :a => :aloud
+
+      parse :compile, 'Compile Sword queries'
+      parse :compress, 'Compress assets'
+
+      desc 'Specify watch directory'
+      parse :d => :directory do |path|
+        env << path
       end
 
-      def parse_compile
-        @parser.on '--compile', 'Compile Sword queries' do
-          Environment.compile = true
-        end
+      parse :exceptions, 'Show default Sinatra exception page'
+      
+      desc 'Print this message'
+      parse :h => :help do
+        puts message
+        exit
       end
 
-      def parse_compress
-        @parser.on '-c', '--compress', 'Compress assets' do 
-          sdebugln 'Compress assets'
-          Environment.compress = true
-        end
+      desc 'Specify host (default is localhost)'
+      parse :host do |address|
+        env << address
       end
 
-      def parse_daemonize
-        unless System::OLD_RUBY
-          @parser.on '--daemonize', 'Daemonize Sword (good for servers)' do
-            sdebugln 'Run as UNIX daemon'
-            Environment.daemonize = true
-          end
-        end
+      desc 'Install must-have gems using RubyGems'
+      parse :i => :install do
+        require 'sword/installer'
+        Installer.install
+        exit
       end
 
-      # def parse_debug
-      #   @parser.on '--debug', "Show Sword's guts" do
-      #     Environment.debug = true
-      #     debugln 'Parsing options:'
-      #   end
-      # end
+      parse :mutex, 'Turn on the mutex lock'
 
-      def parse_directory
-        @parser.on '-d', '--directory <path>', 'Specify watch directory' do |path|
-          sdebugln "Watch #{path} directory"
-          Environment.directory = path
-        end
+      desc 'Turn off layouts at all (pretty faster)'
+      parse :no_layouts do
+        Environment.layout_lists = []
       end
 
-      def parse_error
-        @parser.on '--error <path>', 'Specify error page' do |path|
-          sdebugln "Point Sinatra errors at #{path}"
-          Environment.error = path
-        end
+      desc 'Change the port, 1111 by default'
+      parse :p => :port do |number|
+        Environment.port = number
       end
 
-      def parse_exceptions
-        @parser.on '--exceptions', "Show defaul Sinatra exception page" do
-          Environment.exceptions = true
-        end
+      desc 'Make PID file'
+      parse :pid do |path|
+        Environment.pid = path
       end
 
-      def parse_help
-        @parser.on '-h', '--help', 'Print this message' do
-          sdebugln 'Show help message and #exit'
-          puts @parser
-          exit
-        end
+      desc 'Skip including gems from built-in list'
+      parse :plain do
+        Environment.gem_lists = []
       end
 
-      def parse_host
-        @parser.on '--host <address>', 'Specify host (default is localhost)' do |address|
-          Environment.host = address
-        end
-      end
-
-      def parse_install
-        unless System::OCRA
-          @parser.on '-i', '--install', 'Install must-have gems using RubyGems' do
-            sdebugln 'Installing all gems required by default by Sword and #exit'
-            require 'sword/installer'
-            Installer.install
-            exit
-          end
-        end
-      end
-
-      def parse_here
-        @parser.on '--here', "Don't change directory" do
-          sdebugln "Skip changing directory to #{Environment.directory}"
-          Environment.here = true
-        end
-      end
-
-      # def parse_log
-      #   @parser.on '-l', '--log <path>', 'Redirect stderr into the file' do |path|
-      #     sdebugln "Logging into #{path}"
-      #     Environment.log = path
-      #   end
-      # end
-
-      def parse_mutex
-        @parser.on '--mutex', 'Turn on the mutex lock' do
-          Environment.mutex = true
-        end
-      end
-
-      def parse_no_layouts
-        @parser.on '--no-layouts', 'Turn off layouts at all (pretty faster)' do
-          Environment.layout_lists = []
-        end
-      end
-
-      def parse_port
-        @parser.on '-p', '--port <number>', Integer, 'Change the port, 1111 by default' do |number|
-          sdebugln "Run server at 127.0.0.1:#{number}"
-          Environment.port = number
-        end
-      end
-
-      def parse_pid
-        @parser.on '--pid <path>', 'Make PID file' do |path|
-          sdebugln "Put PID file at #{path}"
-          Environment.pid = path
-        end
-      end
-
-      def parse_plain
-        @parser.on '--plain', 'Skip including gems from built-in list' do
-          sdebugln 'Environment.gem_lists = []'
-          Environment.gem_lists = []
-        end
-      end
-
-      def parse_production
-        @parser.on '--production', 'Apply production settings' do
-          Environment.configure do |e|
-            e.console = true
-            e.daemonize = true unless System::OLD_RUBY
-            e.compress = true
-            e.cache = true
-          end
-        end
-      end
-
-      def parse_require
-        @parser.on '-r', '--require <x,y>', Array, 'Require the gems this run' do |gems|
-          sdebugln "#{gems.join(', ')} added to Environment.gems"
-          Environment.gems += gems
-        end
+      desc 'Require the gems this run'
+      parse :require, Array do |gems|
+        env += gems
       end
 
       def parse_server

@@ -1,41 +1,41 @@
 module Sword
   module Execute
-    module Steps
-      def require_rubygems
-        require 'rubygems' if System::OLD_RUBY
+    class Steps < Sword::Extendable
+      step :require_rubygems, System::OLD_RUBY do
+        require 'rubygems'
       end
 
-      def parse_arguments
+      step :parse_arguments do
         @parser.parse
       end
 
-      def load_templates
+      step :load_templates do
         require 'sword/execute/lists'
         Lists.load
       end
 
-      def filter_templates
+      step :filter_templates do
         require 'sword/execute/filter'
         Filter.filter
       end
 
-      def load_gems
+      step :load_gems do
         require 'sword/execute/loader'
         Loader.load
       end
 
-      def daemonize
+      step :daemonize, E.daemonize do
         Process.daemon(true)
       end
 
-      def change_directory
-        Dir.chdir Environment.directory
+      step :change_directory, !E.here do
+        Dir.chdir E.directory
       end
 
-      def open_browser
+      step :open_browser, !E.console do
         Thread.new do
           sleep 0.75
-          url = "http://localhost:#{Environment.port}"
+          url = "http://localhost:#{E.port}"
           if System::OSX
             system "open #{url}"
           else
@@ -45,14 +45,14 @@ module Sword
         end
       end
 
-      def run_server
+      step :run_server do
         require 'sword/server'
         Server::Application.inject
         Server::Application.run!
       end
 
-      def delete_pid
-        File.delete(Environment.pid)
+      step :delete_pid, E.pid do
+        File.delete(E.pid)
       end
     end
   end
