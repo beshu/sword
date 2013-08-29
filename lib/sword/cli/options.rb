@@ -8,18 +8,13 @@ module Sword
         exit
       end
 
-      desc "Show server's guts"
-      parse :a => :aloud
-
+      parse :aloud, "Show server's guts"
       parse :compile, 'Compile Sword queries'
-      parse :compress, 'Compress assets'
 
       desc 'Specify watch directory'
       parse :d => :directory do |path|
         env << path
       end
-
-      parse :exceptions, 'Show default Sinatra exception page'
       
       desc 'Print this message'
       parse :h => :help do
@@ -41,19 +36,14 @@ module Sword
 
       parse :mutex, 'Turn on the mutex lock'
 
-      desc 'Turn off layouts at all (pretty faster)'
-      parse :no_layouts do
-        Environment.layout_lists = []
-      end
-
       desc 'Change the port, 1111 by default'
       parse :p => :port do |number|
-        Environment.port = number
+        env = number
       end
 
       desc 'Make PID file'
       parse :pid do |path|
-        Environment.pid = path
+        env = path
       end
 
       desc 'Skip including gems from built-in list'
@@ -66,53 +56,22 @@ module Sword
         env += gems
       end
 
-      def parse_server
-        @parser.on '--server <name>', 'Specify server' do |name|
-          Environment.server = name
-        end
+      desc 'Specify server'
+      parse :server do |name|
+        env = name
       end
 
-      def parse_settings
-        @parser.on '-s', '--settings <path>', 'Load settings from the file' do |path|
-          sdebugln "Loading settings from #{path}..."
-          Environment.settings = path
-          settings = File.read(path)
-          sdebugln(*settings.lines)
-          instance_eval settings
-        end
+      desc 'Load settings from the file'
+      parse :settings do |path|
+        instance_eval File.read(path)
       end
 
-      def parse_scripts
-        @parser.on '--scripts <x,y>', Array, 'List script engines you want to use' do |engines|
-          Environment.filter_scripts = engines
-        end
-      end
+      parse :silent, 'Turn off any messages excluding exceptions'
 
-      def parse_styles
-        @parser.on '--styles <x,y>', Array, 'List style engines you want to use' do |engines|
-          Environment.filter_styles = engines
-        end
-      end
-
-      def parse_templates
-        @parser.on '--templates <x,y>', Array, 'List template engines you want to use' do |engines|
-          Environment.filter_templates = engines
-        end
-      end
-
-      def parse_silent
-        @parser.on '--silent', 'Turn off any messages excluding exceptions' do
-          sdebugln "Turn off any #puts or #print messages"
-          Environment.silent = true
-        end
-      end
-
-      def parse_version
-        @parser.on '-v', '--version', "Print Sword's version" do
-          sdebugln "Print Sword's version and #exit"
-          puts 'Sword ' << VERSION
-          exit
-        end
+      desc "Print Sword's version"
+      parse :version do
+        puts "Sword #{VERSION}"
+        exit
       end
     end
   end

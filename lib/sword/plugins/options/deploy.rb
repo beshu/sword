@@ -1,12 +1,19 @@
 module Sword
   module Plugins
-    class Deploy < Sword::CLI::Options
+    class Deploy < CLI::Options
       parse :cache, 'Turn on caching for some engines'
       parse :console, "Don't open browser"
       parse :daemonize, 'Daemonize Sword' unless System::OLD_RUBY
       parse :here, "Don't change directory"
+      parse :compress, 'Compress assets'
 
-      parse :server, 'Specify server' do |name|
+      desc 'Turn off layouts at all (pretty faster)'
+      parse :no_layouts do
+        Environment.layout_lists = []
+      end
+
+      desc 'Specify server'
+      parse :server do |name|
         Environment.server = name
       end
 

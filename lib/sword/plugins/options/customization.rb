@@ -1,7 +1,9 @@
 module Sword
   module Plugins
-    class Customization < Sword::CLI::Options
+    class Customization < CLI::Options
       separator "Customization options:\n"
+
+      parse :exceptions, 'Show default Sinatra exception page'
 
       desc 'Specify favicon'
       parse :favicon do |path|
