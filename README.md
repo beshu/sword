@@ -48,7 +48,7 @@ the project directory and you're ready to rock.
 If you are using it as a gem:
 
 ```sh
-sword -d your/project/directory
+sword -d directory/you/wanna/watch
 ```
 
 You can also `cd` to this directory first, and then run `sword`,
@@ -58,7 +58,7 @@ it automatically opens `localhost:1111` in your browser.
 
 So. It tells you something like:
 
-    >> Sword 1.6.0/Thin at your service!
+    >> Sword 1.7.0/Thin at your service!
     >> http://localhost:1111 to see your project.
     >> CTRL+C to stop.
 
@@ -79,7 +79,9 @@ Options
     -a, --add <x,y>           Permanently require the gems
         --aloud               Show server's guts
         --cache               Turn on caching for some engines
+        --compile             Compile Sword queries
     -c, --compress            Compress assets
+        --console             Don't open browser
         --daemonize           Daemonize Sword (good for servers)
         --debug               Show Sword's guts
     -d, --directory <path>    Specify watch directory
@@ -92,10 +94,10 @@ Options
     -i, --install             Install must-have gems using RubyGems
         --mutex               Turn on the mutex lock
         --no-layouts          Turn off layouts at all (pretty faster)
-    -o, --open                Open in browser (OS X specific)
         --pid <path>          Make PID file
         --plain               Skip including gems from built-in list
     -p, --port <number>       Change the port, 1111 by default
+        --production          Apply production settings
     -r, --require <x,y>       Require the gems this run
         --scripts <x,y>       List script engines you want to use
         --server <name>       Specify server

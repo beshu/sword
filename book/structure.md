@@ -3,7 +3,7 @@ Sword {{sword}}
 {{travis}}
 {{gem_version}}
 {{coveralls}}
-{{code_climate}}
+{{codeclimate}}
 
 {{documentation}}  
 {{rubygems}}

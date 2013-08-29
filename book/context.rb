@@ -1,8 +1,8 @@
-$:.unshift('./lib')
+$:.unshift './lib'
 require 'sword'
 require 'gutenberg/mixins'
 
-class View < Gutenberg::View
+Gutenberg.new do
   def repo; 'sword' end
   def user; 'somu'  end
 
