@@ -12,6 +12,7 @@ module Sword
       helpers { include Helpers }
       include Parser
       
+      extend Plugins
       extend Routes
       extend Templates
     end
