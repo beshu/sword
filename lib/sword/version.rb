@@ -1,3 +1,3 @@
 module Sword
-  VERSION  = '2.0.0'
+  VERSION  = '1.7.0'
 end
