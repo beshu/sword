@@ -4,6 +4,7 @@ Sword {{sword}}
 {{gem_version}}
 {{coveralls}}
 {{codeclimate}}
+{{gemnasium}}
 
 {{documentation}}  
 {{rubygems}}

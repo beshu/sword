@@ -4,6 +4,7 @@ Sword [![Sword](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 [![Gem version](https://badge.fury.io/rb/sword.png)](http://rubygems.org/gems/sword)
 [![Coverage status](https://coveralls.io/repos/somu/sword/badge.png)](https://coveralls.io/r/somu/sword)
 [![Code readability](https://codeclimate.com/github/somu/sword.png)](https://codeclimate.com/github/somu/sword)
+[![Dependency status](https://gemnasium.com/somu/sword.png)](https://gemnasium.com/somu/sword)
 
 [**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)  
 [**Gem**](http://rubygems.org/gems/sword)
@@ -48,7 +49,7 @@ the project directory and you're ready to rock.
 If you are using it as a gem:
 
 ```sh
-sword -d directory/you/wanna/watch
+sword -d your/project/directory
 ```
 
 You can also `cd` to this directory first, and then run `sword`,
