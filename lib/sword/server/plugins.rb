@@ -3,7 +3,17 @@ module Sword
     module Plugins
       def inject_slim
         configure do
-          set :slim, :pretty => true unless Environment.compress
+          unless Environment.compress
+            set :slim, :pretty => true
+          end
+        end
+      end
+
+      def inject_haml
+        configure do
+          if Environment.compress
+            set :haml, :remove_whitespace => true
+          end
         end
       end
 
