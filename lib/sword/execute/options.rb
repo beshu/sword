@@ -30,7 +30,7 @@ module Sword
       end
 
       def parse_compress
-        @parser.on '-c', '--compress', 'Compress assets' do 
+        @parser.on '-c', '--compress', 'Compress templates and assets' do 
           sdebugln 'Compress assets'
           Environment.compress = true
         end
