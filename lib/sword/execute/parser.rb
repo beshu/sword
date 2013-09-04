@@ -8,12 +8,12 @@ module Sword
         @parser = OptionParser.new do |parser|
           @parser = parser
           parser.summary_width = width
-          include_options unless arguments.nil?
+          include_options
         end
       end
 
       def parse
-        arguments = @arguments || []
+        arguments = @arguments || get_options 
         @parser.parse!(arguments)
       end
 
