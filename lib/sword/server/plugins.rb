@@ -17,6 +17,14 @@ module Sword
         end
       end
 
+      def inject_stylus
+        configure do
+          if Environment.compress
+            set :stylus, :compress => true
+          end
+        end
+      end
+
       def inject_compass
         return unless defined? Compass
         configure do
