@@ -6,9 +6,9 @@ Sword {{sword}}
 {{codeclimate}}
 {{gemnasium}}
 
+{{paypal}}  
 {{documentation}}  
 {{rubygems}}
-{{paypal}}
 
 {{introduction}}
 
