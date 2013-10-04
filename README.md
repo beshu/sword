@@ -1,4 +1,4 @@
-Sword [![Sword](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
+Sword [![Sword](http://sword.mu/sword.gif)](http://sword.mu)
 =====
 [![Build status](https://secure.travis-ci.org/somu/sword.png?branch=master)](http://travis-ci.org/somu/sword)
 [![Gem version](https://badge.fury.io/rb/sword.png)](http://rubygems.org/gems/sword)
@@ -8,6 +8,12 @@ Sword [![Sword](http://so.mu/icons/sword.png)](http://so.mu/blog/sword)
 
 [**Documentation**](http://rubydoc.info/github/somu/sword/master/frames)  
 [**Gem**](http://rubygems.org/gems/sword)
+<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+<input type="hidden" name="cmd" value="_s-xclick">
+<input type="hidden" name="hosted_button_id" value="8PCQ52CFPFSKL">
+<input type="image" src="https://www.paypalobjects.com/en_GB/i/btn/btn_donate_SM.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online.">
+<img alt="" border="0" src="https://www.paypalobjects.com/ru_RU/i/scr/pixel.gif" width="1" height="1">
+</form>
 
 **Sword** is a designer’s best friend.
 
@@ -59,7 +65,7 @@ it automatically opens `localhost:1111` in your browser.
 
 So. It tells you something like:
 
-    >> Sword 1.7.0/Thin at your service!
+    >> Sword 1.8.2/Thin at your service!
     >> http://localhost:1111 to see your project.
     >> CTRL+C to stop.
 
@@ -81,7 +87,7 @@ Options
         --aloud               Show server's guts
         --cache               Turn on caching for some engines
         --compile             Compile Sword queries
-    -c, --compress            Compress assets
+    -c, --compress            Compress templates and assets
         --console             Don't open browser
         --daemonize           Daemonize Sword (good for servers)
         --debug               Show Sword's guts

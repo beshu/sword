@@ -8,6 +8,7 @@ Sword {{sword}}
 
 {{documentation}}  
 {{rubygems}}
+{{paypal}}
 
 {{introduction}}
 
