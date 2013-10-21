@@ -24,6 +24,7 @@ module Sword
         open_browser unless Environment.console
         run_server
         delete_pid if Environment.pid
+        delete_cache
       end
     end
   end

@@ -54,6 +54,11 @@ module Sword
       def delete_pid
         File.delete(Environment.pid)
       end
+
+      def delete_cache
+        require 'fileutils'
+        FileUtils.rm_rf '.sass-cache'
+      end
     end
   end
 end
