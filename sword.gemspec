@@ -1,11 +1,11 @@
-# encoding: utf-8
-require File.dirname(__FILE__) + '/lib/sword/version'
+# coding: utf-8
+require File.dirname(__FILE__) << '/lib/sword/version'
 
 Gem::Specification.new do |s|
   s.name = 'sword'
   s.version = Sword::VERSION
   
-  s.authors = 'George'
+  s.authors = 'George Timoschenko'
   s.email = 'somu@so.mu'
   s.homepage = 'http://github.com/somu/sword'
 
@@ -14,8 +14,8 @@ Gem::Specification.new do |s|
 
   s.license = 'MIT'
   s.summary = 'Designer’s best friend forever'
-  s.description = 'Develop using SASS/Compass, Slim, LESS &c. and convert it to static'
+  s.description = 'Super simple server with built-in preprocessing'
 
-  s.add_dependency 'sinatra', '~> 1'
+  s.add_dependency 'hobbit', '~> 0.2'
   s.add_dependency 'launchy', '~> 2.3'
 end
