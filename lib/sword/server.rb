@@ -1,4 +1,4 @@
-require'slim';require'hobbit';require'tilt';class Sword::Server<Hobbit::Base;M={'application/javascript'=>
+require'hobbit';require'tilt';class Sword::Server<Hobbit::Base;M={'application/javascript'=>
 'js','text/css'=>'css','text/html'=>'html'};def self.r;s=[];Dir['**/*'].each{|f|(t=Tilt[f]).nil??
 s<<"/#{f}":get("/#{f.chomp File.extname f}.#{M[m=t.default_mime_type]}"){response.headers[
 'Content-Type']="#{m};charset=utf-8";t.new(f).render}};use Rack::Static,:urls=>s;get('*'){$S==v=
