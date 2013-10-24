@@ -1,4 +1,4 @@
-# Ladies and gentlemen, I fucking introduce you my static web-server with built-in preprocessing:
+# Ladies and gentlemen, I bloody introduce you:
 #
 require'hobbit';require'tilt';class Sword::Server<Hobbit::Base;def self.l;s=[];Dir['**/*'].each{|f|
 (t=Tilt[f]).nil?? s<<"/#{f}":get("/#{f.chomp File.extname f}#{Rack::Mime::MIME_TYPES.key m=
