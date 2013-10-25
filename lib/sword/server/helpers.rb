@@ -63,6 +63,23 @@ module Sword
       def dojo(version = '1.9.1')
         script "http://yandex.st/dojo/#{version}/dojo/dojo.js"
       end
+
+      # Backbone.js related javascript helpers
+      def underscore(version = '1.5.2')
+        script "http://cdnjs.cloudflare.com/ajax/libs/underscore.js/#{version}/underscore-min.js"
+      end
+
+      def json2
+        script "http://cdnjs.cloudflare.com/ajax/libs/json2/20121008/json2.js"
+      end
+
+      def backbone(version = '1.1.0')
+        script "http://cdnjs.cloudflare.com/ajax/libs/backbone.js/#{version}/backbone-min.js"
+      end
+
+      def backbone_marionette_bundled(version = '1.1.0')
+        script "http://cdnjs.cloudflare.com/ajax/libs/backbone.marionette/#{version}-bundled/backbone.marionette.js"
+      end
     end
   end
 end
