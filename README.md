@@ -50,7 +50,7 @@ the project directory and you're ready to rock.
 If you are using it as a gem:
 
 ```sh
-sword -d directory/you/wanna/watch
+sword -d your/project/directory
 ```
 
 You can also `cd` to this directory first, and then run `sword`,
@@ -60,7 +60,7 @@ it automatically opens `localhost:1111` in your browser.
 
 So. It tells you something like:
 
-    >> Sword 1.8.3/Thin at your service!
+    >> Sword 1.8.4/Thin at your service!
     >> http://localhost:1111 to see your project.
     >> CTRL+C to stop.
 
