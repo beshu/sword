@@ -5,8 +5,9 @@ module Sword
 
       def parse_add
         @parser.on '-a', '--add <x,y>', Array, 'Permanently require the gems' do |gems|
+          require 'yaml'
           sdebugln "Adding #{gems.join(', ')} to your #{Environment.local_gems}"
-          open(Environment.local_gems, 'a') { |f| gems.each { |g| f.puts g } }
+          open(Environment.local_gems, 'a') { |f| f.puts YAML.dump(gems) }
           exit
         end
       end
