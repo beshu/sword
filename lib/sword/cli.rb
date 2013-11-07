@@ -7,12 +7,21 @@ class Sword::CLI
   class << self
     def method_missing(method, &block)
       super unless block_given?
-      @@initializers << [method, Proc.new(&block)]
+      @@initializers << [method.to_sym, Proc.new(&block)]
     end
 
-    def before(method, &block)
-      index = @@initializers.find_index { |i| i.first == method }
-      @@initializers.insert index, [Proc.new(&block)]
+    def before(object, &block)
+      case object
+      when Hash
+        before = object.keys.first
+        method = object.values.first
+      when Symbol, String
+        before = object
+        method = nil
+      end
+      # What time is it? Monkeypatching time!
+      index = @@initializers.find_index { |i| i.first == before }
+      @@initializers.insert index, [method, Proc.new(&block)]
     end
   end
 
