@@ -2,7 +2,7 @@ require 'optparse'
 
 module Sword::Tuner
   @parsers = []
-  DEFAULTS  = {:Port => 1111}
+  DEFAULTS = {:Port => 1111}
   private # we, crypto-anarchists are
           # keen on this privacy thing
 
