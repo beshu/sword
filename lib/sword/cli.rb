@@ -29,6 +29,6 @@ class Sword::CLI
     end
   end
 
-  inject_routes { Sword.class_eval { l } }
+  inject_routes { Sword.class_eval { _ } }
   start_server  { Rack::Handler.default.run(Sword.new, @rack) }
 end
