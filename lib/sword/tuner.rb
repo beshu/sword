@@ -1,26 +1,26 @@
 require 'optparse'
 
 module Sword::Tuner
-  DEFAULTS  = {:Port => 1111}
-  @@options = DEFAULTS
   @@parsers = []
+  DEFAULTS  = {:Port => 1111}
 
   class << self
+    def new(arguments)
+      @@options = DEFAULTS
+      OptionParser.new do |op|
+        @@parsers.sort.each { |p| op.on(*p) }
+      end.parse(arguments)
+      @@options
+    end
+
+    private
+
     def on(*args, &block)
       @@parsers << [*args, Proc.new(&block)]
     end
 
     def set(key, value)
       @@options[key] = value
-    end
-
-    def new(arguments)
-      OptionParser.new do |op|
-        @@parsers.sort.each { |p| op.on(*p) }
-      end.parse(arguments)
-      @@options
-    ensure
-      @@options = DEFAULTS
     end
   end
 
