@@ -2,25 +2,28 @@ require 'sword'
 
 class Sword::CLI
   @@initializers = []
+  private # black box
+
+  class << self
+    def method_missing(method, &block)
+      super unless block_given?
+      @@initializers << [method, Proc.new(&block)]
+    end
+
+    def before(method, &block)
+      index = @@initializers.find_index { |i| i.first == method }
+      @@initializers.insert index, [Proc.new(&block)]
+    end
+  end
 
   def initialize(arguments = ARGV)
     @arguments = arguments
-    @@initializers.each { |i| instance_eval(&i) }
-  end
-
-  def self.method_missing(_, &block)
-    super unless block_given?
-    @@initializers << Proc.new(&block)
+    @@initializers.each { |i| instance_eval(&i.last) }
   end
 
   parse_options do
     require 'sword/tuner'
     @options = Sword::Tuner.new(@arguments)
-  end
-
-  filter_rack_options do
-    @rack = @options.select { |o,_| /[A-Z]/ =~ o[0] }
-    @options.delete(@rack)
   end
 
   change_directory do
@@ -31,5 +34,5 @@ class Sword::CLI
   end
 
   inject_routes { Sword._ }
-  start_server  { Rack::Handler.default.run(Sword.new, @rack) }
+  start_server  { Rack::Handler.default.run(Sword.new, @options) }
 end
