@@ -38,7 +38,7 @@ module Sword::Tuner
     set :directory, path
   end
 
-  # on '--host <ip>', '0.0.0.0 by default' do |ip|
-  #   set :Host, ip
-  # end
+  on '-i', '--ip <address>', '0.0.0.0 by default' do |address|
+    set :Host, ip
+  end
 end
