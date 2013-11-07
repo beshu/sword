@@ -8,7 +8,8 @@ class Sword::CLI
     @@initializers.each { |i| instance_eval(&i) }
   end
 
-  def self.method_missing(_,&block)
+  def self.method_missing(_, &block)
+    super unless block_given?
     @@initializers << Proc.new(&block)
   end
 
