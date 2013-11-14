@@ -1,33 +1,45 @@
 require 'sword'
 
 class Sword::CLI
-  @@initializers = []
+  @@steps = []
   private # black box
 
   class << self
     def method_missing(method, &block)
       super unless block_given?
-      @@initializers << [method.to_sym, Proc.new(&block)]
+      @@steps << [method.to_sym, lambda(&block)]
+    end
+
+    def find(step)
+      @@steps.find_index { |i| i.first == step }
     end
 
     def before(object, &block)
       case object
       when Hash
-        before = object.keys.first
-        method = object.values.first
+        before = object.keys.first.to_sym
+        method = object.values.first.to_sym
       when Symbol, String
-        before = object
+        before = object.to_sym
         method = nil
       end
-      # What time is it? Monkeypatching time!
-      index = @@initializers.find_index { |i| i.first == before }
-      @@initializers.insert index, [method, Proc.new(&block)]
+      # UNLEASH YOUR MONKEY NATURE
+      @@steps.insert find(before), [method, lambda(&block)]
     end
+
+    def instead(step, &block)
+      @@steps[find step=step.to_sym] = [step, lambda(&block)]
+    end
+  end
+
+  def try(diamond)
+    begin require diamond
+    rescue LoadError; end
   end
 
   def initialize(arguments = ARGV)
     @arguments = arguments
-    @@initializers.each { |i| instance_eval(&i.last) }
+    @@steps.each { |i| instance_eval(&i.last) }
   end
 
   parse_options do
@@ -42,6 +54,7 @@ class Sword::CLI
     end
   end
 
+  try_slim      { try 'slim' }
   inject_routes { Sword._ }
   start_server  { Rack::Handler.default.run(Sword.new, @options) }
 end
