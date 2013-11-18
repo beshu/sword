@@ -3,8 +3,6 @@ require 'optparse'
 module Sword::Tuner
   @parsers = []
   DEFAULTS = {:Port => 1111}
-  private # we, crypto-anarchists are
-          # keen on this privacy thing
 
   class << self
     def new(arguments)
@@ -16,7 +14,7 @@ module Sword::Tuner
     end
 
     def on(*args, &block)
-      @parsers << [*args, Proc.new(&block)]
+      @parsers << [*args, lambda(&block)]
     end
 
     def set(key, value)
@@ -40,5 +38,22 @@ module Sword::Tuner
 
   on '-i', '--ip <address>', '0.0.0.0 by default' do |address|
     set :Host, ip
+  end
+
+  on '-c', '--compile', 'Compile the project' do    
+    def Sword.response(*_) # mock
+      OpenStruct.new :headers => {}
+    end
+
+    def Sword.get(route, &block)
+      return if route.include? '*' or route == '/favicon.ico'
+      open(  './' << route, 'w') { |f| f.puts yield }
+      puts '  - ' << route[1..-1]
+    end
+
+    Tilt.mappings.delete 'html'
+    set :suicide, true
+    require 'ostruct'
+    puts 'Compiled:'
   end
 end

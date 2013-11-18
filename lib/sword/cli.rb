@@ -54,7 +54,10 @@ class Sword::CLI
     end
   end
 
-  try_slim      { try 'slim' }
+  try_slim      { try 'slim'    }
+  try_compass   { try 'compass' }  
+  
   inject_routes { Sword._ }
+  suicide       { exit if @options[:suicide] }
   start_server  { Rack::Handler.default.run(Sword.new, @options) }
 end
