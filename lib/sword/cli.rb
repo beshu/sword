@@ -2,7 +2,6 @@ require 'sword'
 
 class Sword::CLI
   @@steps = []
-  private # black box
 
   class << self
     def method_missing(method, &block)
@@ -14,14 +13,14 @@ class Sword::CLI
       @@steps.find_index { |i| i.first == step }
     end
 
-    def before(object, &block)
-      case object
+    def before(step, &block)
+      case step
       when Hash
-        before = object.keys.first.to_sym
-        method = object.values.first.to_sym
+        step, this = step.keys.first.to_sym,
+                     step.values.first.to_sym
       when Symbol, String
-        before = object.to_sym
-        method = nil
+        step = step.to_sym
+        this = nil
       end
       # UNLEASH YOUR MONKEY NATURE
       @@steps.insert find(before), [method, lambda(&block)]
