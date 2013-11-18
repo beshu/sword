@@ -41,6 +41,8 @@ module Sword::Tuner
   end
 
   on '-c', '--compile', 'Compile the project' do    
+    (Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings).delete 'html'
+
     def Sword.response(*_) # mock
       OpenStruct.new :headers => {}
     end
@@ -51,7 +53,6 @@ module Sword::Tuner
       puts '  - ' << route[1..-1]
     end
 
-    Tilt.mappings.delete 'html'
     set :suicide, true
     require 'ostruct'
     puts 'Compiled:'
