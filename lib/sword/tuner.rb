@@ -37,7 +37,7 @@ module Sword::Tuner
   end
 
   on '-i', '--ip <address>', '0.0.0.0 by default' do |address|
-    set :Host, ip
+    set :Host, address
   end
 
   on '-c', '--compile', 'Compile the project' do    
