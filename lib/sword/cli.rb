@@ -20,13 +20,16 @@ class Sword::CLI
         step = step.to_sym
         this = nil
       end
+
       # UNLEASH YOUR MONKEY NATURE
-      @@steps.insert find(before), [method, lambda(&block)]
+      @@steps.insert find(step), [this, lambda(&block)]
     end
 
     def instead(step, &block)
       @@steps[find step=step.to_sym] = [step, lambda(&block)]
     end
+
+    alias instead_of instead
   end
 
   def initialize(arguments = ARGV)
@@ -53,9 +56,25 @@ class Sword::CLI
     end
   end
 
-  try_slim      { try 'slim'    }
-  try_compass   { try 'compass' }  
-  
+  load_slim    { try 'slim' }
+  load_compass {
+    if try 'compass'
+      [Tilt::ScssTemplate, Tilt::SassTemplate].each do |t|
+        t.class_eval {
+          def sass_options
+            Compass.sass_engine_options.merge(options).
+            merge :filename => eval_file, :line => line
+          end
+        }
+      end
+
+      Compass.configuration { |c|
+        c.project_path = '.'
+        c.sass_dir     = c.project_path
+      }
+    end
+  }
+
   inject_routes { Sword._ }
   suicide       { exit if @options[:suicide] }
   start_server  { Rack::Handler.default.run(Sword.new, @options) }
