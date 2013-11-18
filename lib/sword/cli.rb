@@ -1,8 +1,6 @@
 require 'sword'
 
 class Sword::CLI
-  @@steps = []
-
   class << self
     def method_missing(method, &block)
       super unless block_given?
@@ -31,15 +29,17 @@ class Sword::CLI
     end
   end
 
+  def initialize(arguments = ARGV)
+    @arguments = arguments
+    @@steps.each { |i| instance_eval(&i.last) }
+  end
+
   def try(diamond)
     begin require diamond
     rescue LoadError; end
   end
 
-  def initialize(arguments = ARGV)
-    @arguments = arguments
-    @@steps.each { |i| instance_eval(&i.last) }
-  end
+  @@steps = [] # ↓
 
   parse_options do
     require 'sword/tuner'
