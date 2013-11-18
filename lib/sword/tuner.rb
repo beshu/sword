@@ -43,7 +43,7 @@ module Sword::Tuner
   on '-c', '--compile', 'Compile the project' do    
     (Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings).delete 'html'
 
-    def Sword.response(*_) # mock
+    def Sword.response(*) # mock
       OpenStruct.new :headers => {}
     end
 
