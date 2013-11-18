@@ -1,8 +1,8 @@
 require 'optparse'
 
 module Sword::Tuner
-  @parsers = []
   DEFAULTS = {:Port => 1111}
+  @parsers = []
 
   class << self
     def new(arguments)
