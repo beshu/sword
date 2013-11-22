@@ -10,8 +10,8 @@ module Sword
     def self.install(sudo = false)
       @sudo = sudo
       install_from GEMS
-      install_therubyracer unless WINDOWS
-      install_from SOURCE  unless defined? JRUBY_VERSION
+      install_therubyracer unless System::WINDOWS
+      install_from SOURCE  unless defined? System::JRUBY_VERSION
       print "\n"
     end
 
