@@ -18,17 +18,6 @@ describe Sword::Execute::CLI do
     lambda do
       Sword::Execute::CLI.new(['-h']).run
     end.should raise_error SystemExit
-    $stderr.string.should include '--aloud'
-    $stderr.string.should include '--mutex'
-    $stderr.string.should include 'guts'
-  end
-
-  it 'prints help information and exits' do
-    lambda do
-      Sword::Execute::CLI.new(['-h']).run
-    end.should raise_error SystemExit
-    $stderr.string.should include '--aloud'
-    $stderr.string.should include '--mutex'
-    $stderr.string.should include 'guts'
+    $stderr.string.should include 'Usage: sword [options]'
   end
 end
