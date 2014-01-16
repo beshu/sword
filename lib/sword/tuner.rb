@@ -43,18 +43,13 @@ module Sword::Tuner
   on '-c', '--compile', 'Compile the project' do
     (Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings).delete 'html'
 
-    def Sword.response(*) # mock
-      OpenStruct.new :headers => {}
-    end
-
-    def Sword.get(route, &block)
+    def Sword.g(route, &block)
       return if route == '/favicon.ico' or route == :a
       open(  './' << route, 'w') { |f| f.puts yield }
       puts '  - ' << route[1..-1]
     end
 
     set :suicide, true
-    require 'ostruct'
     puts 'Compiled:'
   end
 end
