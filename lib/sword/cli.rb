@@ -75,7 +75,8 @@ class Sword::CLI
     end
   }
 
+
   inject_helpers { Sword.instance_eval { include Sword::Helpers } }
   inject_routes  { Sword._ }
-  start_server   { Rack::Handler.pick(%w[racer thin puma mongrel webrick]).run(Sword.new, @options) }
+  start_server   { Rack::Handler.default.run(Sword.new, @options) }
 end
