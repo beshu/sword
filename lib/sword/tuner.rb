@@ -40,7 +40,7 @@ module Sword::Tuner
     set :Host, address
   end
 
-  on '-c', '--compile', 'Compile the project' do    
+  on '-c', '--compile', 'Compile the project' do
     (Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings).delete 'html'
 
     def Sword.response(*) # mock
@@ -48,7 +48,7 @@ module Sword::Tuner
     end
 
     def Sword.get(route, &block)
-      return if route.include? '*' or route == '/favicon.ico'
+      return if route == '/favicon.ico' or route == :a
       open(  './' << route, 'w') { |f| f.puts yield }
       puts '  - ' << route[1..-1]
     end

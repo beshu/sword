@@ -15,7 +15,4 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.summary = 'Designer’s best friend forever'
   s.description = 'Super simple server with built-in preprocessing'
-
-  s.add_dependency 'hobbit', '~> 0.2'
-  s.add_dependency 'launchy', '~> 2.3'
 end
