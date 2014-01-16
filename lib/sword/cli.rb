@@ -57,7 +57,6 @@ class Sword::CLI
     end
   end
 
-  load_slim    { try 'slim' }
   load_compass {
     if try 'compass'
       [Tilt::ScssTemplate, Tilt::SassTemplate].each do |t|
@@ -78,6 +77,5 @@ class Sword::CLI
 
   inject_helpers { Sword.instance_eval { include Sword::Helpers } }
   inject_routes  { Sword._ }
-  suicide        { exit if @options[:suicide] }
-  start_server   { Rack::Handler.default.run(Sword.new, @options) }
+  start_server   { Rack::Handler.pick(%w[racer thin puma mongrel webrick]).run(Sword.new, @options) }
 end

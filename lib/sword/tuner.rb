@@ -43,13 +43,15 @@ module Sword::Tuner
   on '-c', '--compile', 'Compile the project' do
     (Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings).delete 'html'
 
+    def Sword.q(*args); end # mock
+
     def Sword.g(route, &block)
-      return if route == '/favicon.ico' or route == :a
+      return if route == '/favicon.ico'
       open(  './' << route, 'w') { |f| f.puts yield }
       puts '  - ' << route[1..-1]
     end
 
-    set :suicide, true
+    Sword::CLI.instead_of(:start_server) {}
     puts 'Compiled:'
   end
 end
