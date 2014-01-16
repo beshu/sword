@@ -1,4 +1,5 @@
 require 'sword'
+require 'sword/helpers'
 
 class Sword::CLI
   class << self
@@ -75,7 +76,8 @@ class Sword::CLI
     end
   }
 
-  inject_routes { Sword._ }
-  suicide       { exit if @options[:suicide] }
-  start_server  { Rack::Handler.default.run(Sword.new, @options) }
+  inject_helpers { Sword.instance_eval { include Sword::Helpers } }
+  inject_routes  { Sword._ }
+  suicide        { exit if @options[:suicide] }
+  start_server   { Rack::Handler.default.run(Sword.new, @options) }
 end
