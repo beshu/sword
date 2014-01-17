@@ -6,6 +6,7 @@ module Sword::Helpers
   end
 
   # Backwards compatability with #sass, #slim, etc. methods
+  # DEPRECATED: 2.3 release, warn after 2.1
   def method_missing(method, *args)
     Tilt[method] ? Tilt.new(args * '/' << ".#{method}").render(self) : super
   end
