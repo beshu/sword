@@ -1,9 +1,17 @@
 module Sword::Helpers
   def render(template, *path)
     template = path.unshift(template) * '/' unless path.empty?
-    template = Dir[template << '.*'].first
+    template = Dir[template.to_s << '.*'].first
     template =~ /(html?|css)$/ ? File.read(template) : Tilt.new(template).render(self)
   end
+
+  # Backwards compatability with #sass, #slim, etc. methods
+  def method_missing(method, *args)
+    Tilt[method] ? Tilt.new(args * '/' << ".#{method}").render(self) : super
+  end
+
+  # TODO: Google fonts helper
+  def font(options) end
 
   def jquery(version = '1.10.2')
     script "ajax.googleapis.com/ajax/libs/jquery/#{version}/jquery.min.js"
