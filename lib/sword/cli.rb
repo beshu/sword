@@ -1,41 +1,43 @@
 require 'sword'
 require 'sword/helpers'
 
-class Sword::CLI
+module Sword::CLI
+  @tasks = []
+
   class << self
-    def method_missing(method, &block)
+    def new(arguments = ARGV)
+      @arguments = arguments
+      @tasks.each { |tt| instance_eval(&tt.last) }
+    end
+
+    def task(name, &block)
       super unless block_given?
-      @@steps << [method.to_sym, lambda(&block)]
+      @tasks << [name.to_sym, lambda(&block)]
     end
 
-    def find(step)
-      @@steps.find_index { |i| i.first == step }
+    def index_of(task)
+      @tasks.find_index { |tt| tt.first == task }
     end
 
-    def before(step, &block)
-      case step
+    def before(task, &block)
+      case task
       when Hash
-        step, this = step.keys.first.to_sym,
-                     step.values.first.to_sym
+        task, this = task.keys.first.to_sym,
+                     task.values.first.to_sym
       when Symbol, String
-        step = step.to_sym
+        task = task.to_sym
         this = nil
       end
 
       # UNLEASH YOUR MONKEY NATURE
-      @@steps.insert find(step), [this, lambda(&block)]
+      @tasks.insert index_of(task), [this, lambda(&block)]
     end
 
-    def instead(step, &block)
-      @@steps[find step=step.to_sym] = [step, lambda(&block)]
+    def instead(task, &block)
+      @tasks[index_of task=task.to_sym] = [task, lambda(&block)]
     end
 
     alias instead_of instead
-  end
-
-  def initialize(arguments = ARGV)
-    @arguments = arguments
-    @@steps.each { |i| instance_eval(&i.last) }
   end
 
   def try(diamond)
@@ -43,21 +45,19 @@ class Sword::CLI
     rescue LoadError; end
   end
 
-  @@steps = [] # ↓
-
-  parse_options do
+  task :parse_options do
     require 'sword/tuner'
     @options = Sword::Tuner.new(@arguments)
   end
 
-  change_directory do
+  task :change_directory do
     if directory = @options.delete(:directory)
       require 'fileutils'
       FileUtils.cd(directory)
     end
   end
 
-  load_compass {
+  task :load_compass do
     if try 'compass'
       [Tilt::ScssTemplate, Tilt::SassTemplate].each do |t|
         t.class_eval {
@@ -73,10 +73,9 @@ class Sword::CLI
         c.sass_dir     = c.project_path
       }
     end
-  }
+  end
 
-
-  inject_helpers { Sword.instance_eval { include Sword::Helpers } }
-  inject_routes  { Sword._ }
-  start_server   { Rack::Handler.default.run(Sword.new, @options) }
+  task(:inject_helpers) { Sword.instance_eval { include Sword::Helpers } }
+  task(:inject_routes)  { Sword._ }
+  task(:start_server)   { Rack::Handler.default.run(Sword.new, @options) }
 end
