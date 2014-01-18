@@ -15,6 +15,11 @@ module Sword::CLI
       @tasks << [name.to_sym, lambda(&block)]
     end
 
+    def try(diamond)
+      begin require diamond
+      rescue LoadError; end
+    end
+
     def index_of(task)
       @tasks.find_index { |tt| tt.first == task }
     end
@@ -38,11 +43,6 @@ module Sword::CLI
     end
 
     alias instead_of instead
-  end
-
-  def try(diamond)
-    begin require diamond
-    rescue LoadError; end
   end
 
   task :parse_options do
