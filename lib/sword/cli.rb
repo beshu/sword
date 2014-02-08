@@ -46,16 +46,8 @@ module Sword::CLI
     alias instead_of instead
   end
 
-  task :parse_options do
-    require 'sword/tuner'
-    @options = Sword::Tuner.new(@arguments)
-  end
-
-  task :change_directory do
-    if directory = @options.delete(:directory)
-      require 'fileutils'
-      FileUtils.cd(directory)
-    end
+  task :load_stylus do
+    require 'stylus/tilt' if try 'stylus'
   end
 
   task :load_compass do
@@ -76,9 +68,24 @@ module Sword::CLI
     end
   end
 
+  task :inject_helpers do
+    Sword.instance_eval { extend Sword::Helpers }
+  end
+
+  task :parse_options do
+    require 'sword/tuner'
+    @options = Sword::Tuner.new(@arguments)
+  end
+
+  task :change_directory do
+    if directory = @options.delete(:directory)
+      require 'fileutils'
+      FileUtils.cd(directory)
+    end
+  end
+
   # load_nib
 
-  task(:inject_helpers) { Sword.instance_eval { include Sword::Helpers } }
   task(:inject_routes)  { Sword._ }
   task(:start_server)   { Rack::Handler.default.run(Sword.new, @options) }
 end
