@@ -1,6 +1,7 @@
 require 'sword'
 require 'sword/helpers'
 
+
 module Sword::CLI
   @tasks = []
 
@@ -74,6 +75,8 @@ module Sword::CLI
       }
     end
   end
+
+  # load_nib
 
   task(:inject_helpers) { Sword.instance_eval { include Sword::Helpers } }
   task(:inject_routes)  { Sword._ }
