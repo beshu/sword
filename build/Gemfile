@@ -1,12 +1,11 @@
 source 'https://rubygems.org'
 gemspec :path => '../'
 
-gem 'ocra'
+gem 'ocra' # TODO: if Windows
 
 gem 'compass'
 gem 'slim'
 gem 'haml'
 
-# JS environment required
 gem 'coffee-script'
 gem 'stylus'

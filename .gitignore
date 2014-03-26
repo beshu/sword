@@ -1,4 +1,7 @@
 Gemfile.lock
+build/Gemfile.lock
+build/Sword.app
+build/sword.exe
 .DS_Store
 .yardoc
 *.gem

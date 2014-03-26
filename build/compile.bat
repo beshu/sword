@@ -1,2 +1,2 @@
 cd %~dp0
-ocra sword.rb ../lib/** --icon icon.ico --console --no-lzma -- ocra
+ocra ../bin/sword ../lib/** --icon ../lib/favicon.ico --console --no-lzma -- ocra
