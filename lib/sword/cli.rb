@@ -18,7 +18,7 @@ module Sword::CLI
     # Delegator to OptionParser#on method. Saves arguments
     # to pass them later into new OptionParser instance.
     def on(*args, &block)
-      @options << [*args, lambda(&block)]
+      @options.push args << lambda(&block)
     end
 
     def set(key, value)
