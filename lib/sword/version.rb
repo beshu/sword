@@ -1,3 +1,3 @@
 class Sword
-  VERSION = '2.0.0c'
+  VERSION = '2.0.0e'
 end

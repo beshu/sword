@@ -1,91 +1,63 @@
+require 'optparse'
 require 'sword'
-require 'sword/helpers'
-
+require 'sword/patch'
 
 module Sword::CLI
-  @tasks = []
+  DEFAULTS = {:Port => 1111}
+  @options = []
 
   class << self
     def new(arguments = ARGV)
-      @arguments = arguments
-      @tasks.each { |tt| instance_eval(&tt.last) }
+      Sword._
+      @settings = DEFAULTS
+      OptionParser.new { |op| @options.sort.each { |p| op.on(*p) } }.parse(arguments)
+      Rack::Handler.default.run(Sword.new, @settings)
     end
 
-    def task(name, &block)
-      super unless block_given?
-      @tasks << [name.to_sym, lambda(&block)]
+    def on(*args, &block)
+      @options << [*args, lambda(&block)]
     end
 
-    def try(diamond)
-      begin require diamond
-      rescue LoadError; end
-    end
-
-    def index_of(task)
-      @tasks.find_index { |tt| tt.first == task }
-    end
-
-    def before(task, &block)
-      case task
-      when Hash
-        task, this = task.keys.first.to_sym,
-                     task.values.first.to_sym
-      when Symbol, String
-        task = task.to_sym
-        this = nil
-      end
-
-      # UNLEASH YOUR MONKEY NATURE
-      @tasks.insert index_of(task), [this, lambda(&block)]
-    end
-
-    def instead(task, &block)
-      @tasks[index_of task=task.to_sym] = [task, lambda(&block)]
-    end
-
-    alias instead_of instead
-  end
-
-  task :load_stylus do
-    require 'stylus/tilt' if try 'stylus'
-  end
-
-  task :load_compass do
-    if try 'compass'
-      [Tilt::ScssTemplate, Tilt::SassTemplate].each do |t|
-        t.class_eval {
-          def sass_options
-            Compass.sass_engine_options.merge(options).
-            merge :filename => eval_file, :line => line
-          end
-        }
-      end
-
-      Compass.configuration { |c|
-        c.project_path = '.'
-        c.sass_dir     = c.project_path
-      }
+    def set(key, value)
+      @settings[key] = value
     end
   end
 
-  task :inject_helpers do
+  on '-p', '--port <number>', 'Specify port, default: 1111' do |number|
+    set :Port, number
+  end
+
+  on '-v', '--version', "Print Sword's version" do
+    require 'sword/version'
+    puts 'Sword ' << Sword::VERSION
+    exit
+  end
+
+  on '-d', '--directory <path>', 'Specify root, default: ./' do |path|
+    require 'fileutils'
+    FileUtils.cd path
+  end
+
+  on '-i', '--ip <address>', '0.0.0.0 by default' do |address|
+    set :Host, address
+  end
+
+  on '-c', '--compile', 'Compile the project' do
+    map = Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings
+    map.delete('html')
+
+    def Sword.q(*args); end # mock
+
+    def Sword.g(route, &block)
+      return if route == '/favicon.ico'
+      open(  './' << route, 'w') { |f| f.puts yield }
+      puts '  - ' << route[1..-1]
+    end
+
+    puts 'Compiled:'
+
     Sword.instance_eval { extend Sword::Helpers }
+    Sword._
+    exit
   end
-
-  task :parse_options do
-    require 'sword/tuner'
-    @options = Sword::Tuner.new(@arguments)
-  end
-
-  task :change_directory do
-    if directory = @options.delete(:directory)
-      require 'fileutils'
-      FileUtils.cd(directory)
-    end
-  end
-
-  # load_nib
-
-  task(:inject_routes)  { Sword._ }
-  task(:start_server)   { Rack::Handler.default.run(Sword.new, @options) }
 end
