@@ -1,14 +1,14 @@
 # This class describes patches that apply automatically
 # if they succeed in loading the gem they're patching.
 class Sword::Patch
+  def self.load
+    Dir[File.dirname(__FILE__) << '/patches/*.rb'].each { |p| require p }
+  end
+
   # @param names [String, Array] list of gems
   def initialize(names = nil, &block)
     @names = Array(names)
     names ? patch!(&block) : yield
-  end
-
-  def self.load
-    Dir[File.dirname(__FILE__) << '/patches/*.rb'].each { |p| require p }
   end
 
   private
