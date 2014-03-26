@@ -4,11 +4,8 @@ task :default => :test
 
 desc 'Tests if Sword works'
 task :test do
-  require 'sword/cli'
-  require 'fileutils'
-
   test_dir = '/tmp/sword-test'
-  extend FileUtils
+  require 'sword/cli'
 
   begin
     mkdir test_dir
