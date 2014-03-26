@@ -20,14 +20,19 @@ class Sword::Patch
   # Runs a patch code from &block if any gem from
   # @names is installed.
   #
-  # @param [&block] patch code
+  # @return [Bool] patched or not 
   def patch!(&block)
+    return false if enabled?
+
     @names.each do |name|
       if installed? name
+        @enabled = true
         yield
-        return @enabled = true
+        break
       end
     end
+
+    enabled?
   end
 
   # Checks if gem is installed. If it is, loads the gem
