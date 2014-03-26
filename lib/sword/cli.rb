@@ -9,6 +9,7 @@ module Sword::CLI
 
   class << self
     def new(arguments = ARGV)
+      Sword::Patch.load
       @settings = DEFAULTS
       parser.parse!(arguments)
       run! unless suicide?

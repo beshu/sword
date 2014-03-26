@@ -7,6 +7,10 @@ class Sword::Patch
     names ? patch!(&block) : yield
   end
 
+  def self.load
+    Dir[File.dirname(__FILE__) << '/patches/*.rb'].each { |p| require p }
+  end
+
   private
 
   # Runs a patch code from &block if any gem from
@@ -37,11 +41,3 @@ class Sword::Patch
     end
   end
 end
-
-require 'sword/patches/front_compiler'
-require 'sword/patches/old_ruby'
-require 'sword/patches/helpers'
-require 'sword/patches/markdown'
-require 'sword/patches/compass'
-require 'sword/patches/stylus'
-require 'sword/patches/erb'
