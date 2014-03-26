@@ -15,4 +15,7 @@ Gem::Specification.new do |s|
   s.license = 'MIT'
   s.summary = 'Rack-based static web server with built-in preprocessing'
   s.description = s.summary
+
+  s.add_dependency 'rack'
+  s.add_dependency 'tilt'
 end
