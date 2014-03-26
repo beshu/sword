@@ -14,6 +14,16 @@ module Sword::CLI
       run! unless suicide?
     end
 
+    def suicide?
+      @suicide ||= false
+    end
+
+    # Prevents Sword from continuing running.
+    def suicide!
+      @suicide = true
+    end
+
+    # @return [OptionParser]
     def parser
       @parser ||= OptionParser.new do |op|
         @list = op
@@ -36,14 +46,6 @@ module Sword::CLI
 
     def set(key, value)
       @settings[key] = value
-    end
-
-    def suicide!
-      @suicide = true
-    end
-
-    def suicide?
-      @suicide ||= false
     end
   end
 
