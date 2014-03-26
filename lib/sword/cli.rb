@@ -12,7 +12,7 @@ module Sword::CLI
       Sword._
       @settings = DEFAULTS
       OptionParser.new { |op| @options.sort.each { |p| op.on(*p) } }.parse(arguments)
-      Rack::Handler.default.run(Sword.new, @settings)
+      Rack::Handler.default.run(Sword.new, @settings) unless @die
     end
 
     # Delegator to OptionParser#on method. Saves arguments
@@ -58,7 +58,7 @@ module Sword::CLI
     end
 
     Sword.instance_eval { extend Sword::Helpers }
+    @die = true
     Sword._
-    exit
   end
 end
