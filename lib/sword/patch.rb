@@ -1,38 +1,23 @@
 # This class describes patches that apply automatically
 # if they succeed in loading the gem they're patching.
 class Sword::Patch
-  attr_reader :names
-
   # @param names [String, Array] list of gems
   def initialize(names, &block)
     @names = Array(names)
-    @enabled = false
     patch!(&block)
-  end
-
-  # @return [Bool]
-  def enabled?
-    @enabled
   end
 
   private
 
   # Runs a patch code from &block if any gem from
   # @names is installed.
-  #
-  # @return [Bool] patched or not 
   def patch!(&block)
-    return false if enabled?
-
     @names.each do |name|
-      if installed? name
-        @enabled = true
+      if installed?(name)
         yield
         break
       end
     end
-
-    enabled?
   end
 
   # Checks if gem is installed. If it is, loads the gem
@@ -53,6 +38,7 @@ class Sword::Patch
   end
 end
 
+require 'sword/patches/front-compiler'
 require 'sword/patches/helpers'
 require 'sword/patches/markdown'
 require 'sword/patches/compass'
