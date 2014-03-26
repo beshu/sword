@@ -9,10 +9,23 @@ module Sword::CLI
 
   class << self
     def new(arguments = ARGV)
-      Sword._
       @settings = DEFAULTS
-      OptionParser.new { |op| @options.sort.each { |p| op.on(*p) } }.parse(arguments)
-      Rack::Handler.default.run(Sword.new, @settings) unless @die
+      parser.parse!(arguments)
+      run! unless suicide?
+    end
+
+    def parser
+      @parser ||= OptionParser.new do |op|
+        @list = op
+        @options.sort.each { |p| op.on(*p) }
+      end
+    end
+
+    # Find the most appropriate Rack handler for your platform
+    # and run Sword on it.
+    def run!
+      Sword._
+      Rack::Handler.default.run(Sword.new, @settings)
     end
 
     # Delegator to OptionParser#on method. Saves arguments
@@ -24,9 +37,17 @@ module Sword::CLI
     def set(key, value)
       @settings[key] = value
     end
+
+    def suicide!
+      @suicide = true
+    end
+
+    def suicide?
+      @suicide ||= false
+    end
   end
 
-  on '-p', '--port <number>', 'Specify port, default: 1111' do |number|
+  on '-p', '--port <number>', ':1111 by default' do |number|
     set :Port, number
   end
 
@@ -36,7 +57,7 @@ module Sword::CLI
     exit
   end
 
-  on '-d', '--directory <path>', 'Specify root, default: ./' do |path|
+  on '-d', '--directory <path>', 'Current directory by default' do |path|
     require 'fileutils'
     FileUtils.cd path
   end
@@ -45,9 +66,22 @@ module Sword::CLI
     set :Host, address
   end
 
+  on '--interactive', 'Enable interactive flag input' do
+    require 'shellwords'
+    print @list, "\n> "
+    suicide!
+
+    begin
+      new Shellwords.split($stdin.gets)
+    rescue Interrupt
+      print "\n"
+    end
+  end
+
   on '-c', '--compile', 'Compile the project' do
     map = Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings
     map.delete('html')
+    suicide!
 
     def Sword.q(*args) end # mock
 
@@ -58,7 +92,6 @@ module Sword::CLI
     end
 
     Sword.instance_eval { extend Sword::Helpers }
-    @die = true
     Sword._
   end
 end
