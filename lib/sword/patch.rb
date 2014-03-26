@@ -47,6 +47,7 @@ class Sword::Patch
   def installed?(name)
     begin
       require name
+      true
     rescue LoadError
     end
   end
