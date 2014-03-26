@@ -89,8 +89,11 @@ module Sword::CLI
 
     def Sword.g(route, &block)
       return if route == '/favicon.ico'
-      open('./' << route, 'w') { |f| f.puts yield }
-      puts '✓ ' << route[1..-1]
+      route[0] = ''
+
+      open(route, 'w') { |f| f.puts yield }
+      FrontCompiler.compact_file(route) if defined? FrontCompiler
+      puts "✓ #{route}"
     end
 
     Sword.instance_eval { extend Sword::Helpers }
