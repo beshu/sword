@@ -49,7 +49,7 @@ module Sword::CLI
     map = Tilt.respond_to?(:lazy_map) ? Tilt.lazy_map : Tilt.mappings
     map.delete('html')
 
-    def Sword.q(*args); end # mock
+    def Sword.q(*args) end # mock
 
     def Sword.g(route, &block)
       return if route == '/favicon.ico'
