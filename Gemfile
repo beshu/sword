@@ -1,5 +1,3 @@
-# This Gemfile is used for testing via Travis CI and
-# compiling Windows version using OCRA:
 source 'https://rubygems.org'
 gemspec
 
