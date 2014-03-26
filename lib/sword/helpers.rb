@@ -33,10 +33,10 @@ module Sword::Helpers
   private
 
   def stylesheet(href)
-    "<link href=\"http://#{href}\" rel=\"stylesheet\"/>"
+    "<link href=\"//#{href}\" rel=\"stylesheet\"/>"
   end
 
   def script(src)
-    "<script src=\"http://#{src}\"></script>"
+    "<script src=\"//#{src}\"></script>"
   end
 end
