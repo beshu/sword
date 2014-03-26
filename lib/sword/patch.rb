@@ -2,9 +2,9 @@
 # if they succeed in loading the gem they're patching.
 class Sword::Patch
   # @param names [String, Array] list of gems
-  def initialize(names, &block)
+  def initialize(names = nil, &block)
     @names = Array(names)
-    patch!(&block)
+    names ? patch!(&block) : yield
   end
 
   private
