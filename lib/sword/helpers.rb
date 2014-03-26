@@ -6,7 +6,9 @@ module Sword::Helpers
   end
 
   # Backwards compatability with #sass, #slim, etc. methods
-  # DEPRECATED: 2.3 release, warn after 2.1
+  #
+  # @note Doesn't comply with Sword 1.x #stylus method: #styl method should be used instead
+  # @deprecated in Sword 2.x it is better to use more powerful #render method
   def method_missing(method, *args)
     Tilt[method] ? Tilt.new(args * '/' << ".#{method}").render(self) : super
   end
