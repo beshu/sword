@@ -15,10 +15,10 @@ class Sword::Patch
 
   # Runs a patch code from &block if any gem from
   # @names is installed.
-  def patch!(&block)
+  def patch!
     @names.each do |name|
       if installed?(name)
-        yield
+        yield if block_given?
         break
       end
     end
