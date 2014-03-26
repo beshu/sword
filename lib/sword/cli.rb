@@ -15,6 +15,8 @@ module Sword::CLI
       Rack::Handler.default.run(Sword.new, @settings)
     end
 
+    # Delegator to OptionParser#on method. Saves arguments
+    # to pass them later into new OptionParser instance.
     def on(*args, &block)
       @options << [*args, lambda(&block)]
     end
