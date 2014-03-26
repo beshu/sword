@@ -93,7 +93,7 @@ module Sword::CLI
       route[0] = ''
 
       open(route, 'w') { |f| f.puts yield }
-      FrontCompiler.compact_file(route) if defined? FrontCompiler
+      FrontCompiler.new.compact_file(route) if defined? FrontCompiler
       puts "✓ #{route}"
     end
 
