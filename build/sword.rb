@@ -1,8 +1,7 @@
-$:.unshift File.dirname(__FILE__) + '/../lib'
+$:.unshift File.dirname(__FILE__) << '/../lib'
 
 # Temple compatability fix
 # (monkey patch)
-#
 module ActionView
   class Template
     def self.method_missing(method, *args)
