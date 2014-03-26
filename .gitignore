@@ -1,6 +1,6 @@
 Gemfile.lock
 .DS_Store
-coverage
-pkg
 .yardoc
 *.gem
+pkg
+doc
