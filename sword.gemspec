@@ -7,12 +7,12 @@ Gem::Specification.new do |s|
   
   s.authors = 'George Timoschenko'
   s.email = 'somu@so.mu'
-  s.homepage = 'http://github.com/somu/sword'
+  s.homepage = 'https://github.com/somu/sword'
 
   s.files = Dir['lib/**/*']
   s.executables = 'sword'
 
   s.license = 'MIT'
-  s.summary = 'Designer’s best friend forever'
-  s.description = 'Super simple server with built-in preprocessing'
+  s.summary = 'Rack-based static web server with built-in preprocessing'
+  s.description = s.summary
 end
