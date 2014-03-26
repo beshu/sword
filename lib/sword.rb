@@ -1,4 +1,4 @@
-require'tilt';require'rack';class Sword;M=(R=Rack)::Mime::MIME_TYPES.invert;P=
+require'rack';require'tilt';class Sword;M=(R=Rack)::Mime::MIME_TYPES.invert;P=
 'PATH_INFO';D=File.dirname __FILE__;class<<self;def g(p,&b);@@r[p]=b;end;alias:n
 :new;def new;@@x.run n;@@x end;@@x=R::Builder.new;def _;@@s,@@r=[],{};Dir['**/*'
 ].each{|f|(t=Tilt[f])?g("/#{f.chomp File.extname f}#{M[m=t.default_mime_type]}"
