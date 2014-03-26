@@ -1,3 +1,4 @@
+# coding: utf-8
 require 'optparse'
 require 'sword'
 require 'sword/patch'
@@ -50,11 +51,9 @@ module Sword::CLI
 
     def Sword.g(route, &block)
       return if route == '/favicon.ico'
-      open(  './' << route, 'w') { |f| f.puts yield }
-      puts '  - ' << route[1..-1]
+      open('./' << route, 'w') { |f| f.puts yield }
+      puts '✓ ' << route[1..-1]
     end
-
-    puts 'Compiled:'
 
     Sword.instance_eval { extend Sword::Helpers }
     Sword._
