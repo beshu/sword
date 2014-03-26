@@ -39,6 +39,7 @@ class Sword::Patch
 end
 
 require 'sword/patches/front_compiler'
+require 'sword/patches/old_ruby'
 require 'sword/patches/helpers'
 require 'sword/patches/markdown'
 require 'sword/patches/compass'
