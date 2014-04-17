@@ -15,6 +15,6 @@ task :test do
       raise RuntimeError unless File.read('hi.html')["<p>#{RUBY_VERSION}</p>"]
     end
   ensure
-    rm_rf test_dir 
+    rm_rf test_dir
   end
 end
