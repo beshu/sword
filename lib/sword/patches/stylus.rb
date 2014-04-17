@@ -1,3 +1,1 @@
-Sword::Patch.new 'stylus' do
-  require 'stylus/tilt'
-end
+Sword::Patch.new 'stylus/tilt'
